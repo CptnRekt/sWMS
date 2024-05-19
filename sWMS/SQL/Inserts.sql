@@ -1,0 +1,6 @@
+insert into sWMS.Config (Conf_CodeName, Conf_Name, Conf_Value) values ('NumeracjaSeparator', 'Separator w dokumentach', '/')
+insert into sWMS.Config (Conf_CodeName, Conf_Name, Conf_Value) values ('NumeracjaCzlon1', 'Pierwszy cz³on w numeracji dokumentów', 'Numer')
+insert into sWMS.Config (Conf_CodeName, Conf_Name, Conf_Value) values ('NumeracjaCzlon2', 'Drugi cz³on w numeracji dokumentów', 'Miesi¹c')
+insert into sWMS.Config (Conf_CodeName, Conf_Name, Conf_Value) values ('NumeracjaCzlon3', 'Trzeci cz³on w numeracji dokumentów', 'Rok')
+insert into sWMS.Config (Conf_CodeName, Conf_Name, Conf_Value) values ('NumeracjaCzlon4', 'Czwarty cz³on w numeracji dokumentów', 'Seria')
+insert into sWMS.Config (Conf_CodeName, Conf_Name, Conf_Value) values ('DomyslnaSeria', 'Domyœlna wartoœæ dla serii', 'PL')
