@@ -65,6 +65,9 @@ CREATE OR ALTER PROCEDURE sWMS.AddItemToDocument
 	,@It_Unit_Id int
 	,@It_Unit_Type int
 	,@It_Unit_No int
+	,@It_Secondary_Unit_Id int
+	,@It_Secondary_Unit_Type int
+	,@It_Secondary_Unit_No int
 	,@It_Code_Cun_Id int = null
 	,@It_Code_Cun_Type int = null
 	,@It_Code_Cun_No int = null
@@ -108,6 +111,9 @@ BEGIN
 		,It_Unit_Id
 		,It_Unit_Type
 		,It_Unit_No
+		,It_Secondary_Unit_Id
+		,It_Secondary_Unit_Type
+		,It_Secondary_Unit_No
 		,It_Code_Cun_Id
 		,It_Code_Cun_Type 
 		,It_Code_Cun_No 
@@ -136,6 +142,9 @@ BEGIN
 		,@It_Unit_Id
 		,@It_Unit_Type
 		,@It_Unit_No
+		,@It_Secondary_Unit_Id
+		,@It_Secondary_Unit_Type
+		,@It_Secondary_Unit_No
 		,@It_Code_Cun_Id
 		,@It_Code_Cun_Type 
 		,@It_Code_Cun_No 
