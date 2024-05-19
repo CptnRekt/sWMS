@@ -59,6 +59,9 @@ CREATE TABLE sWMS.Items
 	It_Unit_Id int,
 	It_Unit_Type int,
 	It_Unit_No int,
+	It_Secondary_Unit_Id int,
+	It_Secondary_Unit_Type int,
+	It_Secondary_Unit_No int,
 	It_Code_Cun_Id int,
 	It_Code_Cun_Type int,
 	It_Code_Cun_No int,
@@ -159,17 +162,7 @@ CREATE TABLE sWMS.ArticlesBatches
 	ArB_Type int,
 	ArB_No int,
 	ArB_Code varchar(100),
-	ArB_Name varchar(100),
-	ArB_AttachedTo_Art_Id int,
-	ArB_AttachedTo_Art_Type int,
-	ArB_AttachedTo_Art_No int
-	--ArB_Description varchar(255),
-	--ArB_CreationDate datetime,
-	--ArB_Quantity decimal(14,9),
-	--ArB_Unit_Id int,
-	--ArB_Src_Wh_Id int,
-	--ArB_Current_Wh_Id int,
-	--ArB_Dst_Wh_Id int
+	ArB_Name varchar(100)
 )
 
 CREATE TABLE sWMS.Users
