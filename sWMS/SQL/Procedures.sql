@@ -162,27 +162,41 @@ GO
 -- Create date: 19.05.2024
 -- Description:	Tworzenie partii
 -- =============================================
-CREATE PROCEDURE sWMS.CreateNewArticleBatch 
-	@ArB_Id int
-	,@ArB_Type int
+CREATE OR ALTER PROCEDURE sWMS.CreateNewArticleBatch 
+	@ArB_Type int
 	,@ArB_No int
-	,@ArB_Code varchar(100) = null
-	,@ArB_Name varchar(100) = null
+	,@ArB_Code varchar(100)
+	,@ArB_Name varchar(100)
+	,@ArB_Art_Id int
+	,@ArB_Art_Type int
+	,@ArB_Art_No int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
- --  insert into sWMS.ArticlesBatches
-	--(
-	--	ArB_
-	--) values 
-	--(
-		
-	--)
+   insert into sWMS.ArticlesBatches
+	(
+		ArB_Type
+		,ArB_No
+		,ArB_Code
+		,ArB_Name
+		,ArB_Art_Id
+		,ArB_Art_Type
+		,ArB_Art_No
+	) values 
+	(
+		@ArB_Type
+		,@ArB_No
+		,@ArB_Code
+		,@ArB_Name
+		,@ArB_Art_Id
+		,@ArB_Art_Type
+		,@ArB_Art_No
+	)
 
-	select 1
+	select SCOPE_IDENTITY() ArB_Id, @ArB_Type ArB_Type, @ArB_No ArB_No
 END
 GO
 

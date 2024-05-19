@@ -162,7 +162,10 @@ CREATE TABLE sWMS.ArticlesBatches
 	ArB_Type int,
 	ArB_No int,
 	ArB_Code varchar(100),
-	ArB_Name varchar(100)
+	ArB_Name varchar(100),
+	ArB_Art_Id int,
+	ArB_Art_Type int,
+	ArB_Art_No int
 )
 
 CREATE TABLE sWMS.Users
