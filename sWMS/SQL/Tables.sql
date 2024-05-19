@@ -48,8 +48,8 @@ CREATE TABLE sWMS.Documents
 
 CREATE TABLE sWMS.Items
 (
-	It_Id int identity(1,1),
-	It_Type int,
+	It_Doc_Id int,
+	It_Doc_Type int,
 	It_No int,
 	It_Code varchar(100),
 	It_Name varchar(100),
@@ -71,8 +71,6 @@ CREATE TABLE sWMS.Items
 	It_Art_Id int,
 	It_Art_Type int,
 	It_Art_No int,
-	It_Doc_Id int,
-	It_Doc_Type int,
 	It_ArB_Id int,
 	It_Arb_Type int,
 	It_Arb_No int
@@ -102,6 +100,9 @@ CREATE TABLE sWMS.Attributes
 	Attr_Id int identity(1,1),
 	Attr_Type int,
 	Attr_No int,
+	Attr_Object_Id int,
+	Attr_Object_Type int,
+	Attr_Object_No int,
 	Attr_AtC_Id int,
 	Attr_AtC_Type int,
 	Attr_AtC_No int,
