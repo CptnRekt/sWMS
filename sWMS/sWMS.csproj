@@ -15,4 +15,9 @@
     <Compile Include="SQL\Procedures.sql" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DAO\" />
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

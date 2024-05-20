@@ -547,3 +547,183 @@ BEGIN
 	SELECT SCOPE_IDENTITY() Wh_Id
 END
 GO
+
+-- =============================================
+-- Author:		Kamil Sikora
+-- Create date: 20.05.2024
+-- Description:	Usuwanie pozycji z dokumentu
+-- =============================================
+CREATE PROCEDURE sWMS.RemoveItemFromDocument
+	@Doc_Id int,
+	@Doc_Type int,
+	@It_No int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    delete from sWMS.Items 
+	where It_Doc_Id = @Doc_Id
+		and It_Doc_Type = @Doc_Type
+		and It_No = @It_No
+END
+GO
+
+-- =============================================
+-- Author:		Kamil Sikora
+-- Create date: 20.05.2024
+-- Description:	Usuwanie kartoteki towarowej
+-- =============================================
+CREATE OR ALTER PROCEDURE sWMS.RemoveArticle
+	@Art_Id int,
+	@Art_Type int,
+	@Art_No int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    delete from sWMS.Articles 
+	where Art_Id = @Art_Id
+		and Art_Type = @Art_Type
+		and Art_No = @Art_No
+
+	--update It set It_Art_Id = -1
+	--	,It_Art_Type = -1
+	--	,It_Art_No = -1
+	--	,It_Code = It_Code + ' (Kartoteka towarowa usunięta) '
+	--	,It_Name = It_Name + ' (Kartoteka towarowa usunięta) '
+	--from
+	--	sWMS.Items It where It_Art_Id = @Art_Id
+	--	and It_Art_Type = @Art_Type
+	--	and It_Art_No = @Art_No
+END
+GO
+
+-- =============================================
+-- Author:		Kamil Sikora
+-- Create date: 20.05.2024
+-- Description:	Usuwanie partii
+-- =============================================
+CREATE OR ALTER PROCEDURE sWMS.RemoveArticlesBatches
+	@ArB_Id int,
+	@ArB_Type int,
+	@ArB_No int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    delete from sWMS.ArticlesBatches 
+	where ArB_Id = @ArB_Id
+		and ArB_Type = @ArB_Type
+		and ArB_No = @ArB_No
+END
+GO
+
+-- =============================================
+-- Author:		Kamil Sikora
+-- Create date: 20.05.2024
+-- Description:	Usuwanie kontrahentów
+-- =============================================
+CREATE OR ALTER PROCEDURE sWMS.RemoveContractors
+	@Con_Id int,
+	@Con_Type int,
+	@Con_No int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    delete from sWMS.Contractors
+	where Con_Id = @Con_Id
+		and Con_Type = @Con_Type
+		and Con_No = @Con_No
+END
+GO
+
+-- =============================================
+-- Author:		Kamil Sikora
+-- Create date: 20.05.2024
+-- Description:	Usuwanie kontrahentów
+-- =============================================
+CREATE OR ALTER PROCEDURE sWMS.RemoveCustomName
+	@Cun_Id int,
+	@Cun_Type int,
+	@Cun_No int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    delete from sWMS.CustomNames
+	where Cun_Id = @Cun_Id
+		and Cun_Type = @Cun_Type
+		and Cun_No = @Cun_No
+END
+GO
+
+-- =============================================
+-- Author:		Kamil Sikora
+-- Create date: 20.05.2024
+-- Description:	Usuwanie dokumentów
+-- =============================================
+CREATE OR ALTER PROCEDURE sWMS.RemoveDocument
+	@Doc_Id int,
+	@Doc_Type int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    delete from sWMS.Documents
+	where Doc_Id = @Doc_Id
+		and Doc_Type = @Doc_Type
+END
+GO
+
+-- =============================================
+-- Author:		Kamil Sikora
+-- Create date: 20.05.2024
+-- Description:	Usuwanie magazynów / lokalizacji
+-- =============================================
+CREATE OR ALTER PROCEDURE sWMS.RemoveWarehouse
+	@Wh_Id int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    delete from sWMS.Warehouses
+	where Wh_Id = @Wh_Id
+END
+GO
+
+-- =============================================
+-- Author:		Kamil Sikora
+-- Create date: 20.05.2024
+-- Description:	Usuwanie jednostek
+-- =============================================
+CREATE OR ALTER PROCEDURE sWMS.RemoveUnit
+	@Unit_Id int
+	,@Unit_Type int
+	,@Unit_No int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    delete from sWMS.Units
+	where Unit_Id = @Unit_Id
+		and Unit_Type = @Unit_Type
+		and Unit_No = @Unit_No
+END
+GO

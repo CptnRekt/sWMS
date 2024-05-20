@@ -156,17 +156,24 @@ CREATE TABLE sWMS.Contractors
 	Con_Logo_BinD_No int
 )
 
-CREATE TABLE sWMS.ArticlesBatches
-(
-	ArB_Id int identity(1,1),
-	ArB_Type int,
-	ArB_No int,
-	ArB_Code varchar(100),
-	ArB_Name varchar(100),
-	ArB_Art_Id int,
-	ArB_Art_Type int,
-	ArB_Art_No int
-)
+CREATE TABLE [sWMS].[ArticlesBatches](
+	[ArB_Id] [int] IDENTITY(1,1) NOT NULL,
+	[ArB_Type] [int] NULL,
+	[ArB_No] [int] NULL,
+	[ArB_Code] [varchar](100) NULL,
+	[ArB_Name] [varchar](100) NULL,
+	[ArB_Quantity] decimal(14,9),
+	[ArB_Unit_Id] int,
+	[ArB_Unit_Type] int,
+	[ArB_Unit_No] int,
+	[ArB_Secondary_Unit_Id] int,
+	[ArB_Secondary_Unit_Type] int,
+	[ArB_Secondary_Unit_No] int,
+	[ArB_Art_Id] [int] NULL,
+	[ArB_Art_Type] [int] NULL,
+	[ArB_Art_No] [int] NULL
+) ON [PRIMARY]
+GO
 
 CREATE TABLE sWMS.Users
 (
