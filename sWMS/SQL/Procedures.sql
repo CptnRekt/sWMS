@@ -1105,3 +1105,137 @@ BEGIN
 		and It_No = @It_No
 END
 GO
+
+CREATE OR ALTER PROCEDURE sWMS.ViewDocuments
+	@QuantityOfRows int,
+	@GenerationDateFrom varchar(100),
+	@GenerationDateTo varchar(100),
+	@CompletionDateFrom varchar(100),
+	@CompletionDateTo varchar(100),
+	@SearchQuery varchar(100),
+	@DocumentType int
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	select * into #tmp from sWMS.Documents d
+	where d.Doc_CreationDate between @GenerationDateFrom and @GenerationDateTo
+		and d.Doc_CompletionDate between @GenerationDateFrom and @GenerationDateTo
+		and d.Doc_NumberString like '%' + @SearchQuery + '%'
+		and d.Doc_Type = @DocumentType
+
+	declare @SQLString nvarchar(100) = 'select top '+ convert(nvarchar(10), @QuantityOfRows) + ' * from #tmp'
+    EXECUTE sp_executesql @SQLString
+END
+GO
+
+CREATE OR ALTER PROCEDURE sWMS.ViewItems
+	@It_Doc_Id int
+	,@It_Doc_Type int
+	,@It_No int
+AS
+BEGIN
+	SET NOCOUNT ON;
+	select * from sWMS.Items i
+	left join sWMS.CustomNames cun_code on cun_code.Cun_Id = i.It_Code_Cun_Id
+		and cun_code.Cun_Type = i.It_Code_Cun_Type
+		and cun_code.Cun_No = i.It_Code_Cun_No
+	left join sWMS.CustomNames cun_names on cun_names.Cun_Id = i.It_Name_Cun_Id
+		and cun_names.Cun_Type = i.It_Name_Cun_Type
+		and cun_names.Cun_No = i.It_Name_Cun_No
+	join sWMS.Units primaryUnits on primaryUnits.Unit_Id = i.It_Unit_Id
+		and primaryUnits.Unit_Type = i.It_Unit_Type
+		and primaryUnits.Unit_No = i.It_Unit_No
+	left join sWMS.Units secondaryUnits on secondaryUnits.Unit_Id = i.It_Secondary_Unit_Id
+		and secondaryUnits.Unit_Type = i.It_Secondary_Unit_Type
+		and secondaryUnits.Unit_No = i.It_Unit_No
+	join sWMS.Articles art on art.Art_Id = i.It_Art_Id
+		and art.Art_Type = i.It_Art_Type
+		and art.Art_No = i.It_Art_No
+	join sWMS.ArticlesBatches ArB on ArB.ArB_Id = i.It_ArB_Id
+		and ArB.ArB_Type = i.It_Arb_Type
+		and ArB.ArB_No = i.It_Arb_No
+	where It_Doc_Id = @It_Doc_Id
+		and It_Doc_Type = @It_Doc_Type
+		and It_No = @It_No
+END
+GO
+
+CREATE OR ALTER PROCEDURE sWMS.ViewItemDetails
+	@It_Doc_Id int
+	,@It_Doc_Type int
+	,@It_No int
+AS
+BEGIN
+	SET NOCOUNT ON;
+	select * from sWMS.Items i
+	left join sWMS.CustomNames cun_code on cun_code.Cun_Id = i.It_Code_Cun_Id
+		and cun_code.Cun_Type = i.It_Code_Cun_Type
+		and cun_code.Cun_No = i.It_Code_Cun_No
+	left join sWMS.CustomNames cun_names on cun_names.Cun_Id = i.It_Name_Cun_Id
+		and cun_names.Cun_Type = i.It_Name_Cun_Type
+		and cun_names.Cun_No = i.It_Name_Cun_No
+	join sWMS.Units primaryUnits on primaryUnits.Unit_Id = i.It_Unit_Id
+		and primaryUnits.Unit_Type = i.It_Unit_Type
+		and primaryUnits.Unit_No = i.It_Unit_No
+	left join sWMS.Units secondaryUnits on secondaryUnits.Unit_Id = i.It_Secondary_Unit_Id
+		and secondaryUnits.Unit_Type = i.It_Secondary_Unit_Type
+		and secondaryUnits.Unit_No = i.It_Unit_No
+	join sWMS.Articles art on art.Art_Id = i.It_Art_Id
+		and art.Art_Type = i.It_Art_Type
+		and art.Art_No = i.It_Art_No
+	join sWMS.ArticlesBatches ArB on ArB.ArB_Id = i.It_ArB_Id
+		and ArB.ArB_Type = i.It_Arb_Type
+		and ArB.ArB_No = i.It_Arb_No
+	join sWMS.Warehouses srcWarehouse on srcWarehouse.Wh_Id = i.It_Src_Wh_Id
+	join sWMS.Warehouses curWarehouse on curWarehouse.Wh_Id = i.It_Current_Wh_Id
+	join sWMS.Warehouses dstWarehouse on dstWarehouse.Wh_Id = i.It_Dst_Wh_Id
+	left join sWMS.Contractors con on con.Con_Id = i.It_Con_Id
+		and con.Con_Type = i.It_Con_Type
+		and con.Con_No = i.It_Con_No
+	left join sWMS.Attributes attr on attr.Attr_Object_Id = i.It_Doc_Id
+		and attr.Attr_Object_Type = i.It_Doc_Type
+		and attr.Attr_Object_No = i.It_No
+	left join sWMS.AttrClasses atc on atc.AtC_Id = attr.Attr_AtC_Id
+		and atc.AtC_Type = attr.Attr_AtC_Type
+		and atc.AtC_No = attr.Attr_AtC_No
+	where It_Doc_Id = @It_Doc_Id
+		and It_Doc_Type = @It_Doc_Type
+		and It_No = @It_No
+END
+GO
+
+CREATE OR ALTER PROCEDURE sWMS.ViewDocumentItems
+	@It_Doc_Id int
+	,@It_Doc_Type int
+	,@It_No int
+AS
+BEGIN
+	SET NOCOUNT ON;
+	select * from sWMS.Documents d
+	left join sWMS.Attributes attr on attr.Attr_Id = d.Doc_Id
+		and attr.Attr_Type = d.Doc_Type
+	left join sWMS.AttrClasses AtC on AtC.AtC_Id = attr.Attr_AtC_Id
+		and AtC.AtC_Type = attr.Attr_AtC_Type
+		and AtC.AtC_No = attr.Attr_No
+	left join sWMS.Items i on i.It_Doc_Id = d.Doc_Id
+	join sWMS.Units primaryUnits on primaryUnits.Unit_Id = i.It_Unit_Id
+		and primaryUnits.Unit_Type = i.It_Unit_Type
+		and primaryUnits.Unit_No = i.It_Unit_No
+	left join sWMS.Units secondaryUnits on secondaryUnits.Unit_Id = i.It_Secondary_Unit_Id
+		and secondaryUnits.Unit_Type = i.It_Secondary_Unit_Type
+		and secondaryUnits.Unit_No = i.It_Unit_No
+	join sWMS.Articles art on art.Art_Id = i.It_Art_Id
+		and art.Art_Type = i.It_Art_Type
+		and art.Art_No = i.It_Art_No
+	join sWMS.ArticlesBatches ArB on ArB.ArB_Id = i.It_ArB_Id
+		and ArB.ArB_Type = i.It_Arb_Type
+		and ArB.ArB_No = i.It_Arb_No
+	join sWMS.Warehouses srcWarehouse on srcWarehouse.Wh_Id = i.It_Src_Wh_Id
+	join sWMS.Warehouses curWarehouse on curWarehouse.Wh_Id = i.It_Current_Wh_Id
+	join sWMS.Warehouses dstWarehouse on dstWarehouse.Wh_Id = i.It_Dst_Wh_Id
+	where It_Doc_Id = @It_Doc_Id
+		and It_Doc_Type = @It_Doc_Type
+		and It_No = @It_No
+END
+GO
