@@ -30,9 +30,6 @@ CREATE TABLE sWMS.Warehouses
 	Wh_Postal varchar(100)
 )
 
--- bardziej skomplikowany kod i wszystko zapisywane do bazy, 
--- czy mniej skomplikowany kod i wszystko wyliczane we froncie? 
-
 CREATE TABLE sWMS.Documents
 (
 	Doc_Id int not null identity(1,1),
@@ -74,9 +71,21 @@ CREATE TABLE sWMS.Items
 	It_Art_Id int not null,
 	It_Art_Type int not null,
 	It_Art_No int not null,
-	It_ArB_Id int,
-	It_Arb_Type int,
-	It_Arb_No int
+)
+
+CREATE TABLE sWMS.Subitems
+(
+	Sit_ObjectId int not null,
+	Sit_ObjectType int not null,
+	Sit_ObjectItem int not null,
+	Sit_ObjectSubitem int not null,
+	Sit_Quantity decimal(14,9) not null,
+	Sit_Art_Id int not null,
+	Sit_Art_Type int not null,
+	Sit_Art_No int not null,
+	Sit_ArB_Id int not null,
+	Sit_ArB_Type int not null,
+	Sit_ArB_No int not null
 )
 
 CREATE TABLE sWMS.CustomNames
@@ -103,9 +112,10 @@ CREATE TABLE sWMS.Attributes
 	Attr_Id int not null identity(1,1),
 	Attr_Type int not null,
 	Attr_No int not null,
-	Attr_Object_Id int not null,
-	Attr_Object_Type int not null,
-	Attr_Object_No int not null,
+	Attr_ObjectId int not null,
+	Attr_ObjectType int not null,
+	Attr_ObjectItem int not null,
+	Attr_ObjectSubitem int not null,
 	Attr_AtC_Id int not null,
 	Attr_AtC_Type int not null,
 	Attr_AtC_No int not null,
@@ -156,24 +166,23 @@ CREATE TABLE sWMS.Contractors
 	Con_Logo_BinD_No int
 )
 
-CREATE TABLE [sWMS].[ArticlesBatches](
-	[ArB_Id] [int] IDENTITY(1,1) NOT NULL,
-	[ArB_Type] [int] not null,
-	[ArB_No] [int] not null,
-	[ArB_Code] [varchar](100) not null unique,
-	[ArB_Name] [varchar](100) NULL,
-	[ArB_Quantity] decimal(14,9) not null,
-	[ArB_Unit_Id] int not null,
-	[ArB_Unit_Type] int not null,
-	[ArB_Unit_No] int not null,
-	[ArB_Secondary_Unit_Id] int,
-	[ArB_Secondary_Unit_Type] int,
-	[ArB_Secondary_Unit_No] int,
-	[ArB_Art_Id] [int] not null,
-	[ArB_Art_Type] [int] not null,
-	[ArB_Art_No] [int] not null
-) ON [PRIMARY]
-GO
+CREATE TABLE sWMS.ArticlesBatches(
+	ArB_Id int not null IDENTITY(1,1),
+	ArB_Type int not null,
+	ArB_No int not null,
+	ArB_Code varchar(100) not null unique,
+	ArB_Name varchar(100),
+	ArB_Quantity decimal(14,9) not null,
+	ArB_Unit_Id int not null,
+	ArB_Unit_Type int not null,
+	ArB_Unit_No int not null,
+	ArB_Secondary_Unit_Id int,
+	ArB_Secondary_Unit_Type int,
+	ArB_Secondary_Unit_No int,
+	ArB_Art_Id int not null,
+	ArB_Art_Type int not null,
+	ArB_Art_No int not null
+)
 
 CREATE TABLE sWMS.Users
 (
@@ -197,4 +206,16 @@ CREATE TABLE sWMS.Config
 	Conf_CodeName varchar(100) not null,
 	Conf_Name varchar(100) not null,
 	Conf_Value varchar(100) not null
+)
+
+CREATE TABLE sWMS.WarehouseResources
+(
+	Wr_Wh_Id int not null,
+	Wr_ArB_Id int not null,
+	Wr_ArB_Type int not null,
+	Wr_ArB_No int not null,
+	--Wr_Unit_Id int,
+	--Wr_Unit_Type int,
+	--Wr_Unit_No int,
+	--Wr_Quantity decimal(14,9) 
 )
