@@ -1224,7 +1224,7 @@ BEGIN
 		and primaryUnits.Unit_No = i.It_Unit_No
 	left join sWMS.Units secondaryUnits on secondaryUnits.Unit_Id = i.It_Secondary_Unit_Id
 		and secondaryUnits.Unit_Type = i.It_Secondary_Unit_Type
-		and secondaryUnits.Unit_No = i.It_Unit_No
+		and secondaryUnits.Unit_No = i.It_Secondary_Unit_No
 	join sWMS.Articles art on art.Art_Id = i.It_Art_Id
 		and art.Art_Type = i.It_Art_Type
 		and art.Art_No = i.It_Art_No
@@ -1239,3 +1239,4 @@ BEGIN
 		and It_No = @It_No
 END
 GO
+
