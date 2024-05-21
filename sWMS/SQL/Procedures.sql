@@ -1205,7 +1205,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE sWMS.ViewDocumentItems
+CREATE OR ALTER PROCEDURE [sWMS].[ViewDocumentDetails]
 	@It_Doc_Id int
 	,@It_Doc_Type int
 	,@It_No int
