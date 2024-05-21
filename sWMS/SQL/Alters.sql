@@ -1,3 +1,71 @@
-alter table sWMS.Items add It_Con_Id int, It_Con_Type int, It_Con_No int
+-----PK
+
+ALTER TABLE sWMS.Articles
+ADD CONSTRAINT PK_Art_Id PRIMARY KEY (Art_Id, Art_Type, Art_No)
 GO
 
+ALTER TABLE sWMS.ArticlesBatches
+ADD CONSTRAINT PK_ArB_Id PRIMARY KEY (ArB_Id, ArB_Type, ArB_No)
+GO
+
+ALTER TABLE sWMS.AttrClasses
+ADD CONSTRAINT PK_AtC_Id PRIMARY KEY (AtC_Id, AtC_Type, AtC_No)
+GO
+
+ALTER TABLE sWMS.Attributes
+ADD CONSTRAINT PK_Attr_Id PRIMARY KEY (Attr_Id, Attr_Type, Attr_No)
+GO
+
+ALTER TABLE sWMS.BinaryData
+ADD CONSTRAINT PK_BinD_Id PRIMARY KEY (BinD_Id, BinD_Type, BinD_No)
+GO
+
+ALTER TABLE sWMS.Config
+ADD CONSTRAINT PK_Conf_Id PRIMARY KEY (Conf_Id)
+GO
+
+ALTER TABLE sWMS.Contractors
+ADD CONSTRAINT PK_Con_Id PRIMARY KEY (Con_Id, Con_Type, Con_No)
+GO
+
+ALTER TABLE sWMS.CustomNames
+ADD CONSTRAINT PK_Cun_Id PRIMARY KEY (Cun_Id, Cun_Type, Cun_No)
+GO
+
+ALTER TABLE sWMS.Documents 
+ADD CONSTRAINT PK_Doc_Id PRIMARY KEY (Doc_Id, Doc_Type)
+GO
+
+ALTER TABLE sWMS.Items 
+ADD CONSTRAINT PK_It_Id PRIMARY KEY (It_Doc_Id, It_Doc_Type, It_No)
+GO
+
+ALTER TABLE sWMS.Units 
+ADD CONSTRAINT PK_Unit_Id PRIMARY KEY (Unit_Id, Unit_Type, Unit_No)
+GO
+
+ALTER TABLE sWMS.Users 
+ADD CONSTRAINT PK_Usr_Id PRIMARY KEY (Usr_Id)
+GO
+
+ALTER TABLE sWMS.Warehouses
+ADD CONSTRAINT PK_Wh_Id PRIMARY KEY (Wh_Id)
+GO
+
+-----FK
+
+ALTER TABLE sWMS.Articles
+ADD CONSTRAINT fk_Object_Id 
+FOREIGN KEY (Attr_Object_Id, Attr_Object_Type) 
+REFERENCES sWMS.Documents(Doc_Id, Doc_Type)
+ON DELETE CASCADE
+ON UPDATE CASCADE
+GO
+
+ALTER TABLE sWMS.Attributes 
+ADD CONSTRAINT fk_Object_Id 
+FOREIGN KEY (Attr_Object_Id, Attr_Object_Type) 
+REFERENCES sWMS.Documents(Doc_Id, Doc_Type)
+ON DELETE CASCADE
+ON UPDATE CASCADE
+GO

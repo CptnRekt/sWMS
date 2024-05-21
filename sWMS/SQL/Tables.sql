@@ -21,8 +21,8 @@ DROP TABLE sWMS.Config
 
 CREATE TABLE sWMS.Warehouses
 (
-	Wh_Id int primary key identity(1,1),
-	Wh_Code varchar(100) not null,
+	Wh_Id int not null identity(1,1),
+	Wh_Code varchar(100) not null unique,
 	Wh_Name varchar(100) not null,
 	Wh_Country varchar(100),
 	Wh_City varchar(100),
@@ -35,30 +35,30 @@ CREATE TABLE sWMS.Warehouses
 
 CREATE TABLE sWMS.Documents
 (
-	Doc_Id int identity(1,1),
-	Doc_Type int,
-	Doc_NumberString varchar(100),
-	Doc_Number int,
-	Doc_Month int,
-	Doc_Year int,
-	Doc_Series varchar(5),
-	Doc_CreationDate datetime,
-	Doc_CompletionDate datetime
+	Doc_Id int not null identity(1,1),
+	Doc_Type int not null,
+	Doc_NumberString varchar(100) not null unique,
+	Doc_Number int not null,
+	Doc_Month int not null,
+	Doc_Year int not null,
+	Doc_Series varchar(5) not null,
+	Doc_CreationDate datetime not null,
+	Doc_CompletionDate datetime not null
 )
 
 CREATE TABLE sWMS.Items
 (
-	It_Doc_Id int,
-	It_Doc_Type int,
-	It_No int,
-	It_Code varchar(100),
+	It_Doc_Id int not null identity(1,1),
+	It_Doc_Type int not null,
+	It_No int not null,
+	It_Code varchar(100) not null,
 	It_Name varchar(100),
-	It_Quantity decimal(14,9),
+	It_Quantity decimal(14,9) not null,
 	It_Description varchar(255),
 	It_CompletionDate datetime,
-	It_Unit_Id int,
-	It_Unit_Type int,
-	It_Unit_No int,
+	It_Unit_Id int not null,
+	It_Unit_Type int not null,
+	It_Unit_No int not null,
 	It_Secondary_Unit_Id int,
 	It_Secondary_Unit_Type int,
 	It_Secondary_Unit_No int,
@@ -71,9 +71,9 @@ CREATE TABLE sWMS.Items
 	It_Src_Wh_Id int,
 	It_Current_Wh_Id int,
 	It_Dst_Wh_Id int,
-	It_Art_Id int,
-	It_Art_Type int,
-	It_Art_No int,
+	It_Art_Id int not null,
+	It_Art_Type int not null,
+	It_Art_No int not null,
 	It_ArB_Id int,
 	It_Arb_Type int,
 	It_Arb_No int
@@ -81,54 +81,54 @@ CREATE TABLE sWMS.Items
 
 CREATE TABLE sWMS.CustomNames
 (
-	Cun_Id int identity(1,1),
-	Cun_Type int,
-	Cun_No int,
-	Cun_Name varchar(100),
+	Cun_Id int not null identity(1,1),
+	Cun_Type int not null,
+	Cun_No int not null,
+	Cun_Name varchar(100) not null,
 )
 
 CREATE TABLE sWMS.Articles
 (
-	Art_Id int identity(1,1),
-	Art_Type int,
-	Art_No int,
-	Art_Code varchar(100),
+	Art_Id int not null identity(1,1),
+	Art_Type int not null,
+	Art_No int not null,
+	Art_Code varchar(100) not null unique,
 	Art_Name varchar(100),
-	Art_Default_UnitId int,
+	Art_Default_UnitId int not null,
 	Art_CreationDate datetime
 )
 
 CREATE TABLE sWMS.Attributes
 (
-	Attr_Id int identity(1,1),
-	Attr_Type int,
-	Attr_No int,
-	Attr_Object_Id int,
-	Attr_Object_Type int,
-	Attr_Object_No int,
-	Attr_AtC_Id int,
-	Attr_AtC_Type int,
-	Attr_AtC_No int,
-	Attr_Value varchar(255)
+	Attr_Id int not null identity(1,1),
+	Attr_Type int not null,
+	Attr_No int not null,
+	Attr_Object_Id int not null,
+	Attr_Object_Type int not null,
+	Attr_Object_No int not null,
+	Attr_AtC_Id int not null,
+	Attr_AtC_Type int not null,
+	Attr_AtC_No int not null,
+	Attr_Value varchar(255) not null
 )
 
 CREATE TABLE sWMS.AttrClasses
 (
-	AtC_Id int identity(1,1),
-	AtC_Type int,
-	AtC_No int,
-	AtC_Name varchar(100),
-	AtC_DataType varchar(100)
+	AtC_Id int not null identity(1,1),
+	AtC_Type int not null,
+	AtC_No int not null,
+	AtC_Name varchar(100) not null,
+	AtC_DataType varchar(100) not null
 )
 
 CREATE TABLE sWMS.Units
 (
-	Unit_Id int identity(1,1),
-	Unit_Type int,
-	Unit_No int,
-	Unit_Name varchar(100),
-	Unit_Dividend decimal(14,9),
-	Unit_Divisor decimal(14,9),
+	Unit_Id int not null identity(1,1),
+	Unit_Type int not null,
+	Unit_No int not null,
+	Unit_Name varchar(100) not null,
+	Unit_Dividend decimal(14,9) not null,
+	Unit_Divisor decimal(14,9) not null,
 	Unit_AttachedTo_Art_Id int,
 	Unit_AttachedTo_Art_Type int,
 	Unit_AttachedTo_Art_No int
@@ -136,10 +136,10 @@ CREATE TABLE sWMS.Units
 
 CREATE TABLE sWMS.Contractors
 (
-	Con_Id int identity(1,1),
-	Con_Type int,
-	Con_No int,
-	Con_Code varchar(100),
+	Con_Id int not null identity(1,1),
+	Con_Type int not null,
+	Con_No int not null,
+	Con_Code varchar(100) not null,
 	Con_FullName varchar(200),
 	Con_Country varchar(100),
 	Con_City varchar(100),
@@ -158,43 +158,43 @@ CREATE TABLE sWMS.Contractors
 
 CREATE TABLE [sWMS].[ArticlesBatches](
 	[ArB_Id] [int] IDENTITY(1,1) NOT NULL,
-	[ArB_Type] [int] NULL,
-	[ArB_No] [int] NULL,
-	[ArB_Code] [varchar](100) NULL,
+	[ArB_Type] [int] not null,
+	[ArB_No] [int] not null,
+	[ArB_Code] [varchar](100) not null unique,
 	[ArB_Name] [varchar](100) NULL,
-	[ArB_Quantity] decimal(14,9),
-	[ArB_Unit_Id] int,
-	[ArB_Unit_Type] int,
-	[ArB_Unit_No] int,
+	[ArB_Quantity] decimal(14,9) not null,
+	[ArB_Unit_Id] int not null,
+	[ArB_Unit_Type] int not null,
+	[ArB_Unit_No] int not null,
 	[ArB_Secondary_Unit_Id] int,
 	[ArB_Secondary_Unit_Type] int,
 	[ArB_Secondary_Unit_No] int,
-	[ArB_Art_Id] [int] NULL,
-	[ArB_Art_Type] [int] NULL,
-	[ArB_Art_No] [int] NULL
+	[ArB_Art_Id] [int] not null,
+	[ArB_Art_Type] [int] not null,
+	[ArB_Art_No] [int] not null
 ) ON [PRIMARY]
 GO
 
 CREATE TABLE sWMS.Users
 (
 	Usr_Id int identity(1,1),
-	Usr_Login varchar(50),
+	Usr_Login varchar(50) not null unique,
 	Usr_Password varchar(50),
 	Usr_Autologin bit
 )
 
 CREATE TABLE sWMS.BinaryData
 (
-	BinD_Id int identity(1,1),
-	BinD_Type int,
-	BinD_No int,
-	BinD_Content varbinary(max)
+	BinD_Id int not null identity(1,1),
+	BinD_Type int not null,
+	BinD_No int not null,
+	BinD_Content varbinary(max) not null
 )
 
 CREATE TABLE sWMS.Config
 (
-	Conf_Id int identity(1,1),
-	Conf_CodeName varchar(100),
-	Conf_Name varchar(100),
-	Conf_Value varchar(100)
+	Conf_Id int not null identity(1,1),
+	Conf_CodeName varchar(100) not null,
+	Conf_Name varchar(100) not null,
+	Conf_Value varchar(100) not null
 )
