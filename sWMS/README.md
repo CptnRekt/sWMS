@@ -7,19 +7,19 @@ It_Art_Id = -1 - usuniêta kartoteka
 
 0 na id oznacza domyslna wartosc np.
 
-Unit_Id = 0
+Unit_Id = 1
 Unit_Type = 100 - jednostka ilosci - sztuka
 
-Unit_Id = 0
+Unit_Id = 1
 Unit_Type = 125 - jednostka rozmiaru - m2
 
-Unit_Id = 0
+Unit_Id = 1
 Unit_Type = 140 - jednostka objetosci - m3 
 
 Unit_Id = 1
 Unit_Type = 140 - jednostka objetosci - litr 
 
-Unit_Id = 0
+Unit_Id = 1
 Unit_Type = 160 - jednostka wagi - kg
 
 ---------------------------------------------------------------

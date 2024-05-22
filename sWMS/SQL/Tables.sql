@@ -68,6 +68,7 @@ CREATE TABLE sWMS.Items
 	It_CompletionDate datetime,
 	It_Unit_Id int,
 	It_Unit_Type int,
+	It_Unit_Name varchar(50),
 	It_Art_Id int,
 	It_Art_Type int,
 )
@@ -82,8 +83,10 @@ CREATE TABLE sWMS.Subitems
 	Sit_RealizedQuantity decimal(14,9) not null,
 	Sit_Unit_Id int,
 	Sit_Unit_Type int,
+	Sit_Unit_Name varchar(50),
 	Sit_Secondary_Unit_Id int,
 	Sit_Secondary_Unit_Type int,
+	Sit_Secondary_Unit_Name varchar(50),
 	Sit_Art_Id int,
 	Sit_Art_Type int,
 	Sit_Res_Id int,
@@ -207,6 +210,7 @@ CREATE TABLE sWMS.Resources
 	Res_Art_Type int,
 	Res_Unit_Id int,
 	Res_Unit_Type int,
+	Res_Unit_Name varchar(50),
 	Res_Secondary_Unit_Id int,
 	Res_Secondary_Unit_Type int,
 	Res_Quantity decimal(14,9) 
