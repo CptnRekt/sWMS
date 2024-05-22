@@ -107,10 +107,10 @@ CREATE TABLE sWMS.Articles
 	Art_Type int not null,
 	Art_Code varchar(100) not null unique,
 	Art_Name varchar(100),
-	Art_Default_Primary_UnitId int,
-	Art_Default_Primary_UnitType int,
-	Art_Default_Secondary_UnitId int,
-	Art_Default_Secondary_UnitType int,
+	Art_Default_Primary_Unit_Id int,
+	Art_Default_Primary_Unit_Type int,
+	Art_Default_Secondary_Unit_Id int,
+	Art_Default_Secondary_Unit_Type int,
 	Art_CreationDate datetime
 )
 

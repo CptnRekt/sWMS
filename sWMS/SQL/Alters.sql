@@ -92,3 +92,32 @@ GO
 
 ---------------------------------- NON-CLUSTERED INDEXES
 
+CREATE INDEX Art_Primary_Unit_Index ON sWMS.Articles (Art_Default_Primary_Unit_Id, Art_Default_Primary_Unit_Type)
+CREATE INDEX Art_Secondary_Unit_Index ON sWMS.Articles (Art_Default_Secondary_Unit_Id, Art_Default_Secondary_Unit_Type)
+
+CREATE INDEX ArU_Art_Index ON sWMS.ArticlesUnits (ArU_Art_Id, ArU_Art_Type)
+CREATE INDEX ArU_Unit_Index ON sWMS.ArticlesUnits (ArU_Unit_Id, ArU_Unit_Type)
+
+CREATE INDEX Attr_Document_Index ON sWMS.Attributes (Attr_ObjectId, Attr_ObjectType)
+CREATE INDEX Attr_Item_Index ON sWMS.Attributes (Attr_ObjectId, Attr_ObjectType, Attr_ObjectItem)
+CREATE INDEX Attr_Subitem_Index ON sWMS.Attributes (Attr_ObjectId, Attr_ObjectType, Attr_ObjectItem, Attr_ObjectSubitem)
+CREATE INDEX Attr_AtC_Index ON sWMS.Attributes (Attr_AtC_Id, Attr_AtC_Type)
+
+CREATE INDEX Cun_Art_Index ON sWMS.CustomNames (Cun_Art_Id, Cun_Art_Type)
+CREATE INDEX Cun_Con_Index ON sWMS.CustomNames (Cun_Con_Id, Cun_Con_Type)
+
+CREATE INDEX Doc_Source_Wh_Index ON sWMS.Documents (Doc_Source_Wh_Id)
+CREATE INDEX Doc_Destination_Wh_Index ON sWMS.Documents (Doc_Destination_Wh_Id)
+
+CREATE INDEX It_Unit_Index ON sWMS.Items (It_Unit_Id, It_Unit_Type)
+CREATE INDEX It_Art_Index ON sWMS.Items (It_Art_Id, It_Art_Type)
+
+CREATE INDEX Res_Wh_Index ON sWMS.Resources (Res_Wh_Id)
+CREATE INDEX Res_Art_Index ON sWMS.Resources (Res_Art_Id, Res_Art_Type)
+CREATE INDEX Res_Unit_Index on sWMS.Resources (Res_Unit_Id, Res_Unit_Type)
+CREATE INDEX Res_Secondary_Unit_Index on sWMS.Resources (Res_Secondary_Unit_Id, Res_Secondary_Unit_Type)
+
+CREATE INDEX Sit_Unit_Index ON sWMS.Subitems (Sit_Unit_Id, Sit_Unit_Type)
+CREATE INDEX Sit_Secondary_Unit_Index ON sWMS.Subitems (Sit_Secondary_Unit_Id, Sit_Secondary_Unit_Type)
+CREATE INDEX Sit_Art_Index ON sWMS.Subitems (Sit_Art_Id, Sit_Art_Type)
+CREATE INDEX Sit_Res_Index ON sWMS.Subitems (Sit_Res_Id, Sit_Res_Type)
