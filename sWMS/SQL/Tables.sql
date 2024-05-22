@@ -1,3 +1,6 @@
+CREATE DATABASE sWMS;
+GO
+
 CREATE SCHEMA sWMS;
 GO
 
@@ -32,45 +35,36 @@ CREATE TABLE sWMS.Warehouses
 
 CREATE TABLE sWMS.Documents
 (
-	Doc_Id int not null identity(1,1),
-	Doc_Type int not null,
+	Doc_ObjectId int not null identity(1,1),
+	Doc_ObjectType int not null,
 	Doc_NumberString varchar(100) not null unique,
 	Doc_Number int not null,
 	Doc_Month int not null,
 	Doc_Year int not null,
 	Doc_Series varchar(5) not null,
 	Doc_CreationDate datetime not null,
-	Doc_CompletionDate datetime not null
+	Doc_CompletionDate datetime,
+	Doc_Source_Wh_Id int,
+	Doc_Destination_Wh_Id int,
 )
 
 CREATE TABLE sWMS.Items
 (
-	It_Doc_Id int not null identity(1,1),
-	It_Doc_Type int not null,
-	It_No int not null,
+	It_ObjectId int not null,
+	It_ObjectType int not null,
+	It_ObjectItem int not null,
 	It_Code varchar(100) not null,
 	It_Name varchar(100),
 	It_Quantity decimal(14,9) not null,
+	It_RealizedQuantity decimal(14,9) not null,
 	It_Description varchar(255),
 	It_CompletionDate datetime,
-	It_Unit_Id int not null,
-	It_Unit_Type int not null,
-	It_Unit_No int not null,
-	It_Secondary_Unit_Id int,
-	It_Secondary_Unit_Type int,
-	It_Secondary_Unit_No int,
-	It_Code_Cun_Id int,
-	It_Code_Cun_Type int,
-	It_Code_Cun_No int,
-	It_Name_Cun_Id int,
-	It_Name_Cun_Type int,
-	It_Name_Cun_No int,
-	It_Src_Wh_Id int,
-	It_Current_Wh_Id int,
-	It_Dst_Wh_Id int,
-	It_Art_Id int not null,
-	It_Art_Type int not null,
-	It_Art_No int not null,
+	It_Unit_Id int,
+	It_Unit_Type int,
+	It_Unit_No int,
+	It_Art_Id int,
+	It_Art_Type int,
+	It_Art_No int,
 )
 
 CREATE TABLE sWMS.Subitems
@@ -80,12 +74,19 @@ CREATE TABLE sWMS.Subitems
 	Sit_ObjectItem int not null,
 	Sit_ObjectSubitem int not null,
 	Sit_Quantity decimal(14,9) not null,
-	Sit_Art_Id int not null,
-	Sit_Art_Type int not null,
-	Sit_Art_No int not null,
-	Sit_ArB_Id int not null,
-	Sit_ArB_Type int not null,
-	Sit_ArB_No int not null
+	Sit_RealizedQuantity decimal(14,9) not null,
+	Sit_Unit_Id int,
+	Sit_Unit_Type int,
+	Sit_Unit_No int,
+	Sit_Secondary_Unit_Id int,
+	Sit_Secondary_Unit_Type int,
+	Sit_Secondary_Unit_No int,
+	Sit_Art_Id int,
+	Sit_Art_Type int,
+	Sit_Art_No int,
+	Sit_Res_Id int,
+	Sit_Res_Type int,
+	Sit_Res_No int
 )
 
 CREATE TABLE sWMS.CustomNames
@@ -94,6 +95,12 @@ CREATE TABLE sWMS.CustomNames
 	Cun_Type int not null,
 	Cun_No int not null,
 	Cun_Name varchar(100) not null,
+	Cun_Art_Id int,
+	Cun_Art_Type int,
+	Cun_Art_No int,
+	Cun_Con_Id int,
+	Cun_Con_Type int,
+	Cun_Con_No int
 )
 
 CREATE TABLE sWMS.Articles
@@ -103,7 +110,9 @@ CREATE TABLE sWMS.Articles
 	Art_No int not null,
 	Art_Code varchar(100) not null unique,
 	Art_Name varchar(100),
-	Art_Default_UnitId int not null,
+	Art_Default_UnitId int,
+	Art_Default_UnitType int,
+	Art_Default_UnitNo int,
 	Art_CreationDate datetime
 )
 
@@ -138,10 +147,7 @@ CREATE TABLE sWMS.Units
 	Unit_No int not null,
 	Unit_Name varchar(100) not null,
 	Unit_Dividend decimal(14,9) not null,
-	Unit_Divisor decimal(14,9) not null,
-	Unit_AttachedTo_Art_Id int,
-	Unit_AttachedTo_Art_Type int,
-	Unit_AttachedTo_Art_No int
+	Unit_Divisor decimal(14,9) not null
 )
 
 CREATE TABLE sWMS.Contractors
@@ -149,39 +155,15 @@ CREATE TABLE sWMS.Contractors
 	Con_Id int not null identity(1,1),
 	Con_Type int not null,
 	Con_No int not null,
-	Con_Code varchar(100) not null,
+	Con_Code varchar(100) not null unique,
 	Con_FullName varchar(200),
 	Con_Country varchar(100),
 	Con_City varchar(100),
 	Con_Street varchar(100),
 	Con_Postal varchar(100),
-	Con_Code_Cun_Id int,
-	Con_Code_Cun_Type int,
-	Con_Code_Cun_No int,
-	Con_Name_Cun_Id int,
-	Con_Name_Cun_Type int,
-	Con_Name_Cun_No int,
 	Con_Logo_BinD_Id int,
 	Con_Logo_BinD_Type int,
 	Con_Logo_BinD_No int
-)
-
-CREATE TABLE sWMS.ArticlesBatches(
-	ArB_Id int not null IDENTITY(1,1),
-	ArB_Type int not null,
-	ArB_No int not null,
-	ArB_Code varchar(100) not null unique,
-	ArB_Name varchar(100),
-	ArB_Quantity decimal(14,9) not null,
-	ArB_Unit_Id int not null,
-	ArB_Unit_Type int not null,
-	ArB_Unit_No int not null,
-	ArB_Secondary_Unit_Id int,
-	ArB_Secondary_Unit_Type int,
-	ArB_Secondary_Unit_No int,
-	ArB_Art_Id int not null,
-	ArB_Art_Type int not null,
-	ArB_Art_No int not null
 )
 
 CREATE TABLE sWMS.Users
@@ -208,15 +190,20 @@ CREATE TABLE sWMS.Config
 	Conf_Value varchar(100) not null
 )
 
-CREATE TABLE sWMS.WarehouseResources
+CREATE TABLE sWMS.Resources
 (
-	Wr_Id int primary key identity(1,1),
-	Wr_Wh_Id int not null,
-	Wr_ArB_Id int not null,
-	Wr_ArB_Type int not null,
-	Wr_ArB_No int not null,
-	--Wr_Unit_Id int,
-	--Wr_Unit_Type int,
-	--Wr_Unit_No int,
-	--Wr_Quantity decimal(14,9) 
+	Res_Id int not null identity(1,1),
+	Res_Wh_Id int not null,
+	Res_BatchCode varchar(100) not null unique,
+	Res_BatchName varchar(100) not null,
+	Res_Art_Id int,
+	Res_Art_Type int,
+	Res_Art_No int,
+	Res_Unit_Id int,
+	Res_Unit_Type int,
+	Res_Unit_No int,
+	Res_Secondary_Unit_Id int,
+	Res_Secondary_Unit_Type int,
+	Res_Secondary_Unit_No int,
+	Res_Quantity decimal(14,9) 
 )
