@@ -173,7 +173,8 @@ CREATE TABLE sWMS.Contractors
 
 CREATE TABLE sWMS.Users
 (
-	Usr_Id int identity(1,1),
+	Usr_Id int not null identity(1,1),
+	Usr_Type int not null,
 	Usr_Login varchar(50) not null unique,
 	Usr_Password varchar(50),
 	Usr_Autologin bit
@@ -189,7 +190,7 @@ CREATE TABLE sWMS.BinaryData
 CREATE TABLE sWMS.Config
 (
 	Conf_Id int not null identity(1,1),
-	Conf_Type int,
+	Conf_Type int not null,
 	Conf_CodeName varchar(100) not null,
 	Conf_Name varchar(100) not null,
 	Conf_Value varchar(100) not null
@@ -198,7 +199,7 @@ CREATE TABLE sWMS.Config
 CREATE TABLE sWMS.Resources
 (
 	Res_Id int not null identity(1,1),
-	Res_Type int,
+	Res_Type int not null,
 	Res_Wh_Id int,
 	Res_BatchCode varchar(100) not null unique,
 	Res_BatchName varchar(100) not null,

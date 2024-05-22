@@ -1,31 +1,31 @@
 ---------------------------------PK
 
 ALTER TABLE sWMS.Articles
-ADD CONSTRAINT PK_Art_Id PRIMARY KEY (Art_Id, Art_Type, Art_No)
+ADD CONSTRAINT PK_Art_Id PRIMARY KEY (Art_Id, Art_Type)
 GO
 
 ALTER TABLE sWMS.AttrClasses
-ADD CONSTRAINT PK_AtC_Id PRIMARY KEY (AtC_Id, AtC_Type, AtC_No)
+ADD CONSTRAINT PK_AtC_Id PRIMARY KEY (AtC_Id, AtC_Type)
 GO
 
 ALTER TABLE sWMS.Attributes
-ADD CONSTRAINT PK_Attr_Id PRIMARY KEY (Attr_Id, Attr_Type, Attr_No)
+ADD CONSTRAINT PK_Attr_Id PRIMARY KEY (Attr_Id, Attr_Type)
 GO
 
 ALTER TABLE sWMS.BinaryData
-ADD CONSTRAINT PK_BinD_Id PRIMARY KEY (BinD_Id, BinD_Type, BinD_No)
+ADD CONSTRAINT PK_BinD_Id PRIMARY KEY (BinD_Id, BinD_Type)
 GO
 
 ALTER TABLE sWMS.Config
-ADD CONSTRAINT PK_Conf_Id PRIMARY KEY (Conf_Id)
+ADD CONSTRAINT PK_Conf_Id PRIMARY KEY (Conf_Id, Conf_Type)
 GO
 
 ALTER TABLE sWMS.Contractors
-ADD CONSTRAINT PK_Con_Id PRIMARY KEY (Con_Id, Con_Type, Con_No)
+ADD CONSTRAINT PK_Con_Id PRIMARY KEY (Con_Id, Con_Type)
 GO
 
 ALTER TABLE sWMS.CustomNames
-ADD CONSTRAINT PK_Cun_Id PRIMARY KEY (Cun_Id, Cun_Type, Cun_No)
+ADD CONSTRAINT PK_Cun_Id PRIMARY KEY (Cun_Id, Cun_Type)
 GO
 
 ALTER TABLE sWMS.Documents 
@@ -41,19 +41,19 @@ ADD CONSTRAINT PK_Sit_Id PRIMARY KEY (Sit_ObjectId, Sit_ObjectType, Sit_ObjectIt
 GO
 
 ALTER TABLE sWMS.Units 
-ADD CONSTRAINT PK_Unit_Id PRIMARY KEY (Unit_Id, Unit_Type, Unit_No)
+ADD CONSTRAINT PK_Unit_Id PRIMARY KEY (Unit_Id, Unit_Type)
 GO
 
 ALTER TABLE sWMS.Users 
-ADD CONSTRAINT PK_Usr_Id PRIMARY KEY (Usr_Id)
+ADD CONSTRAINT PK_Usr_Id PRIMARY KEY (Usr_Id, Usr_Type)
 GO
 
 ALTER TABLE sWMS.Warehouses
-ADD CONSTRAINT PK_Wh_Id PRIMARY KEY (Wh_Id)
+ADD CONSTRAINT PK_Wh_Id PRIMARY KEY (Wh_Id, Wh_Type)
 GO
 
-ALTER TABLE sWMS.WarehousesResources
-ADD CONSTRAINT PK_Wr_Id PRIMARY KEY (Wr_Id)
+ALTER TABLE sWMS.Resources
+ADD CONSTRAINT PK_Res_Id PRIMARY KEY (Res_Id, Res_Type)
 GO
 
 ----------------------------------FK
@@ -84,8 +84,8 @@ GO
 
 ALTER TABLE sWMS.Attributes 
 ADD CONSTRAINT FK_AttrAtC 
-FOREIGN KEY (Attr_AtC_Id, Attr_AtC_Type, Attr_AtC_No) 
-REFERENCES sWMS.AttrClasses(AtC_Id, AtC_Type, AtC_No)
+FOREIGN KEY (Attr_AtC_Id, Attr_AtC_Type) 
+REFERENCES sWMS.AttrClasses(AtC_Id, AtC_Type)
 ON DELETE CASCADE
 ON UPDATE CASCADE
 GO
