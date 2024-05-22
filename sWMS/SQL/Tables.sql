@@ -67,10 +67,8 @@ CREATE TABLE sWMS.Items
 	It_CompletionDate datetime,
 	It_Unit_Id int,
 	It_Unit_Type int,
-	It_Unit_No int,
 	It_Art_Id int,
 	It_Art_Type int,
-	It_Art_No int,
 )
 
 CREATE TABLE sWMS.Subitems
@@ -83,42 +81,35 @@ CREATE TABLE sWMS.Subitems
 	Sit_RealizedQuantity decimal(14,9) not null,
 	Sit_Unit_Id int,
 	Sit_Unit_Type int,
-	Sit_Unit_No int,
 	Sit_Secondary_Unit_Id int,
 	Sit_Secondary_Unit_Type int,
-	Sit_Secondary_Unit_No int,
 	Sit_Art_Id int,
 	Sit_Art_Type int,
-	Sit_Art_No int,
 	Sit_Res_Id int,
 	Sit_Res_Type int,
-	Sit_Res_No int
 )
 
 CREATE TABLE sWMS.CustomNames
 (
 	Cun_Id int not null identity(1,1),
 	Cun_Type int not null,
-	Cun_No int not null,
 	Cun_Name varchar(100) not null,
 	Cun_Art_Id int,
 	Cun_Art_Type int,
-	Cun_Art_No int,
 	Cun_Con_Id int,
 	Cun_Con_Type int,
-	Cun_Con_No int
 )
 
 CREATE TABLE sWMS.Articles
 (
 	Art_Id int not null identity(1,1),
 	Art_Type int not null,
-	Art_No int not null,
 	Art_Code varchar(100) not null unique,
 	Art_Name varchar(100),
-	Art_Default_UnitId int,
-	Art_Default_UnitType int,
-	Art_Default_UnitNo int,
+	Art_Default_Primary_UnitId int,
+	Art_Default_Primary_UnitType int,
+	Art_Default_Secondary_UnitId int,
+	Art_Default_Secondary_UnitType int,
 	Art_CreationDate datetime
 )
 
@@ -126,14 +117,12 @@ CREATE TABLE sWMS.Attributes
 (
 	Attr_Id int not null identity(1,1),
 	Attr_Type int not null,
-	Attr_No int not null,
 	Attr_ObjectId int not null,
 	Attr_ObjectType int not null,
 	Attr_ObjectItem int not null,
 	Attr_ObjectSubitem int not null,
 	Attr_AtC_Id int not null,
 	Attr_AtC_Type int not null,
-	Attr_AtC_No int not null,
 	Attr_Value varchar(255) not null
 )
 
@@ -141,7 +130,6 @@ CREATE TABLE sWMS.AttrClasses
 (
 	AtC_Id int not null identity(1,1),
 	AtC_Type int not null,
-	AtC_No int not null,
 	AtC_Name varchar(100) not null,
 	AtC_DataType varchar(100) not null
 )
@@ -150,17 +138,24 @@ CREATE TABLE sWMS.Units
 (
 	Unit_Id int not null identity(1,1),
 	Unit_Type int not null,
-	Unit_No int not null,
 	Unit_Name varchar(100) not null,
 	Unit_Dividend decimal(14,9) not null,
 	Unit_Divisor decimal(14,9) not null
+)
+
+CREATE TABLE sWMS.ArticlesUnits
+(
+	ArU_Art_Id int not null identity(1,1),
+	ArU_Art_Type int not null,
+	ArU_Name varchar(100) not null,
+	ArU_Dividend decimal(14,9) not null,
+	ArU_Divisor decimal(14,9) not null
 )
 
 CREATE TABLE sWMS.Contractors
 (
 	Con_Id int not null identity(1,1),
 	Con_Type int not null,
-	Con_No int not null,
 	Con_Code varchar(100) not null unique,
 	Con_FullName varchar(200),
 	Con_Country varchar(100),
@@ -169,7 +164,6 @@ CREATE TABLE sWMS.Contractors
 	Con_Postal varchar(100),
 	Con_Logo_BinD_Id int,
 	Con_Logo_BinD_Type int,
-	Con_Logo_BinD_No int
 )
 
 CREATE TABLE sWMS.Users
@@ -184,7 +178,6 @@ CREATE TABLE sWMS.BinaryData
 (
 	BinD_Id int not null identity(1,1),
 	BinD_Type int not null,
-	BinD_No int not null,
 	BinD_Content varbinary(max) not null
 )
 
@@ -204,12 +197,9 @@ CREATE TABLE sWMS.Resources
 	Res_BatchName varchar(100) not null,
 	Res_Art_Id int,
 	Res_Art_Type int,
-	Res_Art_No int,
 	Res_Unit_Id int,
 	Res_Unit_Type int,
-	Res_Unit_No int,
 	Res_Secondary_Unit_Id int,
 	Res_Secondary_Unit_Type int,
-	Res_Secondary_Unit_No int,
 	Res_Quantity decimal(14,9) 
 )
