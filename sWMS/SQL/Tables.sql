@@ -210,6 +210,7 @@ CREATE TABLE sWMS.Config
 
 CREATE TABLE sWMS.WarehouseResources
 (
+	Wr_Id int primary key identity(1,1),
 	Wr_Wh_Id int not null,
 	Wr_ArB_Id int not null,
 	Wr_ArB_Type int not null,
