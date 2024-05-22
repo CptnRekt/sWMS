@@ -1,6 +1,9 @@
 CREATE DATABASE sWMS;
 GO
 
+USE sWMS
+GO
+
 CREATE SCHEMA sWMS;
 GO
 
@@ -8,16 +11,19 @@ GO
 DROP TABLE sWMS.Warehouses
 DROP TABLE sWMS.Documents
 DROP TABLE sWMS.Items
+DROP TABLE sWMS.Subitems
 DROP TABLE sWMS.CustomNames
 DROP TABLE sWMS.Articles
 DROP TABLE sWMS.Attributes
 DROP TABLE sWMS.AttrClasses
+DROP TABLE sWMS.Units
 DROP TABLE sWMS.Contractors
-DROP TABLE sWMS.ArticlesBatches
 DROP TABLE sWMS.Users
 DROP TABLE sWMS.BinaryData
-DROP TABLE sWMS.Units
 DROP TABLE sWMS.Config
+DROP TABLE sWMS.Resources
+DROP SCHEMA sWMS
+DROP DATABASE sWMS
 */
 
 --TODO: dodac clustered indexy, foreign keye, zmienic kolejnosc tworzenia tabel
