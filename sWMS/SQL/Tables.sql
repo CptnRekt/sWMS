@@ -31,6 +31,7 @@ DROP DATABASE sWMS
 CREATE TABLE sWMS.Warehouses
 (
 	Wh_Id int not null identity(1,1),
+	Wh_Type int not null,
 	Wh_Code varchar(100) not null unique,
 	Wh_Name varchar(100) not null,
 	Wh_Country varchar(100),
@@ -145,8 +146,12 @@ CREATE TABLE sWMS.Units
 
 CREATE TABLE sWMS.ArticlesUnits
 (
-	ArU_Art_Id int not null identity(1,1),
-	ArU_Art_Type int not null,
+	ArU_Id int not null identity (1,1),
+	ArU_Type int not null,
+	ArU_Art_Id int,
+	ArU_Art_Type int,
+	ArU_Unit_Id int ,
+	ArU_Unit_Type int,
 	ArU_Name varchar(100) not null,
 	ArU_Dividend decimal(14,9) not null,
 	ArU_Divisor decimal(14,9) not null
@@ -184,6 +189,7 @@ CREATE TABLE sWMS.BinaryData
 CREATE TABLE sWMS.Config
 (
 	Conf_Id int not null identity(1,1),
+	Conf_Type int,
 	Conf_CodeName varchar(100) not null,
 	Conf_Name varchar(100) not null,
 	Conf_Value varchar(100) not null
@@ -192,6 +198,7 @@ CREATE TABLE sWMS.Config
 CREATE TABLE sWMS.Resources
 (
 	Res_Id int not null identity(1,1),
+	Res_Type int,
 	Res_Wh_Id int,
 	Res_BatchCode varchar(100) not null unique,
 	Res_BatchName varchar(100) not null,
