@@ -199,7 +199,7 @@ CREATE TABLE sWMS.Config
 CREATE TABLE sWMS.Resources
 (
 	Res_Id int not null identity(1,1),
-	Res_Wh_Id int not null,
+	Res_Wh_Id int,
 	Res_BatchCode varchar(100) not null unique,
 	Res_BatchName varchar(100) not null,
 	Res_Art_Id int,
