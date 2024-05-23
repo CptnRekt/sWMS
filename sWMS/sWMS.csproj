@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="DAO\" />
-    <Folder Include="Windows\" />
   </ItemGroup>
 
   <ItemGroup>
