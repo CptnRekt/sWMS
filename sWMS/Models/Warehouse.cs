@@ -6,6 +6,7 @@ namespace sWMS.Models
     public partial class Warehouse
     {
         public int WhId { get; set; }
+        public int WhType { get; set; }
         public string WhCode { get; set; } = null!;
         public string WhName { get; set; } = null!;
         public string? WhCountry { get; set; }

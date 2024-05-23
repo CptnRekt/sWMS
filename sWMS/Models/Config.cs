@@ -6,8 +6,9 @@ namespace sWMS.Models
     public partial class Config
     {
         public int ConfId { get; set; }
-        public string? ConfCodeName { get; set; }
-        public string? ConfName { get; set; }
-        public string? ConfValue { get; set; }
+        public int ConfType { get; set; }
+        public string ConfCodeName { get; set; } = null!;
+        public string ConfName { get; set; } = null!;
+        public string ConfValue { get; set; } = null!;
     }
 }
