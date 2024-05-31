@@ -47,7 +47,24 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Szczegóły">
-               
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                    </Grid.RowDefinitions>
+                </Grid>
             </TabItem>
             <TabItem Header="Atrybuty">
                 <DataGrid x:Name="AttributesDataGrid" ItemsSource="{Binding Attributes}" CellEditEnding="AttributesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="AttributesDataGrid_BeginningEdit">
@@ -79,8 +96,8 @@
                 <ColumnDefinition Width="120"></ColumnDefinition>
                 <ColumnDefinition Width="120"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" x:Name="removeSelectedButton" Padding="5,2" Content="Usuń zaznaczone" HorizontalAlignment="Right" VerticalAlignment="Center" Click="removeSelected_Click" Height="30"/>
-            <Button Grid.Column="2" x:Name="discardChangesButton" Padding="5,2" Content="Odrzuć zmiany" HorizontalAlignment="Right" VerticalAlignment="Center" Click="discardChanges_Click" Height="30"/>
+            <Button Grid.Column="1" x:Name="removeSelectedButton" Padding="5,2" Content="Usuń zaznaczone" HorizontalAlignment="Left" VerticalAlignment="Center" Click="removeSelected_Click" Height="30" Grid.ColumnSpan="2" Margin="70,0,0,0"/>
+            <Button Grid.Column="2" x:Name="discardChangesButton" Padding="5,2" Content="Odrzuć zmiany" HorizontalAlignment="Left" VerticalAlignment="Center" Click="discardChanges_Click" Height="30" Grid.ColumnSpan="2" Margin="58,0,0,0"/>
             <Button Grid.Column="3" x:Name="saveChangesButton" Padding="5,2" Content="Zapisz zmiany" HorizontalAlignment="Right" VerticalAlignment="Center" Click="saveChanges_Click" Height="30"/>
         </Grid>
     </Grid>
