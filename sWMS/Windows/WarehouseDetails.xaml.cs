@@ -17,9 +17,9 @@ namespace sWMS.Windows
     /// <summary>
     /// Interaction logic for WarehouseDocumentsList.xaml
     /// </summary>
-    public partial class WarehouseDocumentsList : Window
+    public partial class WarehouseDetails : Window
     {
-        public WarehouseDocumentsList()
+        public WarehouseDetails()
         {
             InitializeComponent();
         }

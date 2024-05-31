@@ -29,7 +29,7 @@
             </Grid.RowDefinitions>
             <Button x:Name="addWarehouseButton" Grid.Column="0" Content="Dodaj nowy magazyn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addWarehouseButton_Click"/>
             <Button x:Name="removeWarehouseButton" Grid.Column="1" Content="Usuń magazyn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeWarehouse_Click"/>
-            <Button x:Name="a" Grid.Column="2" Content="Lista wszystkich przesunięć" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="a"/>
+            <Button x:Name="a" Grid.Column="2" Content="Lista wszystkich przesunięć" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="openDocumentsList_Click"/>
             <TextBox x:Name="findWarehouseTextBox" Grid.Column="3" TextWrapping="Wrap" Text="" Width="120" Background="#FFC8C8C8" TextAlignment="Center" BorderThickness="1,1,1,1" VerticalAlignment="Bottom" MaxLength="100" MaxLines="1"/>
             <Button x:Name="findWarehouseButton" Grid.Column="4" Content="Wyszukaj magazyn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="findWarehouseButton_Click"/>
         </Grid>
@@ -49,11 +49,11 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn x:Name="WarehouseCode" Binding="{Binding Name}" Header="Kod magazynu" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="WarehouseName" Binding="{Binding Surname}" Header="Nazwa magazynu" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="WarehouseType" Binding="{Binding IndexNumber}" Header="Typ magazynu" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="WarehouseIssues" Binding="{Binding GradesString}" Header="Ilość przyjęć" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="WarehouseAcceptances" Binding="{Binding DateOfBirth}" Header="Ilość wydań" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="WarehouseCode" Binding="{Binding Wh_Code}" Header="Kod magazynu" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="WarehouseName" Binding="{Binding Wh_Name}" Header="Nazwa magazynu" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="WarehouseType" Binding="{Binding Wh_Type}" Header="Typ magazynu" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="WarehouseIssues" Binding="{Binding Wh_IssuesNumber}" Header="Ilość przyjęć" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="WarehouseAcceptances" Binding="{Binding Wh_AcceptancesNumber}" Header="Ilość wydań" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock x:Name="Status" TextWrapping="Wrap" Grid.Row="4" Text="Znaleziono 5 dopasowań   |   Usunięto 2 magazyny" Margin="5 5 5 0"/>
