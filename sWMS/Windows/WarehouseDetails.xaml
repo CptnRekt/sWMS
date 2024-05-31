@@ -41,6 +41,7 @@
                         <DataGridTextColumn x:Name="DocumentNumber" Binding="{Binding Doc_NumberString}" Header="Numer dokumentu" IsReadOnly="True"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="SourceWarehouse" Binding="{Binding SourceWarehouse}" Header="Nadawca"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="DestinationWarehouse" Binding="{Binding DestinationWarehouse}" Header="Odbiorca"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="Contractor" Binding="{Binding Contractor}" Header="Kontrahent"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="CreationDate" Binding="{Binding Doc_CreationDate}" Header="Data utworzenia"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="CompletionDate" Binding="{Binding Doc_CompletionDate}" Header="Data wydania"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="RealizationPercentage" Binding="{Binding Doc_RealizationPercentage}" Header="Postęp realizacji"></DataGridTextColumn>
