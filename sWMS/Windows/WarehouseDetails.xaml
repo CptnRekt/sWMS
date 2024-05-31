@@ -20,8 +20,35 @@
             <RowDefinition Height="10"></RowDefinition>
         </Grid.RowDefinitions>
         <TabControl Grid.Row="1" Grid.Column="1">
+            <TabItem Header="Przesunięcia">
+                <DataGrid x:Name="DocumentsDataGrid" ItemsSource="{Binding Documents}" CellEditEnding="DocumentsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="DocumentsDataGrid_BeginningEdit">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Dodaj przesunięcie" Click="addDocumentButton_Click" />
+                            <MenuItem Header="Usuń przesunięcie" Click="removeDocument_Click" />
+                            <MenuItem Header="Wyświetl szczegóły nadawcy" Click="showSender_Click" />
+                            <MenuItem Header="Wyświetl szczegóły odbiorcy" Click="showDestination_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn x:Name="DocumentNumber" Binding="{Binding Doc_NumberString}" Header="Numer dokumentu" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="SourceWarehouse" Binding="{Binding SourceWarehouse}" Header="Nadawca"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="DestinationWarehouse" Binding="{Binding DestinationWarehouse}" Header="Odbiorca"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="CreationDate" Binding="{Binding Doc_CreationDate}" Header="Data utworzenia"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="CompletionDate" Binding="{Binding Doc_CompletionDate}" Header="Data wydania"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="RealizationPercentage" Binding="{Binding Doc_RealizationPercentage}" Header="Postęp realizacji"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
             <TabItem Header="Stan">
-                <DataGrid x:Name="ResourcesDataGrid" Grid.Row="2" ItemsSource="{Binding Resources}" CellEditEnding="ResourcesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="ResourcesDataGrid_BeginningEdit">
+                <DataGrid x:Name="ResourcesDataGrid" ItemsSource="{Binding Resources}" CellEditEnding="ResourcesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="ResourcesDataGrid_BeginningEdit">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Dodaj partię" Click="addResourceButton_Click" />
@@ -84,7 +111,6 @@
                         </DataGridTemplateColumn>
                         <DataGridTextColumn x:Name="AttributeName" Binding="{Binding AtC_Name}" Header="Nazwa atrybutu" IsReadOnly="True"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="AttributeValue" Binding="{Binding Attr_Value}" Header="Wartość atrybutu"></DataGridTextColumn>
-                        <!--TRZEBA JAKOS ZAMIESCIC KOLUMNY DT PARTII WEWNATRZ WIERSZA NADRZEDNEGO DATAGRIDA-->
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
@@ -94,11 +120,9 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="130"></ColumnDefinition>
                 <ColumnDefinition Width="130"></ColumnDefinition>
-                <ColumnDefinition Width="130"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="1" x:Name="removeSelectedButton" Padding="5,2" Content="Usuń zaznaczone" HorizontalAlignment="Right" VerticalAlignment="Center" Click="removeSelected_Click" Height="30" Width="120"/>
-            <Button Grid.Column="2" x:Name="discardChangesButton" Padding="5,2" Content="Odrzuć zmiany" HorizontalAlignment="Right" VerticalAlignment="Center" Click="discardChanges_Click" Height="30" Width="120"/>
-            <Button Grid.Column="3" x:Name="saveChangesButton" Padding="5,2" Content="Zapisz zmiany" HorizontalAlignment="Right" VerticalAlignment="Center" Click="saveChanges_Click" Height="30" Width="120"/>
+            <Button Grid.Column="2" x:Name="saveChangesButton" Padding="5,2" Content="Zapisz zmiany" HorizontalAlignment="Right" VerticalAlignment="Center" Click="saveChanges_Click" Height="30" Width="120"/>
         </Grid>
     </Grid>
 </Window>

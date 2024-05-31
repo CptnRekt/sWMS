@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace sWMS.Windows
 {
     /// <summary>
-    /// Interaction logic for Attributes.xaml
+    /// Interaction logic for ItemDetails.xaml
     /// </summary>
-    public partial class AttributesList : Window
+    public partial class ItemDetails : Window
     {
-        public AttributesList()
+        public ItemDetails()
         {
             InitializeComponent();
         }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sWMS.Windows"
         mc:Ignorable="d"
-        Title="NazwaMagazynu" Height="450" Width="800">
+        Title="Wszystkie przesunięcia" Height="450" Width="800">
     <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" Width="Auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -30,7 +30,7 @@
                 <RowDefinition Height="25"></RowDefinition>
             </Grid.RowDefinitions>
             <Button x:Name="addDocumentButton" Padding="5,2" Grid.Column="0" Content="Dodaj dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addDocumentButton_Click"/>
-            <Button x:Name="removeDocumentButton" Padding="5,2" Grid.Column="1" Content="Usuń dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeDocument_Click"/>
+            <Button x:Name="removeDocumentButton" Padding="5,2" Grid.Column="1" Content="Usuń zaznaczone" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeDocument_Click"/>
             <ComboBox x:Name="chooseSourceWarehouseComboBox" Grid.Column="2" Text="Nadawca" HorizontalAlignment="Center" IsEditable="True"></ComboBox>
             <TextBlock Text="--->" Grid.Column="3" HorizontalAlignment="Center"></TextBlock>
             <ComboBox x:Name="chooseDestinationWarehouseComboBox" Grid.Column="4" Text="Odbiorca" HorizontalAlignment="Center" IsEditable="True"></ComboBox>

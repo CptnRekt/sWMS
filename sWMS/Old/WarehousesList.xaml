@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sWMS.Windows"
         mc:Ignorable="d"
-        Title="WarehousesList" Height="450" Width="800">
+        Title="Lista magazynów" Height="450" Width="800">
     <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" Width="Auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
