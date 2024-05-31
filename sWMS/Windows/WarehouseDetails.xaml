@@ -92,13 +92,13 @@
         <Grid Grid.Row="3" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition Width="130"></ColumnDefinition>
+                <ColumnDefinition Width="130"></ColumnDefinition>
+                <ColumnDefinition Width="130"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" x:Name="removeSelectedButton" Padding="5,2" Content="Usuń zaznaczone" HorizontalAlignment="Left" VerticalAlignment="Center" Click="removeSelected_Click" Height="30" Grid.ColumnSpan="2" Margin="70,0,0,0"/>
-            <Button Grid.Column="2" x:Name="discardChangesButton" Padding="5,2" Content="Odrzuć zmiany" HorizontalAlignment="Left" VerticalAlignment="Center" Click="discardChanges_Click" Height="30" Grid.ColumnSpan="2" Margin="58,0,0,0"/>
-            <Button Grid.Column="3" x:Name="saveChangesButton" Padding="5,2" Content="Zapisz zmiany" HorizontalAlignment="Right" VerticalAlignment="Center" Click="saveChanges_Click" Height="30"/>
+            <Button Grid.Column="1" x:Name="removeSelectedButton" Padding="5,2" Content="Usuń zaznaczone" HorizontalAlignment="Right" VerticalAlignment="Center" Click="removeSelected_Click" Height="30" Width="120"/>
+            <Button Grid.Column="2" x:Name="discardChangesButton" Padding="5,2" Content="Odrzuć zmiany" HorizontalAlignment="Right" VerticalAlignment="Center" Click="discardChanges_Click" Height="30" Width="120"/>
+            <Button Grid.Column="3" x:Name="saveChangesButton" Padding="5,2" Content="Zapisz zmiany" HorizontalAlignment="Right" VerticalAlignment="Center" Click="saveChanges_Click" Height="30" Width="120"/>
         </Grid>
     </Grid>
 </Window>

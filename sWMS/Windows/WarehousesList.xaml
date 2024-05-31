@@ -27,11 +27,11 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button x:Name="addWarehouseButton" Grid.Column="0" Content="Dodaj nowy magazyn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addWarehouseButton_Click"/>
-            <Button x:Name="removeWarehouseButton" Grid.Column="1" Content="Usuń magazyn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeWarehouse_Click"/>
-            <Button x:Name="a" Grid.Column="2" Content="Lista wszystkich przesunięć" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="openDocumentsList_Click"/>
-            <TextBox x:Name="findWarehouseTextBox" Grid.Column="3" TextWrapping="Wrap" Text="" Width="120" Background="#FFC8C8C8" TextAlignment="Center" BorderThickness="1,1,1,1" VerticalAlignment="Bottom" MaxLength="100" MaxLines="1"/>
-            <Button x:Name="findWarehouseButton" Grid.Column="4" Content="Wyszukaj magazyn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="findWarehouseButton_Click"/>
+            <Button x:Name="addWarehouseButton" Grid.Column="0" Content="Dodaj nowy magazyn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addWarehouseButton_Click" Padding="5,2"/>
+            <Button x:Name="removeWarehouseButton" Grid.Column="1" Content="Usuń magazyn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeWarehouse_Click" Padding="5,2"/>
+            <Button x:Name="showAllDocumentsList" Grid.Column="2" Content="Lista wszystkich przesunięć" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="openDocumentsList_Click" Padding="5,2"/>
+            <TextBox x:Name="findWarehouseTextBox" Grid.Column="3" TextWrapping="Wrap" Text="" Width="120" Background="#FFC8C8C8" TextAlignment="Center" BorderThickness="1,1,1,1" VerticalAlignment="Bottom" MaxLength="100" MaxLines="1" Padding="5,2"/>
+            <Button x:Name="findWarehouseButton" Grid.Column="4" Content="Wyszukaj magazyn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="findWarehouseButton_Click" Padding="5,2"/>
         </Grid>
         <DataGrid x:Name="WarehousesDataGrid" Grid.Row="2" ItemsSource="{Binding Warehouses}" CellEditEnding="WarehousesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="WarehousesDataGrid_BeginningEdit">
             <DataGrid.ContextMenu>
