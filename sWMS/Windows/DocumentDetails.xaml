@@ -7,16 +7,144 @@
         mc:Ignorable="d"
         Title="NumerDokumentu" Height="450" Width="800">
     <Grid>
-        <TabControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Column="1" Grid.Row="1">
             <TabItem Header="Pozycje">
-                
+                <DataGrid Grid.Row="1" x:Name="ItemsDataGrid" ItemsSource="{Binding Items}" CellEditEnding="ItemsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="ItemsDataGrid_BeginningEdit">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Dodaj pozycję" Click="addItemButton_Click" />
+                            <MenuItem Header="Usuń pozycję" Click="removeItem_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn x:Name="ItemCode" Binding="{Binding ItemCode}" Header="Kod" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ItemName" Binding="{Binding ItemName}" Header="Nazwa" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ItemQuantity" Binding="{Binding ItemQuantity}" Header="Ilość" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="RealizedQuantity" Binding="{Binding RealizedQuantity}" Header="Ilość zrealizowana" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="UnitName" Binding="{Binding UnitName}" Header="Jednostka" IsReadOnly="True"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
             <TabItem Header="Szczegóły">
-                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="80"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="140"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Numer:" VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" TextAlignment="Center"></TextBlock>
+                        <TextBox Grid.Column="1" Text="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="35"></TextBox>
+                        <TextBlock Grid.Column="2" Text="Miesiąc:" VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" TextAlignment="Center"></TextBlock>
+                        <TextBox Grid.Column="3" Text="03" VerticalAlignment="Center" HorizontalAlignment="Center" Width="35"></TextBox>
+                        <TextBlock Grid.Column="4" Text="Rok:" VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" TextAlignment="Center"></TextBlock>
+                        <TextBox Grid.Column="5" Text="2024" VerticalAlignment="Center" HorizontalAlignment="Center" Width="35"></TextBox>
+                        <TextBlock Grid.Column="6" Text="Seria:" VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" TextAlignment="Center"></TextBlock>
+                        <TextBox Grid.Column="7" Text="EU" VerticalAlignment="Center" HorizontalAlignment="Center" Width="35"></TextBox>
+                        <TextBlock Grid.Column="9" Text="Pełny numer dokumentu:" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>
+                        <TextBox Grid.Column="10" Text="301/03/2024/EU" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" TextAlignment="Center"></TextBox>
+                    </Grid>
+                    <Grid Grid.Column="1" Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0">
+                            <TextBlock Text="Magazyn źródłowy:" Width="120" HorizontalAlignment="Left"></TextBlock>
+                            <TextBox Text="Mag1" Width="120" HorizontalAlignment="Left"></TextBox>
+                        </StackPanel>
+                        <StackPanel Grid.Row="0">
+                            <TextBlock Text="Data utworzenia:" Width="100" HorizontalAlignment="Right"></TextBlock>
+                            <TextBox Text="01.06.2024" Width="100" HorizontalAlignment="Right"></TextBox>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1">
+                            <TextBlock Text="Magazyn docelowy:" Width="120" HorizontalAlignment="Left"></TextBlock>
+                            <TextBox Text="Mag2" Width="120" HorizontalAlignment="Left"></TextBox>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1">
+                            <TextBlock Text="Data wydania:" Width="100" HorizontalAlignment="Right"></TextBlock>
+                            <TextBox Text="01.06.2024" Width="100" HorizontalAlignment="Right"></TextBox>
+                        </StackPanel>
+                    </Grid>
+                    
+                </Grid>
             </TabItem>
             <TabItem Header="Atrybuty">
-
+                <DataGrid  x:Name="AttributesDataGrid" ItemsSource="{Binding Attributes}" CellEditEnding="AttributesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="AttributesDataGrid_BeginningEdit">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Dodaj atrybut" Click="addAttributeButton_Click" />
+                            <MenuItem Header="Usuń atrybut" Click="removeAttribute_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn x:Name="AttributeName" Binding="{Binding AttributeName}" Header="Nazwa atrybutu" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttributeValue" Binding="{Binding AttributeValue}" Header="Wartość atrybutu"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
         </TabControl>
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="130"></ColumnDefinition>
+                <ColumnDefinition Width="130"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" x:Name="removeSelectedButton" Padding="5,2" Content="Usuń zaznaczone" HorizontalAlignment="Right" VerticalAlignment="Center" Click="removeSelected_Click" Height="30" Width="120"/>
+            <Button Grid.Column="2" x:Name="saveChangesButton" Padding="5,2" Content="Zapisz zmiany" HorizontalAlignment="Right" VerticalAlignment="Center" Click="saveChanges_Click" Height="30" Width="120"/>
+        </Grid>
     </Grid>
 </Window>
