@@ -53,6 +53,7 @@ CREATE TABLE sWMS.Documents
 	Doc_CompletionDate datetime,
 	Doc_Source_Wh_Id int,
 	Doc_Destination_Wh_Id int,
+	Doc_RealizationPercentage decimal(5,2)
 )
 
 CREATE TABLE sWMS.Items
@@ -135,6 +136,7 @@ CREATE TABLE sWMS.AttrClasses
 	AtC_Id int not null identity(1,1),
 	AtC_Type int not null,
 	AtC_Name varchar(100) not null,
+	AtC_DefaultValue varchar(255),
 	AtC_DataType varchar(100) not null
 )
 

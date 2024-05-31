@@ -33,7 +33,7 @@
             <Button x:Name="findAttributeButton" Grid.Column="4" Content="Wyszukaj po nazwie" HorizontalAlignment="Right" VerticalAlignment="Center" Click="findAttributeButton_Click" Padding="5,2"/>
         </Grid>
         <TabControl Grid.Row="3" Grid.Column="1">
-            <TabItem Header="Wszystkie przesunięcia magazynowe">
+            <TabItem Header="Przesunięcia magazynowe">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"></RowDefinition>
@@ -41,17 +41,22 @@
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60"></ColumnDefinition>
-                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
                             <ColumnDefinition Width="15"></ColumnDefinition>
                             <ColumnDefinition Width="60"></ColumnDefinition>
-                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="15"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Nadawca:" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                        <ComboBox Grid.Column="1" x:Name="chooseSourceWarehouseComboBox" Text="Nadawca" HorizontalAlignment="Center" VerticalAlignment="Center" IsEditable="True" Width="200"></ComboBox>
+                        <ComboBox Grid.Column="1" x:Name="chooseSourceWarehouseComboBox" Text="Wszyscy" HorizontalAlignment="Center" VerticalAlignment="Center" IsEditable="True" Width="150"></ComboBox>
                         <TextBlock Grid.Column="3" Text="Odbiorca:" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                        <ComboBox Grid.Column="4" x:Name="chooseDestinationWarehouseComboBox" Text="Odbiorca" HorizontalAlignment="Center" VerticalAlignment="Center" IsEditable="True" Width="200"></ComboBox>
+                        <ComboBox Grid.Column="4" x:Name="chooseDestinationWarehouseComboBox" Text="Wszyscy" HorizontalAlignment="Center" VerticalAlignment="Center" IsEditable="True" Width="150"></ComboBox>
+                        <TextBlock Grid.Column="6" Text="Kontrahent:" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <ComboBox Grid.Column="7" x:Name="chooseContractorComboBox" Text="Wszyscy" HorizontalAlignment="Center" VerticalAlignment="Center" IsEditable="True" Width="150"></ComboBox>
                     </Grid>
                     <DataGrid Grid.Row="1" x:Name="DocumentsDataGrid" ItemsSource="{Binding Documents}" CellEditEnding="DocumentsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="DocumentsDataGrid_BeginningEdit">
                         <DataGrid.ContextMenu>
@@ -73,6 +78,7 @@
                             <DataGridTextColumn x:Name="DocumentNumber" Binding="{Binding Doc_NumberString}" Header="Numer dokumentu" IsReadOnly="True"></DataGridTextColumn>
                             <DataGridTextColumn x:Name="SourceWarehouse" Binding="{Binding SourceWarehouse}" Header="Nadawca"></DataGridTextColumn>
                             <DataGridTextColumn x:Name="DestinationWarehouse" Binding="{Binding DestinationWarehouse}" Header="Odbiorca"></DataGridTextColumn>
+                            <DataGridTextColumn x:Name="Contractor" Binding="{Binding Contractor}" Header="Kontrahent"></DataGridTextColumn>
                             <DataGridTextColumn x:Name="CreationDate" Binding="{Binding Doc_CreationDate}" Header="Data utworzenia"></DataGridTextColumn>
                             <DataGridTextColumn x:Name="CompletionDate" Binding="{Binding Doc_CompletionDate}" Header="Data wydania"></DataGridTextColumn>
                             <DataGridTextColumn x:Name="RealizationPercentage" Binding="{Binding Doc_RealizationPercentage}" Header="Postęp realizacji"></DataGridTextColumn>
@@ -106,13 +112,74 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Kontrahenci">
-
+                <DataGrid  x:Name="ContractorsDataGrid" ItemsSource="{Binding Contractors}" CellEditEnding="ContractorsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="ContractorsDataGrid_BeginningEdit">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Dodaj kontrahenta" Click="addContractorButton_Click" />
+                            <MenuItem Header="Usuń kontrahenta" Click="removeContractor_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn x:Name="ContractorCode" Binding="{Binding ContractorCode}" Header="Kod"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorName" Binding="{Binding ContractorName}" Header="Pełna nazwa"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorCountry" Binding="{Binding ContractorCountry}" Header="Kraj"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorCity" Binding="{Binding ContractorCity}" Header="Miasto"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorStreet" Binding="{Binding ContractorStreet}" Header="Ulica"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorPostal" Binding="{Binding ContractorPostal}" Header="Kod pocztowy"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
             <TabItem Header="Kartoteki towarowe">
-
+                <DataGrid  x:Name="ArticlesDataGrid" ItemsSource="{Binding Articles}" CellEditEnding="ArticlesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="ArticlesDataGrid_BeginningEdit">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Dodaj towar" Click="addArticleButton_Click" />
+                            <MenuItem Header="Usuń towar" Click="removeArticle_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn x:Name="ArticleCode" Binding="{Binding ArticleCode}" Header="Kod"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ArticleName" Binding="{Binding ArticleName}" Header="Nazwa"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ArticleDefaultPrimaryUnit" Binding="{Binding ArticleDefaultPrimaryUnit}" Header="Jednostka podstawowa"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ArticleDefaultSecondaryUnit" Binding="{Binding ArticleDefaultSecondaryUnit}" Header="Jednostka drugorzędna"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
-            <TabItem Header="Jednostki">
-
+            <TabItem Header="Szablony jednostek">
+                <DataGrid  x:Name="UnitsDataGrid" ItemsSource="{Binding Units}" CellEditEnding="UnitsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="UnitsDataGrid_BeginningEdit">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Dodaj jednostkę" Click="addUnitButton_Click" />
+                            <MenuItem Header="Usuń jednostkę" Click="removeUnit_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn x:Name="UnitName" Binding="{Binding UnitName}" Header="Nazwa jednostki" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="UnitDividend" Binding="{Binding UnitDividend}" Header="Mianownik"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="UnitDivisor" Binding="{Binding UnitDivisor}" Header="Licznik"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
             <TabItem Header="Szablony atrybutów">
                 <DataGrid  x:Name="AttributesDataGrid" ItemsSource="{Binding Attributes}" CellEditEnding="AttributesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="AttributesDataGrid_BeginningEdit">
@@ -131,13 +198,20 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn x:Name="AttributeName" Binding="{Binding AtC_Name}" Header="Nazwa atrybutu" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="AttributeDataType" Binding="{Binding AttributeDataType}" Header="Typ danych atrybutu"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="AttributeType" Binding="{Binding AttributeType}" Header="Miejsce występowania atrybutu"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttributeDataType" Binding="{Binding AttributeDataType}" Header="Typ danych"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttributeType" Binding="{Binding AttributeType}" Header="Miejsce występowania"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="DefaultAttributeValue" Binding="{Binding AtC_DefaultValue}" Header="Wartość domyślna"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttributeCopying" Binding="{Binding AttributeCopying}" Header="Kopiowanie (tak / nie)"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
             <TabItem Header="Ustawienia programu">
-                
+                <DataGrid  x:Name="ConfigDataGrid" ItemsSource="{Binding Config}" CellEditEnding="ConfigDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="ConfigDataGrid_BeginningEdit">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="ConfigName" Binding="{Binding ConfigName}" Header="Nazwa ustawienia" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ConfigValue" Binding="{Binding ConfigValue}" Header="Wartość"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
         </TabControl>
     </Grid>
