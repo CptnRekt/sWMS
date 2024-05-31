@@ -30,7 +30,8 @@ namespace sWMS.Windows
 
         private void addWarehouseButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            WarehouseDetails warehouseDetails = new WarehouseDetails();
+            warehouseDetails.ShowDialog();
         }
 
         private void removeWarehouse_Click(object sender, RoutedEventArgs e)

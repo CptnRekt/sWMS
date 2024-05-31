@@ -27,18 +27,18 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button x:Name="addStudentButton" Grid.Column="0" Content="Utwórz nowy dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addStudentButton_Click"/>
-            <Button x:Name="addGrade" Grid.Column="1" Content="Zapisz zmiany" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addGrade_Click"/>
-            <Button x:Name="removeStudentButton" Grid.Column="2" Content="Usuń zaznaczone pozycje" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeStudent"/>
-            <TextBox x:Name="findStudentTextBox" Grid.Column="3" TextWrapping="Wrap" Text="" Width="120" Background="#FFC8C8C8" TextAlignment="Center" BorderThickness="1,1,1,1" VerticalAlignment="Bottom" MaxLength="100" MaxLines="1"/>
-            <Button x:Name="findStudentButton" Grid.Column="4" Content="Wyszukaj dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="findStudentButton_Click"/>
+            <Button x:Name="addDocumentButton" Grid.Column="0" Content="Utwórz nowy dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addDocumentButton_Click"/>
+            <Button x:Name="removeDocumentButton" Grid.Column="1" Content="Usuń zaznaczone pozycje" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeDocument_Click"/>
+            <TextBox x:Name="findDocumentTextBox" Grid.Column="3" TextWrapping="Wrap" Text="" Width="120" Background="#FFC8C8C8" TextAlignment="Center" BorderThickness="1,1,1,1" VerticalAlignment="Bottom" MaxLength="100" MaxLines="1"/>
+            <Button x:Name="findDocumentButton" Grid.Column="4" Content="Wyszukaj dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="findDocumentButton_Click"/>
         </Grid>
-        <DataGrid x:Name="StudentsDataGrid" Grid.Row="2" ItemsSource="{Binding Students}" CellEditEnding="StudentsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="StudentsDataGrid_BeginningEdit">
+        <DataGrid x:Name="DocumentsDataGrid" Grid.Row="2" ItemsSource="{Binding Documents}" CellEditEnding="DocumentsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="DocumentsDataGrid_BeginningEdit">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Dodaj studenta" Click="addStudentButton_Click" />
-                    <MenuItem Header="Usuń studenta" Click="removeStudent" />
-                    <MenuItem Header="Dodaj oceny" Click="addGrade_Click" />
+                    <MenuItem Header="Dodaj przesunięcie" Click="addDocumentButton_Click" />
+                    <MenuItem Header="Usuń przesunięcie" Click="removeDocument_Click" />
+                    <MenuItem Header="Wyświetl szczegóły nadawcy" Click="showSender_Click" />
+                    <MenuItem Header="Wyświetl szczegóły odbiorcy" Click="showDestination_Click" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
@@ -49,15 +49,14 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn x:Name="NameTextColumn" Binding="{Binding Name}" Header="Numer dokumentu" IsReadOnly="True"></DataGridTextColumn>
-                <!--jedna kol na magazyn przy wybraniu magazynu (źródłowy / docelowy - w zależności czy wybrano przyjecia czy wydania)-->
-                <DataGridTextColumn x:Name="SurnameTextColumn" Binding="{Binding Surname}" Header="Adresat"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="b" Binding="{Binding Surname}" Header="Odbiorca"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="GradesTextColumn" Binding="{Binding GradesString}" Header="Data utworzenia"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="DateOfBirthTextColumn" Binding="{Binding DateOfBirth}" Header="Data wydania"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="a" Binding="{Binding a}" Header="Postęp realizacji"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="DocumentNumber" Binding="{Binding Doc_NumberString}" Header="Numer dokumentu" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="SourceWarehouse" Binding="{Binding SourceWarehouse}" Header="Adresat"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="DestinationWarehouse" Binding="{Binding DestinationWarehouse}" Header="Odbiorca"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="CreationDate" Binding="{Binding Doc_CreationDate}" Header="Data utworzenia"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="CompletionDate" Binding="{Binding Doc_CompletionDate}" Header="Data wydania"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="RealizationPercentage" Binding="{Binding Doc_RealizationPercentage}" Header="Postęp realizacji"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock TextWrapping="Wrap" Grid.Row="4" Text="Znaleziono 5 dopasowań   |   Usunięto 2 dokumenty   |   Masz 5 niezapisanych komórek." Margin="5 5 5 0"/>
+        <TextBlock x:Name="Status" TextWrapping="Wrap" Grid.Row="4" Text="Znaleziono 5 dopasowań   |   Usunięto 2 dokumenty   |   Masz 5 niezapisanych komórek." Margin="5 5 5 0"/>
     </Grid>
 </Window>
