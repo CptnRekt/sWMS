@@ -31,9 +31,9 @@
             </Grid.RowDefinitions>
             <Button x:Name="addDocumentButton" Padding="5,2" Grid.Column="0" Content="Dodaj dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addDocumentButton_Click"/>
             <Button x:Name="removeDocumentButton" Padding="5,2" Grid.Column="1" Content="Usuń dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeDocument_Click"/>
-            <ComboBox x:Name="chooseSourceWarehouseComboBox" Grid.Column="2"></ComboBox>
+            <ComboBox x:Name="chooseSourceWarehouseComboBox" Grid.Column="2" Text="Nadawca" HorizontalAlignment="Center" IsEditable="True"></ComboBox>
             <TextBlock Text="--->" Grid.Column="3" HorizontalAlignment="Center"></TextBlock>
-            <ComboBox x:Name="chooseDestinationWarehouseComboBox" Grid.Column="4" ></ComboBox>
+            <ComboBox x:Name="chooseDestinationWarehouseComboBox" Grid.Column="4" Text="Odbiorca" HorizontalAlignment="Center" IsEditable="True"></ComboBox>
             <TextBox x:Name="findDocumentTextBox" Padding="5,2" Grid.Column="5" TextWrapping="Wrap" Text="" Width="120" Background="#FFC8C8C8" TextAlignment="Center" BorderThickness="1,1,1,1" VerticalAlignment="Bottom" MaxLength="100" MaxLines="1"/>
             <Button x:Name="findDocumentButton" Padding="5,2" Grid.Column="6" Content="Wyszukaj dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="findDocumentButton_Click"/>
         </Grid>
@@ -55,7 +55,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn x:Name="DocumentNumber" Binding="{Binding Doc_NumberString}" Header="Numer dokumentu" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="SourceWarehouse" Binding="{Binding SourceWarehouse}" Header="Adresat"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="SourceWarehouse" Binding="{Binding SourceWarehouse}" Header="Nadawca"></DataGridTextColumn>
                 <DataGridTextColumn x:Name="DestinationWarehouse" Binding="{Binding DestinationWarehouse}" Header="Odbiorca"></DataGridTextColumn>
                 <DataGridTextColumn x:Name="CreationDate" Binding="{Binding Doc_CreationDate}" Header="Data utworzenia"></DataGridTextColumn>
                 <DataGridTextColumn x:Name="CompletionDate" Binding="{Binding Doc_CompletionDate}" Header="Data wydania"></DataGridTextColumn>
