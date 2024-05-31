@@ -21,16 +21,21 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="30"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button x:Name="addDocumentButton" Grid.Column="0" Content="Utwórz nowy dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addDocumentButton_Click"/>
-            <Button x:Name="removeDocumentButton" Grid.Column="1" Content="Usuń zaznaczone pozycje" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeDocument_Click"/>
-            <TextBox x:Name="findDocumentTextBox" Grid.Column="3" TextWrapping="Wrap" Text="" Width="120" Background="#FFC8C8C8" TextAlignment="Center" BorderThickness="1,1,1,1" VerticalAlignment="Bottom" MaxLength="100" MaxLines="1"/>
-            <Button x:Name="findDocumentButton" Grid.Column="4" Content="Wyszukaj dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="findDocumentButton_Click"/>
+            <Button x:Name="addDocumentButton" Padding="5,2" Grid.Column="0" Content="Dodaj dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="addDocumentButton_Click"/>
+            <Button x:Name="removeDocumentButton" Padding="5,2" Grid.Column="1" Content="Usuń dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="removeDocument_Click"/>
+            <ComboBox x:Name="chooseSourceWarehouseComboBox" Grid.Column="2"></ComboBox>
+            <TextBlock Text="--->" Grid.Column="3" HorizontalAlignment="Center"></TextBlock>
+            <ComboBox x:Name="chooseDestinationWarehouseComboBox" Grid.Column="4" ></ComboBox>
+            <TextBox x:Name="findDocumentTextBox" Padding="5,2" Grid.Column="5" TextWrapping="Wrap" Text="" Width="120" Background="#FFC8C8C8" TextAlignment="Center" BorderThickness="1,1,1,1" VerticalAlignment="Bottom" MaxLength="100" MaxLines="1"/>
+            <Button x:Name="findDocumentButton" Padding="5,2" Grid.Column="6" Content="Wyszukaj dokument" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="findDocumentButton_Click"/>
         </Grid>
         <DataGrid x:Name="DocumentsDataGrid" Grid.Row="2" ItemsSource="{Binding Documents}" CellEditEnding="DocumentsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="DocumentsDataGrid_BeginningEdit">
             <DataGrid.ContextMenu>
@@ -57,6 +62,6 @@
                 <DataGridTextColumn x:Name="RealizationPercentage" Binding="{Binding Doc_RealizationPercentage}" Header="Postęp realizacji"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock x:Name="Status" TextWrapping="Wrap" Grid.Row="4" Text="Znaleziono 5 dopasowań   |   Usunięto 2 dokumenty   |   Masz 5 niezapisanych komórek." Margin="5 5 5 0"/>
+        <TextBlock x:Name="Status" TextWrapping="Wrap" Grid.Row="4" Text="Znaleziono 5 dopasowań   |   Usunięto 2 dokumenty" Margin="5 5 5 0"/>
     </Grid>
 </Window>

@@ -23,30 +23,5 @@ namespace sWMS.Windows
         {
             InitializeComponent();
         }
-
-        private void addDocumentButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void removeDocument_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void findDocumentButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void showSender_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void showDestination_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
