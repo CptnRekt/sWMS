@@ -37,7 +37,9 @@ CREATE TABLE sWMS.Warehouses
 	Wh_Country varchar(100),
 	Wh_City varchar(100),
 	Wh_Street varchar(100),
-	Wh_Postal varchar(100)
+	Wh_Postal varchar(100),
+	Wh_IssuesNumber int,
+	Wh_AcceptancesNumber int
 )
 
 CREATE TABLE sWMS.Documents
@@ -53,7 +55,7 @@ CREATE TABLE sWMS.Documents
 	Doc_CompletionDate datetime,
 	Doc_Source_Wh_Id int,
 	Doc_Destination_Wh_Id int,
-	Doc_RealizationPercentage decimal(5,2)
+	Doc_RealizationStatus varchar(150) --albo w procentach podam realizationProgress, albo statusy: zrealizowano, anulowano lub wydano do klienta
 )
 
 CREATE TABLE sWMS.Items
