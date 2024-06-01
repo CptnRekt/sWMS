@@ -14,10 +14,5 @@ namespace sWMS.Models
         public int AttrAtCId { get; set; }
         public int AttrAtCType { get; set; }
         public string AttrValue { get; set; } = null!;
-
-        public virtual AttrClass AttrAtC { get; set; } = null!;
-        public virtual Document AttrObject { get; set; } = null!;
-        public virtual Subitem AttrObject1 { get; set; } = null!;
-        public virtual Item AttrObjectNavigation { get; set; } = null!;
     }
 }

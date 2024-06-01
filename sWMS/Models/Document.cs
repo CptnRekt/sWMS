@@ -5,11 +5,6 @@ namespace sWMS.Models
 {
     public partial class Document
     {
-        public Document()
-        {
-            Attributes = new HashSet<Attribute>();
-        }
-
         public int DocObjectId { get; set; }
         public int DocObjectType { get; set; }
         public string DocNumberString { get; set; } = null!;
@@ -21,7 +16,6 @@ namespace sWMS.Models
         public DateTime? DocCompletionDate { get; set; }
         public int? DocSourceWhId { get; set; }
         public int? DocDestinationWhId { get; set; }
-
-        public virtual ICollection<Attribute> Attributes { get; set; }
+        public string? DocRealizationStatus { get; set; }
     }
 }

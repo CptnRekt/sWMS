@@ -5,11 +5,6 @@ namespace sWMS.Models
 {
     public partial class Item
     {
-        public Item()
-        {
-            Attributes = new HashSet<Attribute>();
-        }
-
         public int ItObjectId { get; set; }
         public int ItObjectType { get; set; }
         public int ItObjectItem { get; set; }
@@ -21,9 +16,8 @@ namespace sWMS.Models
         public DateTime? ItCompletionDate { get; set; }
         public int? ItUnitId { get; set; }
         public int? ItUnitType { get; set; }
+        public string? ItUnitName { get; set; }
         public int? ItArtId { get; set; }
         public int? ItArtType { get; set; }
-
-        public virtual ICollection<Attribute> Attributes { get; set; }
     }
 }

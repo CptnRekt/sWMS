@@ -13,5 +13,7 @@ namespace sWMS.Models
         public string? WhCity { get; set; }
         public string? WhStreet { get; set; }
         public string? WhPostal { get; set; }
+        public int? WhIssuesNumber { get; set; }
+        public int? WhAcceptancesNumber { get; set; }
     }
 }

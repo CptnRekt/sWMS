@@ -5,11 +5,6 @@ namespace sWMS.Models
 {
     public partial class Subitem
     {
-        public Subitem()
-        {
-            Attributes = new HashSet<Attribute>();
-        }
-
         public int SitObjectId { get; set; }
         public int SitObjectType { get; set; }
         public int SitObjectItem { get; set; }
@@ -18,13 +13,13 @@ namespace sWMS.Models
         public decimal SitRealizedQuantity { get; set; }
         public int? SitUnitId { get; set; }
         public int? SitUnitType { get; set; }
+        public string? SitUnitName { get; set; }
         public int? SitSecondaryUnitId { get; set; }
         public int? SitSecondaryUnitType { get; set; }
+        public string? SitSecondaryUnitName { get; set; }
         public int? SitArtId { get; set; }
         public int? SitArtType { get; set; }
         public int? SitResId { get; set; }
         public int? SitResType { get; set; }
-
-        public virtual ICollection<Attribute> Attributes { get; set; }
     }
 }

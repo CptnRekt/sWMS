@@ -14,6 +14,7 @@ namespace sWMS.Models
         public int? ResArtType { get; set; }
         public int? ResUnitId { get; set; }
         public int? ResUnitType { get; set; }
+        public string? ResUnitName { get; set; }
         public int? ResSecondaryUnitId { get; set; }
         public int? ResSecondaryUnitType { get; set; }
         public decimal? ResQuantity { get; set; }
