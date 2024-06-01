@@ -51,7 +51,7 @@ Doc_Type = 253 ---> WM
 ---------------------------------------------------------------
 
 Dodanie modeli:
-Scaffold-DbContext 'Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=sWMS;Persist Security Info=True;User ID=sa;Password=***********' Microsoft.EntityFrameworkCore.SqlServer -context ApplicationDbContext -OutputDir Models
+Scaffold-DbContext 'Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=sWMS;Persist Security Info=True;User ID=sa;Password=***********' Microsoft.EntityFrameworkCore.SqlServer -context ApplicationDbContext -OutputDir Models -force
 
 ---------------------------------------------------------------
 
