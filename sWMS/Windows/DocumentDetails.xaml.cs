@@ -23,5 +23,55 @@ namespace sWMS.Windows
         {
             InitializeComponent();
         }
+
+        private void ItemsDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+
+        }
+
+        private void ItemsDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+
+        private void AttributesDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+
+        }
+
+        private void AttributesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+
+        private void removeSelected_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void saveChanges_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void addItemButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void removeItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void addAttributeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void removeAttribute_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

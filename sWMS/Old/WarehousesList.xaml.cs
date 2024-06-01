@@ -55,5 +55,15 @@ namespace sWMS.Windows
             WarehouseDetails warehouseDetails = new WarehouseDetails();
             warehouseDetails.ShowDialog();
         }
+
+        private void WarehousesDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+
+        }
+
+        private void WarehousesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
     }
 }

@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <TabControl Grid.Row="1" Grid.Column="1">
             <TabItem Header="Przesunięcia">
-                <DataGrid x:Name="DocumentsDataGrid" ItemsSource="{Binding Documents}" CellEditEnding="DocumentsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="DocumentsDataGrid_BeginningEdit">
+                <DataGrid x:Name="DocumentsDataGrid" ItemsSource="{Binding Documents}" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Dodaj przesunięcie" Click="addDocumentButton_Click" />
@@ -49,7 +49,7 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Stan">
-                <DataGrid x:Name="ResourcesDataGrid" ItemsSource="{Binding Resources}" CellEditEnding="ResourcesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="ResourcesDataGrid_BeginningEdit">
+                <DataGrid x:Name="ResourcesDataGrid" ItemsSource="{Binding Resources}" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Dodaj partię" Click="addResourceButton_Click" />
@@ -95,7 +95,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Atrybuty">
-                <DataGrid x:Name="AttributesDataGrid" ItemsSource="{Binding Attributes}" CellEditEnding="AttributesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="AttributesDataGrid_BeginningEdit">
+                <DataGrid x:Name="AttributesDataGrid" ItemsSource="{Binding Attributes}" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Dodaj atrybut" Click="addAttributeButton_Click" />

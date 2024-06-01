@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace sWMS.DAO
 {
@@ -27,6 +28,30 @@ namespace sWMS.DAO
                     cmd.Parameters.AddWithValue("@Wh_Postal", warehouse.WhPostal);
                     con.Open();
                     cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        static public List<Warehouse> GetWarehouses()
+        {
+            using (SqlConnection con = new SqlConnection(DataAccess.Builder.ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("sWMS.GetWarehouses", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    List<Warehouse> warehouses = new List<Warehouse>();
+                    while (reader.Read())
+                    {
+                        Warehouse warehouse = new Warehouse
+                        {
+                            WhCode = reader["Wh_Code"].ToString(),
+                            WhName = reader["Wh_Name"].ToString(),
+                            //WhAcceptan
+                        };
+                        warehouses.Add(warehouse);
+                    }
+                    return warehouses;
                 }
             }
         }

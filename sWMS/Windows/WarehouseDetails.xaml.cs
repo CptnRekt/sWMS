@@ -23,5 +23,55 @@ namespace sWMS.Windows
         {
             InitializeComponent();
         }
+
+        private void addDocumentButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void removeDocument_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void showSender_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void showDestination_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void addResourceButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void removeResource_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void addAttributeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void removeAttribute_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void removeSelected_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void saveChanges_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

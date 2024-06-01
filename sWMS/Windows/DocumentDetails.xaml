@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <TabControl Grid.Column="1" Grid.Row="1">
             <TabItem Header="Pozycje">
-                <DataGrid Grid.Row="1" x:Name="ItemsDataGrid" ItemsSource="{Binding Items}" CellEditEnding="ItemsDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="ItemsDataGrid_BeginningEdit">
+                <DataGrid Grid.Row="1" x:Name="ItemsDataGrid" ItemsSource="{Binding Items}" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Dodaj pozycję" Click="addItemButton_Click" />
@@ -118,7 +118,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Atrybuty">
-                <DataGrid  x:Name="AttributesDataGrid" ItemsSource="{Binding Attributes}" CellEditEnding="AttributesDataGrid_CellEditEnding" AutoGenerateColumns="False" CanUserAddRows="False" BeginningEdit="AttributesDataGrid_BeginningEdit">
+                <DataGrid  x:Name="AttributesDataGrid" ItemsSource="{Binding Attributes}" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Dodaj atrybut" Click="addAttributeButton_Click" />

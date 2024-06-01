@@ -48,5 +48,15 @@ namespace sWMS.Windows
         {
 
         }
+
+        private void DocumentsDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+
+        }
+
+        private void DocumentsDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
     }
 }
