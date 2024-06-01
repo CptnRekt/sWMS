@@ -3,6 +3,7 @@ using sWMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,28 +23,58 @@ namespace sWMS.Windows
     /// </summary>
     public partial class MainPanel : Window
     {
+        ObservableCollection<Document> documents;
         ObservableCollection<Warehouse> warehouses;
+        ObservableCollection<Contractor> contractors;
+        ObservableCollection<Article> articles;
+        ObservableCollection<Unit> units;
+        ObservableCollection<AttrClass> attrClasses;
+        ObservableCollection<Config> config;
+
+
         public MainPanel()
         {
             DataAccess.InitializeConnection("(LocalDB)\\MSSQLLocalDB", "sa", "Rambo846303", "sWMS");
+            //documents = new ObservableCollection<Document>(Procedures.GetDocuments());
             warehouses = new ObservableCollection<Warehouse>(Procedures.GetWarehouses());
+            //contractors = new ObservableCollection<Contractor>(Procedures.GetContractors());
+            //articles = new ObservableCollection<Article>(Procedures.GetArticles());
+            //units = new ObservableCollection<Article>(Procedures.GetUnits());
+            //attrClasses = new ObservableCollection<AttrClass>(Procedures.GetAttrClasses());
+            //config = new ObservableCollection<Config>(Procedures.GetConfig());
             InitializeComponent();
+            DocumentsDataGrid.DataContext = documents;
+            WarehousesDataGrid.DataContext = warehouses;
+            ContractorsDataGrid.DataContext = contractors; 
+            ArticlesDataGrid.DataContext = articles; 
+            UnitsDataGrid.DataContext = units;
+            AttrClassesDataGrid.DataContext = attrClasses;
+            ConfigDataGrid.DataContext = config;
         }
 
         private void addWarehouseButton_Click(object sender, RoutedEventArgs e)
         {
             // dodac do datagrida i datarow pomalowac na zielono (ze do zapisania) po zapisaniu, dopiero operacja na bazie danych
-            // WarehousesDataGrid.
+            DataGridRow row = new DataGridRow();
+            row.Background = Brushes.LightGreen;
         }
 
         private void removeSelected_Click(object sender, RoutedEventArgs e)
         {
-
+            DataGridRow row = e.Source as DataGridRow;
+            row.Background = Brushes.Red;
         }
 
         private void saveChanges_Click(object sender, RoutedEventArgs e)
         {
-
+            IEnumerable<DataGridRow> rowsCollection = mainGrid.Children.OfType<DataGridRow>();
+            foreach (DataGridRow row in rowsCollection)
+            {
+                //if (row.Background = Brushes.LightGreen)
+                //{
+                //    switch (row.Parent)
+                //}
+            }
         }
 
         private void findAttributeButton_Click(object sender, RoutedEventArgs e)
@@ -166,12 +197,12 @@ namespace sWMS.Windows
 
         }
 
-        private void addAttributeButton_Click(object sender, RoutedEventArgs e)
+        private void addAttrClassButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void removeAttribute_Click(object sender, RoutedEventArgs e)
+        private void removeAttrClass_Click(object sender, RoutedEventArgs e)
         {
 
         }

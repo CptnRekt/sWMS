@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:sWMS.Windows"
         mc:Ignorable="d"
         Title="Główny panel" Height="450" Width="800">
-    <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" Width="Auto">
+    <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" Width="Auto" x:Name="mainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -182,11 +182,11 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Szablony atrybutów">
-                <DataGrid  x:Name="AttributesDataGrid" ItemsSource="{Binding Attributes}" AutoGenerateColumns="False" CanUserAddRows="False">
+                <DataGrid  x:Name="AttrClassesDataGrid" ItemsSource="{Binding AttrClasss}" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Dodaj atrybut" Click="addAttributeButton_Click" />
-                            <MenuItem Header="Usuń atrybut" Click="removeAttribute_Click" />
+                            <MenuItem Header="Dodaj atrybut" Click="addAttrClassButton_Click" />
+                            <MenuItem Header="Usuń atrybut" Click="removeAttrClass_Click" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
@@ -197,11 +197,11 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn x:Name="AttributeName" Binding="{Binding AtC_Name}" Header="Nazwa atrybutu" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="AttributeDataType" Binding="{Binding AttributeDataType}" Header="Typ danych"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="AttributeType" Binding="{Binding AttributeType}" Header="Miejsce występowania"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="DefaultAttributeValue" Binding="{Binding AtC_DefaultValue}" Header="Wartość domyślna"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="AttributeCopying" Binding="{Binding AttributeCopying}" Header="Kopiowanie (tak / nie)"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttrClassName" Binding="{Binding AtC_Name}" Header="Nazwa atrybutu" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttrClassDataType" Binding="{Binding AttrClassDataType}" Header="Typ danych"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttrClassType" Binding="{Binding AttrClassType}" Header="Miejsce występowania"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="DefaultAttrClassValue" Binding="{Binding AtC_DefaultValue}" Header="Wartość domyślna"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttrClassCopying" Binding="{Binding AttrClassCopying}" Header="Kopiowanie (tak / nie)"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

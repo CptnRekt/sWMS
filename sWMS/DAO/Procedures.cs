@@ -47,7 +47,12 @@ namespace sWMS.DAO
                         {
                             WhCode = reader["Wh_Code"].ToString(),
                             WhName = reader["Wh_Name"].ToString(),
-                            //WhAcceptan
+                            WhCountry = reader["Wh_Country"].ToString(),
+                            WhCity = reader["Wh_City"].ToString(),
+                            WhStreet = reader["Wh_Street"].ToString(),
+                            WhPostal = reader["Wh_Postal"].ToString(),
+                            WhAcceptancesNumber = Convert.ToInt32(reader["Wh_AcceptancesNumber"]),
+                            WhIssuesNumber = Convert.ToInt32(reader["Wh_IssuesNumber"])
                         };
                         warehouses.Add(warehouse);
                     }
