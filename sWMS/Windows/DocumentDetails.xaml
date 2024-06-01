@@ -59,7 +59,8 @@
                         <RowDefinition Height="10"></RowDefinition>
                         <RowDefinition Height="40"></RowDefinition>
                         <RowDefinition Height="10"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
                         <RowDefinition Height="10"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid Grid.Column="1" Grid.Row="1">
@@ -112,7 +113,8 @@
                             <TextBox Text="01.06.2024" Width="100" HorizontalAlignment="Right"></TextBox>
                         </StackPanel>
                     </Grid>
-                    
+                    <TextBlock Grid.Column="1" Grid.Row="8" Text="Postęp realizacji:" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,11,81,0"></TextBlock>
+                    <TextBox Grid.Column="1" Grid.Row="8" Text="Zrealizowane" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Atrybuty">

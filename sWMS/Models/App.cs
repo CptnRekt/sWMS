@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace sWMS.Models
 {
-    internal class App
+    public static class App
     {
-
     }
 }

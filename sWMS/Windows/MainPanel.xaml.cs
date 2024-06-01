@@ -1,5 +1,8 @@
-﻿using System;
+﻿using sWMS.DAO;
+using sWMS.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +22,17 @@ namespace sWMS.Windows
     /// </summary>
     public partial class MainPanel : Window
     {
+        ObservableCollection<Warehouse> warehouses;
         public MainPanel()
         {
+            DataAccess.InitializeConnection("(LocalDB)\\MSSQLLocalDB", "sa", "Rambo846303", "sWMS");
+            warehouses = new ObservableCollection<Warehouse>(DataAccess.ExecuteStoredProcedure("ab"));
             InitializeComponent();
+        }
+
+        private void addWarehouseButton_Click(object sender, RoutedEventArgs e)
+        {
+            WarehousesDataGrid.
         }
     }
 }
