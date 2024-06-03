@@ -55,3 +55,5 @@ Scaffold-DbContext 'Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=sWMS;Pers
 
 ---------------------------------------------------------------
 
+99 - magazyn
+98 - kontrahent

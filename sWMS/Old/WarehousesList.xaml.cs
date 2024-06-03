@@ -1,7 +1,9 @@
-﻿using sWMS.Models;
+﻿using sWMS.DAO;
+using sWMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ namespace sWMS.Windows
     /// </summary>
     public partial class WarehousesList : Window
     {
-        private ObservableCollection<Warehouse> warehouses = new ObservableCollection<Warehouse>();
+        private DataTable warehouses = Procedures.GetWarehouses();
         public WarehousesList()
         {
             InitializeComponent();
