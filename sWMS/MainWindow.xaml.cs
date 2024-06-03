@@ -23,9 +23,11 @@ namespace sWMS
     {
         public MainWindow()
         {
-            WarehousesList warehousesList = new WarehousesList();
-            warehousesList.ShowDialog();
-            //InitializeComponent();
+            //WarehousesList warehousesList = new WarehousesList();
+            //warehousesList.ShowDialog();
+            ////InitializeComponent();
+            MainPanel mainPanel = new MainPanel();
+            mainPanel.ShowDialog();
         }
     }
 }

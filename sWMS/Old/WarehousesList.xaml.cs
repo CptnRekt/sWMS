@@ -24,8 +24,8 @@ namespace sWMS.Windows
         private ObservableCollection<Warehouse> warehouses = new ObservableCollection<Warehouse>();
         public WarehousesList()
         {
-            WarehousesDataGrid.DataContext = warehouses;
             InitializeComponent();
+            WarehousesDataGrid.DataContext = warehouses;
         }
 
         private void addWarehouseButton_Click(object sender, RoutedEventArgs e)

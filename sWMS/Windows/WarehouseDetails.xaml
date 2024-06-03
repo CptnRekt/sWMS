@@ -92,6 +92,18 @@
                         <RowDefinition Height="25"></RowDefinition>
                         <RowDefinition Height="25"></RowDefinition>
                     </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="1" Text="Kod magazynu" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    <TextBox Grid.Column="3" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="350"></TextBox>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="Nazwa magazynu" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    <TextBox Grid.Column="3" Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="350"></TextBox>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="Kraj" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    <TextBox Grid.Column="3" Grid.Row="2" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="350"></TextBox>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="Miasto" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    <TextBox Grid.Column="3" Grid.Row="3" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="350"></TextBox>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="Ulica" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    <TextBox Grid.Column="3" Grid.Row="4" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="350"></TextBox>
+                    <TextBlock Grid.Column="1" Grid.Row="5" Text="Kod pocztowy" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    <TextBox Grid.Column="3" Grid.Row="5" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Width="350"></TextBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Atrybuty">
