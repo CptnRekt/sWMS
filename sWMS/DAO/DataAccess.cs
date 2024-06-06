@@ -27,7 +27,7 @@ namespace sWMS.DAO
             Builder.Password = password;
             Builder.InitialCatalog = initialCatalog;
         }
-        public static DataTable CallStoredProcedure(string storedProcedureName, SQLParameter[] sqlParameters = null, bool getData = true)
+        public static DataTable CallStoredProcedure(string storedProcedureName, List<SQLParameter> sqlParameters = null, bool getData = true)
         {
             using (SqlConnection con = new SqlConnection(DataAccess.Builder.ConnectionString))
             {

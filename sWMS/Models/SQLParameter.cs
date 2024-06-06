@@ -9,6 +9,11 @@ namespace sWMS.Models
     public class SQLParameter
     {
         public string Name { get; set; }
-        public string Value { get; set; }
+        public object Value { get; set; }
+        public SQLParameter(string Name, object Value) 
+        {
+            this.Name = Name;
+            this.Value = Value;
+        }
     }
 }

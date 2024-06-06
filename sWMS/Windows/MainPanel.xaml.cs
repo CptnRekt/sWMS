@@ -72,7 +72,7 @@ namespace sWMS.Windows
             UnsavedChange change = new UnsavedChange()
             {
                 Index = _Index,
-                Type = _Type,
+                SQL_Type = _Type,
                 DataOperation = DataOperationsEnum.Add
             };
             unsavedChanges.Add(change);
@@ -88,12 +88,13 @@ namespace sWMS.Windows
             return null;
         }
 
-        private void onChecked(DataTable dataTable, int _Index, WMSObjectTypesEnum _Type)
+        private void onChecked(DataTable dataTable, int _Index, int _Id, WMSObjectTypesEnum _Type)
         {
             UnsavedChange change = new UnsavedChange()
             {
                 Index = _Index,
-                Type = _Type,
+                SQL_Id = _Id,
+                SQL_Type = _Type,
                 DataOperation = DataOperationsEnum.Delete
             };
             unsavedChanges.Add(change);
@@ -104,18 +105,42 @@ namespace sWMS.Windows
             foreach (UnsavedChange change in unsavedChanges)
             {
                 if (change.DataOperation == DataOperationsEnum.Delete)
-                    switch(change.Type)
+                {
+                    List<SQLParameter> sqlParameters = new List<SQLParameter>();
+                    switch (change.SQL_Type)
                     {
+                        case WMSObjectTypesEnum.Document:
+                            documents.Rows.RemoveAt(change.Index);
+                            sqlParameters.Add(new SQLParameter("Doc_ObjectId", change.SQL_Id));
+                            DataAccess.CallStoredProcedure("sWMS.RemoveDocument", sqlParameters);
+                            break;
                         case WMSObjectTypesEnum.Warehouse:
                             warehouses.Rows.RemoveAt(change.Index);
-                            //DataAccess.RemoveWarehouse();
+                            sqlParameters.Add(new SQLParameter("Wh_Id", change.SQL_Id));
+                            DataAccess.CallStoredProcedure("sWMS.RemoveWarehouse", sqlParameters);
                             break;
                         case WMSObjectTypesEnum.Contractor:
                             contractors.Rows.RemoveAt(change.Index);
-                            //DataAccess.RemoveWarehouse();
+                            sqlParameters.Add(new SQLParameter("Con_Id", change.SQL_Id));
+                            DataAccess.CallStoredProcedure("sWMS.RemoveContractor", sqlParameters);
                             break;
-
+                        case WMSObjectTypesEnum.Article:
+                            articles.Rows.RemoveAt(change.Index);
+                            sqlParameters.Add(new SQLParameter("Art_Id", change.SQL_Id));
+                            DataAccess.CallStoredProcedure("sWMS.RemoveArticle", sqlParameters);
+                            break;
+                        case WMSObjectTypesEnum.Unit:
+                            units.Rows.RemoveAt(change.Index);
+                            sqlParameters.Add(new SQLParameter("Unit_Id", change.SQL_Id));
+                            DataAccess.CallStoredProcedure("sWMS.RemoveUnit", sqlParameters);
+                            break;
+                        case WMSObjectTypesEnum.AttrClass:
+                            attrClasses.Rows.RemoveAt(change.Index);
+                            sqlParameters.Add(new SQLParameter("AtC_Id", change.SQL_Id));
+                            DataAccess.CallStoredProcedure("sWMS.RemoveAttrClass", sqlParameters);
+                            break;
                     }
+                }
             }
         }
 
