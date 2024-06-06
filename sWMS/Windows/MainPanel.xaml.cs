@@ -73,14 +73,14 @@ namespace sWMS.Windows
             //FrameworkElement fe = (FrameworkElement)sender;
             //Console.WriteLine(fe.Name);
             int Index = warehouses.Rows.Count;
-            addNewChange(warehouses, Index, WMSObjectTypesEnum.Warehouse);
+            addNewChange(WarehousesDataGrid);
         }
 
-        private void addNewChange(DataTable dataTable, int _Index, WMSObjectTypesEnum _Type)
+        private void addNewChange(DataGrid dataGrid)
         {
             DataGridRow row = new DataGridRow();
             row.Background = Brushes.LightGreen;
-            dataTable.Rows.Add(row);
+            dataGrid.Items.Add(row);
             //UnsavedChange change = new UnsavedChange()
             //{
             //    Index = _Index,
