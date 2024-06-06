@@ -69,18 +69,15 @@ namespace sWMS.Windows
 
         private void addWarehouseButton_Click(object sender, RoutedEventArgs e)
         {
-            // Get the element that handled the event.
-            //FrameworkElement fe = (FrameworkElement)sender;
-            //Console.WriteLine(fe.Name);
             int Index = warehouses.Rows.Count;
             addNewChange(WarehousesDataGrid);
         }
 
         private void addNewChange(DataGrid dataGrid)
         {
-            DataGridRow row = new DataGridRow();
-            row.Background = Brushes.LightGreen;
-            dataGrid.Items.Add(row);
+            //DataGridRow row = new DataGridRow();
+            //row.Background = Brushes.LightGreen;
+            //dataGrid.Items.Add();
             //UnsavedChange change = new UnsavedChange()
             //{
             //    Index = _Index,
