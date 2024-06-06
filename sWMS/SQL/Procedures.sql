@@ -3,21 +3,83 @@
 --SET QUOTED_IDENTIFIER ON
 --GO
 
-CREATE PROCEDURE sWMS.GetWarehouses
+CREATE OR ALTER PROCEDURE sWMS.GetDocuments
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT * from sWMS.Documents
+END
+GO
+
+CREATE OR ALTER PROCEDURE sWMS.GetWarehouses
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-    select Wh_Id
-	,Wh_Type
-	,Wh_Code
-	,Wh_Country
-	,Wh_City
-	,Wh_Street
-	,Wh_Postal
-	,Wh_AcceptancesNumber
-	,Wh_IssuesNumber
-	from sWMS.Warehouses
+	;with Warehouses as
+	(
+		select * from sWMS.Warehouses
+	),
+	Acceptances as 
+	(
+		select Wh_Id, count(*) Number from sWMS.Documents
+		join Warehouses on Wh_Id = Doc_Destination_Wh_Id
+		where Doc_ObjectType = 252
+		group by Wh_Id
+	),
+	Issues as 
+	(
+		select Wh_Id, count(*) Number from sWMS.Documents
+		join Warehouses on Wh_Id = Doc_Source_Wh_Id
+		where Doc_ObjectType = 253
+		group by Wh_Id
+	)
+	SELECT w.*
+	,a.Number
+	,i.Number 
+	from Warehouses w
+	join Acceptances a on a.Wh_Id = w.Wh_Id
+	join Issues i on i.Wh_Id = w.Wh_Id
+END
+GO
+
+CREATE PROCEDURE sWMS.GetContractors
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT * from sWMS.Contractors
+END
+GO
+
+CREATE PROCEDURE sWMS.GetArticles
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT * from sWMS.Articles
+END
+GO
+
+CREATE PROCEDURE sWMS.GetUnits
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT * from sWMS.Units
+END
+GO
+
+CREATE PROCEDURE sWMS.GetAttrClasses
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT * from sWMS.AttrClasses
+END
+GO
+
+CREATE PROCEDURE sWMS.GetConfig
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT * from sWMS.Config
 END
 GO
 

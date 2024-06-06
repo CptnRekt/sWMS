@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,62 +26,97 @@ namespace sWMS.Windows
     /// </summary>
     public partial class MainPanel : Window
     {
-        //ObservableCollection<Document> documents;
+        DataTable documents;
         DataTable warehouses;
+        DataTable contractors;
+        DataTable articles;
+        DataTable units;
+        DataTable attrClasses;
+        DataTable config;
         List<UnsavedChange> unsavedChanges = new List<UnsavedChange>();
-        //ObservableCollection<Contractor> contractors;
-        //ObservableCollection<Article> articles;
-        //ObservableCollection<Unit> units;
-        //ObservableCollection<AttrClass> attrClasses;
-        //ObservableCollection<Config> config;
-
 
         public MainPanel()
         {
             DataAccess.InitializeConnection("(LocalDB)\\MSSQLLocalDB", "sa", "Rambo846303", "sWMS");
-            warehouses = Procedures.GetWarehouses();
+            documents = DataAccess.CallStoredProcedure("sWMS.GetDocuments");
+            warehouses = DataAccess.CallStoredProcedure("sWMS.GetWarehouses");
+            contractors = DataAccess.CallStoredProcedure("sWMS.GetContractors");
+            articles = DataAccess.CallStoredProcedure("sWMS.GetArticles");
+            units = DataAccess.CallStoredProcedure("sWMS.GetUnits");
+            attrClasses = DataAccess.CallStoredProcedure("sWMS.GetAttrClasses");
+            config = DataAccess.CallStoredProcedure("sWMS.GetConfig");
             InitializeComponent();
-            //DocumentsDataGrid.DataContext = documents;
-            //WarehousesDataGrid.DataContext = warehouses;
-            //ContractorsDataGrid.DataContext = contractors; 
-            //ArticlesDataGrid.DataContext = articles; 
-            //UnitsDataGrid.DataContext = units;
-            //AttrClassesDataGrid.DataContext = attrClasses;
-            //ConfigDataGrid.DataContext = config;
+            DocumentsDataGrid.DataContext = documents;
+            WarehousesDataGrid.DataContext = warehouses;
+            ContractorsDataGrid.DataContext = contractors; 
+            ArticlesDataGrid.DataContext = articles; 
+            UnitsDataGrid.DataContext = units;
+            AttrClassesDataGrid.DataContext = attrClasses;
+            ConfigDataGrid.DataContext = config;
         }
 
         private void addWarehouseButton_Click(object sender, RoutedEventArgs e)
         {
             // Get the element that handled the event.
-            FrameworkElement fe = (FrameworkElement)sender;
-            Console.WriteLine(fe.Name);
-            int Id = warehouses.Rows.Count;
-            addNewChange(warehouses, Id, WMSObjectTypesEnum.Warehouse);
+            //FrameworkElement fe = (FrameworkElement)sender;
+            //Console.WriteLine(fe.Name);
+            int Index = warehouses.Rows.Count;
+            addNewChange(warehouses, Index, WMSObjectTypesEnum.Warehouse);
         }
 
-        private void addNewChange(DataTable dataTable, int newId, WMSObjectTypesEnum WMSObjectType)
+        private void addNewChange(DataTable dataTable, int _Index, WMSObjectTypesEnum _Type)
         {
             DataGridRow row = new DataGridRow();
             row.Background = Brushes.LightGreen;
             dataTable.Rows.Add(row);
             UnsavedChange change = new UnsavedChange()
             {
-                Id = newId,
-                Type = WMSObjectType,
+                Index = _Index,
+                Type = _Type,
                 DataOperation = DataOperationsEnum.Add
             };
             unsavedChanges.Add(change);
         }
 
-        private void onChecked(object sender, RoutedEventArgs e)
+        private DataRow searchDataTable(DataTable dataTable, int _Id, WMSObjectTypesEnum _Type)
         {
-            
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                if (dataRow[0] == _Id.ToString() && dataRow[1] == _Type.ToString())
+                    return dataRow;
+            }
+            return null;
+        }
+
+        private void onChecked(DataTable dataTable, int _Index, WMSObjectTypesEnum _Type)
+        {
+            UnsavedChange change = new UnsavedChange()
+            {
+                Index = _Index,
+                Type = _Type,
+                DataOperation = DataOperationsEnum.Delete
+            };
+            unsavedChanges.Add(change);
         }
 
         private void removeSelected_Click(object sender, RoutedEventArgs e)
         {
-            DataGridRow row = e.Source as DataGridRow;
-            row.Background = Brushes.Red;
+            foreach (UnsavedChange change in unsavedChanges)
+            {
+                if (change.DataOperation == DataOperationsEnum.Delete)
+                    switch(change.Type)
+                    {
+                        case WMSObjectTypesEnum.Warehouse:
+                            warehouses.Rows.RemoveAt(change.Index);
+                            //DataAccess.RemoveWarehouse();
+                            break;
+                        case WMSObjectTypesEnum.Contractor:
+                            contractors.Rows.RemoveAt(change.Index);
+                            //DataAccess.RemoveWarehouse();
+                            break;
+
+                    }
+            }
         }
 
         private void saveChanges_Click(object sender, RoutedEventArgs e)

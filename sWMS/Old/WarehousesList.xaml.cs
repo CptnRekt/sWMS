@@ -23,7 +23,7 @@ namespace sWMS.Windows
     /// </summary>
     public partial class WarehousesList : Window
     {
-        private DataTable warehouses = Procedures.GetWarehouses();
+        private DataTable warehouses; //= Procedures.GetWarehouses();
         public WarehousesList()
         {
             InitializeComponent();

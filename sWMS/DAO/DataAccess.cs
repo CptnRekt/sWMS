@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Win32.SafeHandles;
+using sWMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,28 +27,26 @@ namespace sWMS.DAO
             Builder.Password = password;
             Builder.InitialCatalog = initialCatalog;
         }
-
-        //public static int ExecuteNonQuery(string objectName, object[] parameters = null)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection con = new SqlConnection(builder.ConnectionString))
-        //        {
-        //            using (SqlCommand cmd = new SqlCommand(objectName, con))
-        //            {
-        //                cmd.CommandType = CommandType.StoredProcedure;
-        //                foreach (string parameter in parameters)
-        //                    cmd.Parameters.Add(new SqlParameter($"@{parameter}", parameter));
-        //                con.Open();
-        //                return cmd.ExecuteNonQuery();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex) 
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
+        public static DataTable CallStoredProcedure(string storedProcedureName, SQLParameter[] sqlParameters = null, bool getData = true)
+        {
+            using (SqlConnection con = new SqlConnection(DataAccess.Builder.ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(storedProcedureName, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (sqlParameters != null)
+                        foreach (SQLParameter param in sqlParameters)
+                            cmd.Parameters.AddWithValue(param.Name, param.Value);
+                    con.Open();
+                    DataTable dt = new DataTable();
+                    if (getData)
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                            adapter.Fill(dt);
+                    else
+                        cmd.ExecuteNonQuery();
+                    return dt;
+                }
+            }
+        }
     }
 }
