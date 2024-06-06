@@ -10,9 +10,8 @@ namespace sWMS.Models
     {
        public enum DataOperationsEnum
        {
-            Add,
             Delete,
-            Update
+            Edit
        }
         public enum WMSObjectTypesEnum
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using sWMS.DAO;
 using sWMS.Models;
 using System;
@@ -33,6 +34,7 @@ namespace sWMS.Windows
         DataTable units;
         DataTable attrClasses;
         DataTable config;
+        List<DataTable> dataTables;
         List<UnsavedChange> unsavedChanges = new List<UnsavedChange>();
 
         public MainPanel()
@@ -45,6 +47,16 @@ namespace sWMS.Windows
             units = DataAccess.CallStoredProcedure("sWMS.GetUnits");
             attrClasses = DataAccess.CallStoredProcedure("sWMS.GetAttrClasses");
             config = DataAccess.CallStoredProcedure("sWMS.GetConfig");
+            dataTables = new List<DataTable>()
+            {
+                documents,
+                warehouses,
+                contractors,
+                articles,
+                units,
+                attrClasses,
+                config
+            };
             InitializeComponent();
             DocumentsDataGrid.DataContext = documents;
             WarehousesDataGrid.DataContext = warehouses;
@@ -69,24 +81,24 @@ namespace sWMS.Windows
             DataGridRow row = new DataGridRow();
             row.Background = Brushes.LightGreen;
             dataTable.Rows.Add(row);
-            UnsavedChange change = new UnsavedChange()
-            {
-                Index = _Index,
-                SQL_Type = _Type,
-                DataOperation = DataOperationsEnum.Add
-            };
-            unsavedChanges.Add(change);
+            //UnsavedChange change = new UnsavedChange()
+            //{
+            //    Index = _Index,
+            //    SQL_Type = _Type,
+            //    DataOperation = DataOperationsEnum.Edit
+            //};
+            //unsavedChanges.Add(change);
         }
 
-        private DataRow searchDataTable(DataTable dataTable, int _Id, WMSObjectTypesEnum _Type)
-        {
-            foreach (DataRow dataRow in dataTable.Rows)
-            {
-                if (dataRow[0] == _Id.ToString() && dataRow[1] == _Type.ToString())
-                    return dataRow;
-            }
-            return null;
-        }
+        //private DataRow searchDataTable(DataTable dataTable, int _Id, WMSObjectTypesEnum _Type)
+        //{
+        //    foreach (DataRow dataRow in dataTable.Rows)
+        //    {
+        //        if (dataRow[0] == _Id.ToString() && dataRow[1] == _Type.ToString())
+        //            return dataRow;
+        //    }
+        //    return null;
+        //}
 
         private void onChecked(DataTable dataTable, int _Index, int _Id, WMSObjectTypesEnum _Type)
         {
@@ -112,54 +124,122 @@ namespace sWMS.Windows
                         case WMSObjectTypesEnum.Document:
                             documents.Rows.RemoveAt(change.Index);
                             sqlParameters.Add(new SQLParameter("Doc_ObjectId", change.SQL_Id));
-                            DataAccess.CallStoredProcedure("sWMS.RemoveDocument", sqlParameters);
+                            if (change.SQL_Id != null)
+                                DataAccess.CallStoredProcedure("sWMS.RemoveDocument", sqlParameters);
                             break;
                         case WMSObjectTypesEnum.Warehouse:
                             warehouses.Rows.RemoveAt(change.Index);
                             sqlParameters.Add(new SQLParameter("Wh_Id", change.SQL_Id));
-                            DataAccess.CallStoredProcedure("sWMS.RemoveWarehouse", sqlParameters);
+                            if (change.SQL_Id != null)
+                                DataAccess.CallStoredProcedure("sWMS.RemoveWarehouse", sqlParameters);
                             break;
                         case WMSObjectTypesEnum.Contractor:
                             contractors.Rows.RemoveAt(change.Index);
                             sqlParameters.Add(new SQLParameter("Con_Id", change.SQL_Id));
-                            DataAccess.CallStoredProcedure("sWMS.RemoveContractor", sqlParameters);
+                            if (change.SQL_Id != null)
+                                DataAccess.CallStoredProcedure("sWMS.RemoveContractor", sqlParameters);
                             break;
                         case WMSObjectTypesEnum.Article:
                             articles.Rows.RemoveAt(change.Index);
                             sqlParameters.Add(new SQLParameter("Art_Id", change.SQL_Id));
-                            DataAccess.CallStoredProcedure("sWMS.RemoveArticle", sqlParameters);
+                            if (change.SQL_Id != null)
+                                DataAccess.CallStoredProcedure("sWMS.RemoveArticle", sqlParameters);
                             break;
                         case WMSObjectTypesEnum.Unit:
                             units.Rows.RemoveAt(change.Index);
                             sqlParameters.Add(new SQLParameter("Unit_Id", change.SQL_Id));
-                            DataAccess.CallStoredProcedure("sWMS.RemoveUnit", sqlParameters);
+                            if (change.SQL_Id != null)
+                                DataAccess.CallStoredProcedure("sWMS.RemoveUnit", sqlParameters);
                             break;
                         case WMSObjectTypesEnum.AttrClass:
                             attrClasses.Rows.RemoveAt(change.Index);
                             sqlParameters.Add(new SQLParameter("AtC_Id", change.SQL_Id));
-                            DataAccess.CallStoredProcedure("sWMS.RemoveAttrClass", sqlParameters);
+                            if (change.SQL_Id != null)
+                                DataAccess.CallStoredProcedure("sWMS.RemoveAttrClass", sqlParameters);
                             break;
                     }
                 }
             }
         }
 
+        private void getChanges(DataTable dt)
+        {
+            DataTable changes = dt.GetChanges();
+            if (changes != null && changes.Rows.Count > 0) 
+            {
+                foreach (DataRow row in changes.Rows)
+                {
+                    int columnIndex = 0;
+                    List<SQLParameter> sqlParameters = new List<SQLParameter>();
+                    foreach (DataColumn column in changes.Columns)
+                    {
+                        sqlParameters.Add(new SQLParameter(column.ColumnName, row[columnIndex]));
+                        columnIndex++;
+                    }
+                    saveToDB(dt, row, sqlParameters);
+                }
+            }
+        }
+
+        private void saveToDB(DataTable dt, DataRow row, List<SQLParameter> sqlParameters) 
+        {
+            if (row[0] == null && row[1] == null)
+            {
+                switch (dt.TableName)
+                {
+                    case "documents":
+                        DataAccess.CallStoredProcedure("sWMS.AddDocument", sqlParameters);
+                        break;
+                    case "warehouses":
+                        DataAccess.CallStoredProcedure("sWMS.AddWarehouse", sqlParameters);
+                        break;
+                    case "contractors":
+                        DataAccess.CallStoredProcedure("sWMS.AddContractor", sqlParameters);
+                        break;
+                    case "articles":
+                        DataAccess.CallStoredProcedure("sWMS.AddArticle", sqlParameters);
+                        break;
+                    case "units":
+                        DataAccess.CallStoredProcedure("sWMS.AddUnit", sqlParameters);
+                        break;
+                    case "attrClasses":
+                        DataAccess.CallStoredProcedure("sWMS.AddAttrClass", sqlParameters);
+                        break;
+                }
+            }
+            else
+            {
+                switch (dt.TableName)
+                {
+                    case "documents":
+                        DataAccess.CallStoredProcedure("sWMS.EditDocument", sqlParameters);
+                        break;
+                    case "warehouses":
+                        DataAccess.CallStoredProcedure("sWMS.EditWarehouse", sqlParameters);
+                        break;
+                    case "contractors":
+                        DataAccess.CallStoredProcedure("sWMS.EditContractor", sqlParameters);
+                        break;
+                    case "articles":
+                        DataAccess.CallStoredProcedure("sWMS.EditArticle", sqlParameters);
+                        break;
+                    case "units":
+                        DataAccess.CallStoredProcedure("sWMS.EditUnit", sqlParameters);
+                        break;
+                    case "attrClasses":
+                        DataAccess.CallStoredProcedure("sWMS.EditAttrClass", sqlParameters);
+                        break;
+                    case "Config":
+                        DataAccess.CallStoredProcedure("sWMS.EditConfig", sqlParameters);
+                        break;
+                }
+            }
+        }
+
         private void saveChanges_Click(object sender, RoutedEventArgs e)
         {
-
-            //IEnumerable<DataGridRow> rowsCollection = mainGrid.Children.OfType<DataGridRow>();
-            //foreach (DataGridRow row in rowsCollection)
-            //{
-            //    if (row.Background = Brushes.LightGreen)
-            //    {
-            //        switch (row.Parent.GetValue)
-            //        {
-            //            case "WarehouseDataGridRow":
-            //                Console.WriteLine("WarehouseDtg");
-            //            break;
-            //        }
-            //    }
-            //}
+            foreach (DataTable dt in dataTables)
+                getChanges(dt);
         }
 
         private void findAttributeButton_Click(object sender, RoutedEventArgs e)
