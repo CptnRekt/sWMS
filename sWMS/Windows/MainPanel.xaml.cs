@@ -68,20 +68,6 @@ namespace sWMS.Windows
             ConfigDataGrid.ItemsSource = config.DefaultView;
         }
 
-        private void addWarehouseButton_Click(object sender, RoutedEventArgs e)
-        {
-            addNewChange(warehouses, WarehousesDataGrid);
-        }
-
-        private void addNewChange(DataTable dataTable, DataGrid dataGrid)
-        {
-            DataRow dataRow = dataTable.NewRow();
-            DataGridRow dataGridRow = new DataGridRow();
-            dataGridRow.Background = Brushes.LightGreen;
-            dataGridRow.Item = dataRow;
-            dataGrid.Items.Add(dataGridRow);
-        }
-
         //private DataRow searchDataTable(DataTable dataTable, int _Id, WMSObjectTypesEnum _Type)
         //{
         //    foreach (DataRow dataRow in dataTable.Rows)
@@ -302,7 +288,8 @@ namespace sWMS.Windows
 
         private void addDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            addNewChange(documents, DocumentsDataGrid);
+            DocumentsDataGrid.CanUserAddRows = true;
+            
         }
 
         private void removeDocument_Click(object sender, RoutedEventArgs e)
@@ -325,19 +312,9 @@ namespace sWMS.Windows
 
         }
 
-        private void addContractorButton_Click(object sender, RoutedEventArgs e)
-        {
-            addNewChange(contractors, ContractorsDataGrid);
-        }
-
         private void removeContractor_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void addArticleButton_Click(object sender, RoutedEventArgs e)
-        {
-            addNewChange(articles, ArticlesDataGrid);
         }
 
         private void removeArticle_Click(object sender, RoutedEventArgs e)
@@ -345,19 +322,9 @@ namespace sWMS.Windows
 
         }
 
-        private void addUnitButton_Click(object sender, RoutedEventArgs e)
-        {
-            addNewChange(units, UnitsDataGrid);
-        }
-
         private void removeUnit_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void addAttrClassButton_Click(object sender, RoutedEventArgs e)
-        {
-            addNewChange(attrClasses, AttrClassesDataGrid);
         }
 
         private void removeAttrClass_Click(object sender, RoutedEventArgs e)
@@ -368,9 +335,8 @@ namespace sWMS.Windows
         private void Checkbox_Click(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = (CheckBox)sender;
-            //DataRow dtr = (DataRow)checkBox.DataContext;
-            //Console.WriteLine(dtr.Table);
             Console.WriteLine(checkBox.DataContext);
         }
+
     }
 }
