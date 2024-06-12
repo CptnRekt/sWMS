@@ -9,12 +9,11 @@ using static sWMS.Models.Enums;
 
 namespace sWMS.Models
 {
-    public class UnsavedChange
+    public class SelectedRow
     {
         public int Index { get; set; }
         public int? SQL_Id { get; set; }
         public WMSObjectTypesEnum SQL_Type { get; set; }
-        public DataOperationsEnum DataOperation { get; set; }
         //public DataTable? AffectedData { get; set; }
     }
 }

@@ -8,11 +8,6 @@ namespace sWMS.Models
 {
     public static class Enums
     {
-       public enum DataOperationsEnum
-       {
-            Delete,
-            Edit
-       }
         public enum WMSObjectTypesEnum
         {
             Document = 252,

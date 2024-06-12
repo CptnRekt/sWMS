@@ -36,7 +36,7 @@ namespace sWMS.Windows
         DataTable attrClasses;
         DataTable config;
         List<DataTable> dataTables;
-        List<UnsavedChange> unsavedChanges = new List<UnsavedChange>();
+        List<SelectedRow> selectedRows = new List<SelectedRow>();
 
         public MainPanel()
         {
@@ -59,13 +59,13 @@ namespace sWMS.Windows
                 config
             };
             InitializeComponent();
-            DocumentsDataGrid.DataContext = documents;
-            WarehousesDataGrid.DataContext = warehouses;
-            ContractorsDataGrid.DataContext = contractors; 
-            ArticlesDataGrid.DataContext = articles; 
-            UnitsDataGrid.DataContext = units;
-            AttrClassesDataGrid.DataContext = attrClasses;
-            ConfigDataGrid.DataContext = config;
+            DocumentsDataGrid.ItemsSource = documents.DefaultView;
+            WarehousesDataGrid.ItemsSource = warehouses.DefaultView;
+            ContractorsDataGrid.ItemsSource = contractors.DefaultView; 
+            ArticlesDataGrid.ItemsSource = articles.DefaultView; 
+            UnitsDataGrid.ItemsSource = units.DefaultView;
+            AttrClassesDataGrid.ItemsSource = attrClasses.DefaultView;
+            ConfigDataGrid.ItemsSource = config.DefaultView;
         }
 
         private void addWarehouseButton_Click(object sender, RoutedEventArgs e)
@@ -92,64 +92,65 @@ namespace sWMS.Windows
         //    return null;
         //}
 
-        private void onChecked(DataTable dataTable, int _Index, int _Id, WMSObjectTypesEnum _Type)
+        private void saveSelectedRows(int index, int id, WMSObjectTypesEnum type)
         {
-            UnsavedChange change = new UnsavedChange()
+            SelectedRow selectedRow = new SelectedRow()
             {
-                Index = _Index,
-                SQL_Id = _Id,
-                SQL_Type = _Type,
-                DataOperation = DataOperationsEnum.Delete
+                Index = index,
+                SQL_Id = id,
+                SQL_Type = type
             };
-            unsavedChanges.Add(change);
+            selectedRows.Add(selectedRow);
         }
 
-        private void removeSelected_Click(object sender, RoutedEventArgs e)
+        private void unsaveSelectedRows(SelectedRow selectedRow)
         {
-            foreach (UnsavedChange change in unsavedChanges)
+            selectedRows.Remove(selectedRow);
+        }
+
+        private void removeSelectedRows_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (SelectedRow selectedRow in selectedRows)
             {
-                if (change.DataOperation == DataOperationsEnum.Delete)
+                List<SQLParameter> sqlParameters = new List<SQLParameter>();
+                switch (selectedRow.SQL_Type)
                 {
-                    List<SQLParameter> sqlParameters = new List<SQLParameter>();
-                    switch (change.SQL_Type)
-                    {
-                        case WMSObjectTypesEnum.Document:
-                            documents.Rows.RemoveAt(change.Index);
-                            sqlParameters.Add(new SQLParameter("Doc_ObjectId", change.SQL_Id));
-                            if (change.SQL_Id != null)
-                                DataAccess.CallStoredProcedure("sWMS.RemoveDocument", sqlParameters);
-                            break;
-                        case WMSObjectTypesEnum.Warehouse:
-                            warehouses.Rows.RemoveAt(change.Index);
-                            sqlParameters.Add(new SQLParameter("Wh_Id", change.SQL_Id));
-                            if (change.SQL_Id != null)
-                                DataAccess.CallStoredProcedure("sWMS.RemoveWarehouse", sqlParameters);
-                            break;
-                        case WMSObjectTypesEnum.Contractor:
-                            contractors.Rows.RemoveAt(change.Index);
-                            sqlParameters.Add(new SQLParameter("Con_Id", change.SQL_Id));
-                            if (change.SQL_Id != null)
-                                DataAccess.CallStoredProcedure("sWMS.RemoveContractor", sqlParameters);
-                            break;
-                        case WMSObjectTypesEnum.Article:
-                            articles.Rows.RemoveAt(change.Index);
-                            sqlParameters.Add(new SQLParameter("Art_Id", change.SQL_Id));
-                            if (change.SQL_Id != null)
-                                DataAccess.CallStoredProcedure("sWMS.RemoveArticle", sqlParameters);
-                            break;
-                        case WMSObjectTypesEnum.Unit:
-                            units.Rows.RemoveAt(change.Index);
-                            sqlParameters.Add(new SQLParameter("Unit_Id", change.SQL_Id));
-                            if (change.SQL_Id != null)
-                                DataAccess.CallStoredProcedure("sWMS.RemoveUnit", sqlParameters);
-                            break;
-                        case WMSObjectTypesEnum.AttrClass:
-                            attrClasses.Rows.RemoveAt(change.Index);
-                            sqlParameters.Add(new SQLParameter("AtC_Id", change.SQL_Id));
-                            if (change.SQL_Id != null)
-                                DataAccess.CallStoredProcedure("sWMS.RemoveAttrClass", sqlParameters);
-                            break;
-                    }
+                    case WMSObjectTypesEnum.Document:
+                        documents.Rows.RemoveAt(selectedRow.Index);
+                        sqlParameters.Add(new SQLParameter("Doc_ObjectId", selectedRow.SQL_Id));
+                        if (selectedRow.SQL_Id != null)
+                            DataAccess.CallStoredProcedure("sWMS.RemoveDocument", sqlParameters);
+                        break;
+                    case WMSObjectTypesEnum.Warehouse:
+                        warehouses.Rows.RemoveAt(selectedRow.Index);
+                        sqlParameters.Add(new SQLParameter("Wh_Id", selectedRow.SQL_Id));
+                        if (selectedRow.SQL_Id != null)
+                            DataAccess.CallStoredProcedure("sWMS.RemoveWarehouse", sqlParameters);
+                        break;
+                    case WMSObjectTypesEnum.Contractor:
+                        contractors.Rows.RemoveAt(selectedRow.Index);
+                        sqlParameters.Add(new SQLParameter("Con_Id", selectedRow.SQL_Id));
+                        if (selectedRow.SQL_Id != null)
+                            DataAccess.CallStoredProcedure("sWMS.RemoveContractor", sqlParameters);
+                        break;
+                    case WMSObjectTypesEnum.Article:
+                        articles.Rows.RemoveAt(selectedRow.Index);
+                        sqlParameters.Add(new SQLParameter("Art_Id", selectedRow.SQL_Id));
+                        if (selectedRow.SQL_Id != null)
+                            DataAccess.CallStoredProcedure("sWMS.RemoveArticle", sqlParameters);
+                        break;
+                    case WMSObjectTypesEnum.Unit:
+                        units.Rows.RemoveAt(selectedRow.Index);
+                        sqlParameters.Add(new SQLParameter("Unit_Id", selectedRow.SQL_Id));
+                        if (selectedRow.SQL_Id != null)
+                            DataAccess.CallStoredProcedure("sWMS.RemoveUnit", sqlParameters);
+                        break;
+                    case WMSObjectTypesEnum.AttrClass:
+                        attrClasses.Rows.RemoveAt(selectedRow.Index);
+                        sqlParameters.Add(new SQLParameter("AtC_Id", selectedRow.SQL_Id));
+                        if (selectedRow.SQL_Id != null)
+                            DataAccess.CallStoredProcedure("sWMS.RemoveAttrClass", sqlParameters);
+                        break;
                 }
             }
         }
@@ -364,5 +365,12 @@ namespace sWMS.Windows
 
         }
 
+        private void Checkbox_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+            //DataRow dtr = (DataRow)checkBox.DataContext;
+            //Console.WriteLine(dtr.Table);
+            Console.WriteLine(checkBox.DataContext);
+        }
     }
 }

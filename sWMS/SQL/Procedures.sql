@@ -24,22 +24,20 @@ BEGIN
 	(
 		select Wh_Id, count(*) Number from sWMS.Documents
 		join Warehouses on Wh_Id = Doc_Destination_Wh_Id
-		where Doc_ObjectType = 252
 		group by Wh_Id
 	),
 	Issues as 
 	(
 		select Wh_Id, count(*) Number from sWMS.Documents
 		join Warehouses on Wh_Id = Doc_Source_Wh_Id
-		where Doc_ObjectType = 253
 		group by Wh_Id
 	)
 	SELECT w.*
-	,a.Number
-	,i.Number 
+	,isnull(a.Number, 0) Wh_AcceptancesNumber
+	,isnull(i.Number, 0) Wh_IssuesNumber
 	from Warehouses w
-	join Acceptances a on a.Wh_Id = w.Wh_Id
-	join Issues i on i.Wh_Id = w.Wh_Id
+	left join Acceptances a on a.Wh_Id = w.Wh_Id
+	left join Issues i on i.Wh_Id = w.Wh_Id
 END
 GO
 
