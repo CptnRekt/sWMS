@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -69,22 +70,16 @@ namespace sWMS.Windows
 
         private void addWarehouseButton_Click(object sender, RoutedEventArgs e)
         {
-            int Index = warehouses.Rows.Count;
-            addNewChange(WarehousesDataGrid);
+            addNewChange(warehouses, WarehousesDataGrid);
         }
 
-        private void addNewChange(DataGrid dataGrid)
+        private void addNewChange(DataTable dataTable, DataGrid dataGrid)
         {
-            //DataGridRow row = new DataGridRow();
-            //row.Background = Brushes.LightGreen;
-            //dataGrid.Items.Add();
-            //UnsavedChange change = new UnsavedChange()
-            //{
-            //    Index = _Index,
-            //    SQL_Type = _Type,
-            //    DataOperation = DataOperationsEnum.Edit
-            //};
-            //unsavedChanges.Add(change);
+            DataRow dataRow = dataTable.NewRow();
+            DataGridRow dataGridRow = new DataGridRow();
+            dataGridRow.Background = Brushes.LightGreen;
+            dataGridRow.Item = dataRow;
+            dataGrid.Items.Add(dataGridRow);
         }
 
         //private DataRow searchDataTable(DataTable dataTable, int _Id, WMSObjectTypesEnum _Type)
@@ -306,7 +301,7 @@ namespace sWMS.Windows
 
         private void addDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-
+            addNewChange(documents, DocumentsDataGrid);
         }
 
         private void removeDocument_Click(object sender, RoutedEventArgs e)
@@ -331,7 +326,7 @@ namespace sWMS.Windows
 
         private void addContractorButton_Click(object sender, RoutedEventArgs e)
         {
-
+            addNewChange(contractors, ContractorsDataGrid);
         }
 
         private void removeContractor_Click(object sender, RoutedEventArgs e)
@@ -341,7 +336,7 @@ namespace sWMS.Windows
 
         private void addArticleButton_Click(object sender, RoutedEventArgs e)
         {
-
+            addNewChange(articles, ArticlesDataGrid);
         }
 
         private void removeArticle_Click(object sender, RoutedEventArgs e)
@@ -351,7 +346,7 @@ namespace sWMS.Windows
 
         private void addUnitButton_Click(object sender, RoutedEventArgs e)
         {
-
+            addNewChange(units, UnitsDataGrid);
         }
 
         private void removeUnit_Click(object sender, RoutedEventArgs e)
@@ -361,12 +356,13 @@ namespace sWMS.Windows
 
         private void addAttrClassButton_Click(object sender, RoutedEventArgs e)
         {
-
+            addNewChange(attrClasses, AttrClassesDataGrid);
         }
 
         private void removeAttrClass_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
     }
 }

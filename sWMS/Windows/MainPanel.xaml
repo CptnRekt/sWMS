@@ -103,9 +103,9 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn x:Name="WarehouseCode" Binding="{Binding Wh_Code}" Header="Kod magazynu" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="WarehouseName" Binding="{Binding Wh_Name}" Header="Nazwa magazynu" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="WarehouseType" Binding="{Binding Wh_Type}" Header="Typ magazynu" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="WarehouseCode" Binding="{Binding Wh_Code}" Header="Kod magazynu"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="WarehouseName" Binding="{Binding Wh_Name}" Header="Nazwa magazynu"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="WarehouseType" Binding="{Binding Wh_Type}" Header="Typ magazynu"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="WarehouseIssues" Binding="{Binding Wh_IssuesNumber}" Header="Ilość przyjęć" IsReadOnly="True"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="WarehouseAcceptances" Binding="{Binding Wh_AcceptancesNumber}" Header="Ilość wydań" IsReadOnly="True"></DataGridTextColumn>
                     </DataGrid.Columns>
