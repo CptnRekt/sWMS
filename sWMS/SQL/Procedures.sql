@@ -73,13 +73,52 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sWMS.GetConfig
+CREATE OR ALTER PROCEDURE sWMS.GetConfig
 AS
 BEGIN
 	SET NOCOUNT ON;
 	SELECT * from sWMS.Config
 END
 GO
+
+CREATE PROCEDURE [sWMS].[AddWarehouse]
+	@Wh_Type int = 99
+	,@Wh_Code varchar(100)
+	,@Wh_Name varchar(100)
+	,@Wh_Country varchar(100) = null
+	,@Wh_City varchar(100) = null
+	,@Wh_Street varchar(100) = null
+	,@Wh_Postal varchar(100) = null
+AS
+BEGIN
+	SET NOCOUNT ON;
+	insert into sWMS.Warehouses (
+		Wh_Type
+		,Wh_Code
+		,Wh_Name
+		,Wh_Country
+		,Wh_City
+		,Wh_Street
+		,Wh_Postal
+	) values (
+		@Wh_Type
+		,@Wh_Code
+		,@Wh_Name
+		,@Wh_Country
+		,@Wh_City
+		,@Wh_Street
+		,@Wh_Postal
+	)
+END
+GO
+
+CREATE OR ALTER PROCEDURE sWMS.RemoveWarehouse
+	@Wh_Id int
+AS
+BEGIN
+	SET NOCOUNT ON;
+	delete from sWMS.Warehouses where Wh_Id = @Wh_Id
+END
 
 ----OLD
 

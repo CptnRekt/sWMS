@@ -27,7 +27,7 @@ namespace sWMS.DAO
             Builder.Password = password;
             Builder.InitialCatalog = initialCatalog;
         }
-        public static DataTable CallStoredProcedure(string storedProcedureName, List<SQLParameter> sqlParameters = null, bool getData = true)
+        public static DataTable CallStoredProcedure(string storedProcedureName, List<DBParameter> sqlParameters = null, bool getData = true)
         {
             using (SqlConnection con = new SqlConnection(DataAccess.Builder.ConnectionString))
             {
@@ -35,7 +35,7 @@ namespace sWMS.DAO
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (sqlParameters != null)
-                        foreach (SQLParameter param in sqlParameters)
+                        foreach (DBParameter param in sqlParameters)
                             cmd.Parameters.AddWithValue(param.Name, param.Value);
                     con.Open();
                     DataTable dt = new DataTable();

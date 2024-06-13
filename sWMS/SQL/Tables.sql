@@ -38,8 +38,6 @@ CREATE TABLE sWMS.Warehouses
 	Wh_City varchar(100),
 	Wh_Street varchar(100),
 	Wh_Postal varchar(100),
-	Wh_IssuesNumber int,
-	Wh_AcceptancesNumber int
 )
 
 CREATE TABLE sWMS.Documents

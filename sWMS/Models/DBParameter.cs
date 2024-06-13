@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace sWMS.Models
 {
-    public class SQLParameter
+    public class DBParameter
     {
         public string Name { get; set; }
         public object Value { get; set; }
-        public SQLParameter(string Name, object Value) 
+        public DBParameter(string Name, object Value) 
         {
             this.Name = Name;
             this.Value = Value;

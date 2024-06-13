@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using sWMS.DAO;
 using sWMS.Models;
@@ -42,12 +43,19 @@ namespace sWMS.Windows
         {
             DataAccess.InitializeConnection("(LocalDB)\\MSSQLLocalDB", "sa", "Rambo846303", "sWMS");
             documents = DataAccess.CallStoredProcedure("sWMS.GetDocuments");
+            documents.TableName = "documents";
             warehouses = DataAccess.CallStoredProcedure("sWMS.GetWarehouses");
+            warehouses.TableName = "warehouses";
             contractors = DataAccess.CallStoredProcedure("sWMS.GetContractors");
+            contractors.TableName = "contractors";
             articles = DataAccess.CallStoredProcedure("sWMS.GetArticles");
+            articles.TableName = "articles";
             units = DataAccess.CallStoredProcedure("sWMS.GetUnits");
+            units.TableName = "units";
             attrClasses = DataAccess.CallStoredProcedure("sWMS.GetAttrClasses");
+            attrClasses.TableName = "attrClasses";
             config = DataAccess.CallStoredProcedure("sWMS.GetConfig");
+            config.TableName = "config";
             dataTables = new List<DataTable>()
             {
                 documents,
@@ -106,44 +114,44 @@ namespace sWMS.Windows
             {
                 DataRow dataRow = selectedRow.AffectedRow;
                 int id = Convert.ToInt32(dataRow.ItemArray[0]);
-                List<SQLParameter> sqlParameters = new List<SQLParameter>();
+                List<DBParameter> dbParameters = new List<DBParameter>();
                 switch (selectedRow.Type)
                 {
                     case WMSObjectTypes.Document:
                         documents.Rows.Remove(dataRow);
-                        sqlParameters.Add(new SQLParameter("Doc_ObjectId", id));
+                        dbParameters.Add(new DBParameter("Doc_ObjectId", id));
                         if (id != null)
-                            DataAccess.CallStoredProcedure("sWMS.RemoveDocument", sqlParameters);
+                            DataAccess.CallStoredProcedure("sWMS.RemoveDocument", dbParameters, false);
                         break;
                     case WMSObjectTypes.Warehouse:
                         warehouses.Rows.Remove(dataRow);
-                        sqlParameters.Add(new SQLParameter("Wh_Id", id));
+                        dbParameters.Add(new DBParameter("Wh_Id", id));
                         if (id != null)
-                            DataAccess.CallStoredProcedure("sWMS.RemoveWarehouse", sqlParameters);
+                            DataAccess.CallStoredProcedure("sWMS.RemoveWarehouse", dbParameters, false);
                         break;
                     case WMSObjectTypes.Contractor:
                         contractors.Rows.Remove(dataRow);
-                        sqlParameters.Add(new SQLParameter("Con_Id", id));
+                        dbParameters.Add(new DBParameter("Con_Id", id));
                         if (id != null)
-                            DataAccess.CallStoredProcedure("sWMS.RemoveContractor", sqlParameters);
+                            DataAccess.CallStoredProcedure("sWMS.RemoveContractor", dbParameters, false);
                         break;
                     case WMSObjectTypes.Article:
                         articles.Rows.Remove(dataRow);
-                        sqlParameters.Add(new SQLParameter("Art_Id", id));
+                        dbParameters.Add(new DBParameter("Art_Id", id));
                         if (id != null)
-                            DataAccess.CallStoredProcedure("sWMS.RemoveArticle", sqlParameters);
+                            DataAccess.CallStoredProcedure("sWMS.RemoveArticle", dbParameters, false);
                         break;
                     case WMSObjectTypes.Unit:
                         units.Rows.Remove(dataRow);
-                        sqlParameters.Add(new SQLParameter("Unit_Id", id));
+                        dbParameters.Add(new DBParameter("Unit_Id", id));
                         if (id != null)
-                            DataAccess.CallStoredProcedure("sWMS.RemoveUnit", sqlParameters);
+                            DataAccess.CallStoredProcedure("sWMS.RemoveUnit", dbParameters, false);
                         break;
                     case WMSObjectTypes.AttrClass:
                         attrClasses.Rows.Remove(dataRow);
-                        sqlParameters.Add(new SQLParameter("AtC_Id", id));
+                        dbParameters.Add(new DBParameter("AtC_Id", id));
                         if (id != null)
-                            DataAccess.CallStoredProcedure("sWMS.RemoveAttrClass", sqlParameters);
+                            DataAccess.CallStoredProcedure("sWMS.RemoveAttrClass", dbParameters, false);
                         break;
                 }
             }
@@ -155,70 +163,91 @@ namespace sWMS.Windows
             DataTable changes = dt.GetChanges();
             if (changes != null && changes.Rows.Count > 0) 
             {
+                DataColumnCollection columns = changes.Columns;
                 foreach (DataRow row in changes.Rows)
                 {
-                    int columnIndex = 0;
-                    List<SQLParameter> sqlParameters = new List<SQLParameter>();
-                    foreach (DataColumn column in changes.Columns)
+                    List<DBParameter> dbParameters = new List<DBParameter>();
+                    for (int columnIndex = 0; columnIndex < columns.Count; columnIndex++)
                     {
-                        sqlParameters.Add(new SQLParameter(column.ColumnName, row[columnIndex]));
-                        columnIndex++;
+                        object cellValue = row[columnIndex];
+                        DataColumn column = columns[columnIndex];
+                        //ehh, wiedzialem, ze to nie moze byc takie proste
+                        //if (!column.ReadOnly)
+                        dbParameters.Add(new DBParameter(column.ColumnName, cellValue));
                     }
-                    saveToDB(dt, row, sqlParameters);
+                    dbParameters = skipParameters(dbParameters);
+                    saveToDB(dt.TableName, dbParameters);
                 }
             }
         }
 
-        private void saveToDB(DataTable dt, DataRow row, List<SQLParameter> sqlParameters) 
+        List<DBParameter> skipParameter(List<DBParameter> dbParameters, string name)
         {
-            if (row[0] == null && row[1] == null)
+            DBParameter? dbParameter = dbParameters.Find(a => { return a.Name == name; });
+            if (dbParameter != null)
+                dbParameters.Remove(dbParameter);
+            return dbParameters;
+        }
+
+        private List<DBParameter> skipParameters(List<DBParameter> dbParameters)
+        {
+            skipParameter(dbParameters, "Wh_AcceptancesNumber");
+            skipParameter(dbParameters, "Wh_IssuesNumber");
+            return dbParameters;
+        }
+
+        private void saveToDB(string tableName, List<DBParameter> dbParameters) 
+        {
+            string? id = dbParameters[0].Value.ToString();
+            if (String.IsNullOrEmpty(id))
             {
-                switch (dt.TableName)
+                dbParameters.RemoveAt(0);
+                switch (tableName)
                 {
                     case "documents":
-                        DataAccess.CallStoredProcedure("sWMS.AddDocument", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.AddDocument", dbParameters, false);
                         break;
                     case "warehouses":
-                        DataAccess.CallStoredProcedure("sWMS.AddWarehouse", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.AddWarehouse", dbParameters, false);
                         break;
                     case "contractors":
-                        DataAccess.CallStoredProcedure("sWMS.AddContractor", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.AddContractor", dbParameters, false);
                         break;
                     case "articles":
-                        DataAccess.CallStoredProcedure("sWMS.AddArticle", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.AddArticle", dbParameters, false);
                         break;
                     case "units":
-                        DataAccess.CallStoredProcedure("sWMS.AddUnit", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.AddUnit", dbParameters, false);
                         break;
                     case "attrClasses":
-                        DataAccess.CallStoredProcedure("sWMS.AddAttrClass", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.AddAttrClass", dbParameters, false);
                         break;
                 }
             }
             else
             {
-                switch (dt.TableName)
+                switch (tableName)
                 {
                     case "documents":
-                        DataAccess.CallStoredProcedure("sWMS.EditDocument", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.EditDocument", dbParameters, false);
                         break;
                     case "warehouses":
-                        DataAccess.CallStoredProcedure("sWMS.EditWarehouse", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.EditWarehouse", dbParameters, false);
                         break;
                     case "contractors":
-                        DataAccess.CallStoredProcedure("sWMS.EditContractor", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.EditContractor", dbParameters, false);
                         break;
                     case "articles":
-                        DataAccess.CallStoredProcedure("sWMS.EditArticle", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.EditArticle", dbParameters, false);
                         break;
                     case "units":
-                        DataAccess.CallStoredProcedure("sWMS.EditUnit", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.EditUnit", dbParameters, false);
                         break;
                     case "attrClasses":
-                        DataAccess.CallStoredProcedure("sWMS.EditAttrClass", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.EditAttrClass", dbParameters, false);
                         break;
                     case "Config":
-                        DataAccess.CallStoredProcedure("sWMS.EditConfig", sqlParameters);
+                        DataAccess.CallStoredProcedure("sWMS.EditConfig", dbParameters, false);
                         break;
                 }
             }
