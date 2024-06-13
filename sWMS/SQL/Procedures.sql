@@ -7,7 +7,19 @@ CREATE OR ALTER PROCEDURE sWMS.GetDocuments
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT * from sWMS.Documents
+	SELECT Doc_ObjectId
+	,Doc_ObjectType
+	,Doc_NumberString
+	,sourceWh.Wh_Code SourceWarehouse
+	,destinationWh.Wh_Code DestinationWarehouse
+	,Con_Code Contractor
+	,Doc_CreationDate
+	,Doc_CompletionDate
+	,Doc_RealizationStatus
+	from sWMS.Documents
+	join sWMS.Warehouses sourceWh on sourceWh.Wh_Id = Doc_Source_Wh_Id
+	left join sWMS.Warehouses destinationWh on destinationWh.Wh_Id = Doc_Destination_Wh_Id
+	left join sWMS.Contractors on Con_Id = Doc_Con_Id
 END
 GO
 
@@ -41,35 +53,62 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sWMS.GetContractors
+CREATE OR ALTER PROCEDURE sWMS.GetContractors
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT * from sWMS.Contractors
+	SELECT Con_Id
+	,Con_Type
+	,Con_Code
+	,Con_FullName
+	,Con_Country
+	,Con_City
+	,Con_Street
+	,Con_Postal
+	from sWMS.Contractors
 END
 GO
 
-CREATE PROCEDURE sWMS.GetArticles
+CREATE OR ALTER PROCEDURE sWMS.GetArticles
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT * from sWMS.Articles
+	SELECT Art_Id
+	,Art_Type
+	,Art_Code
+	,Art_Name
+	,primaryUnit.Unit_Name ArticleDefaultPrimaryUnit
+	,secondaryUnit.Unit_Name ArticleDefaultSecondaryUnit
+	from sWMS.Articles
+	join sWMS.Units primaryUnit on primaryUnit.Unit_Id = Art_Default_Primary_Unit_Id
+	left join sWMS.Units secondaryUnit on secondaryUnit.Unit_Id = Art_Default_Secondary_Unit_Id
 END
 GO
 
-CREATE PROCEDURE sWMS.GetUnits
+CREATE OR ALTER PROCEDURE sWMS.GetUnits
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT * from sWMS.Units
+	SELECT Unit_Id
+	,Unit_Type
+	,Unit_Name
+	,Unit_Dividend
+	,Unit_Divisor
+	from sWMS.Units
 END
 GO
 
-CREATE PROCEDURE sWMS.GetAttrClasses
+CREATE OR ALTER PROCEDURE sWMS.GetAttrClasses
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT * from sWMS.AttrClasses
+	SELECT AtC_Id
+	,AtC_Type
+	,AtC_DataType
+	,AtC_DefaultValue
+	,AtC_IsCopied
+	,AtC_Rounding
+	from sWMS.AttrClasses
 END
 GO
 
@@ -77,9 +116,59 @@ CREATE OR ALTER PROCEDURE sWMS.GetConfig
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT * from sWMS.Config
+	SELECT Conf_Id
+	,Conf_Type
+	,Conf_Name
+	,Conf_Value
+	from sWMS.Config
 END
 GO
+
+---- =============================================
+---- Author:		Kamil Sikora
+---- Create date: 19.05.2024
+---- Description:	Dodawanie pustego dokumentu
+---- =============================================
+CREATE OR ALTER PROCEDURE sWMS.AddDocument
+	@Doc_Type int
+	,@Doc_Number int = null
+	,@Doc_Month int = null
+	,@Doc_Year int = null
+	,@Doc_Series varchar(100) = null
+	,@Doc_CompletionDate datetime = null
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	declare @Doc_NumberString varchar(100) = sWMS.GenerateDocumentNumber(@Doc_Number, @Doc_Month, @Doc_Year, @Doc_Series)
+
+    insert into sWMS.Documents 
+	(
+		Doc_Type
+		,Doc_NumberString
+		,Doc_Number
+		,Doc_Month
+		,Doc_Year
+		,Doc_Series
+		,Doc_CreationDate
+		,Doc_CompletionDate
+	) values 
+	(
+		@Doc_Type
+		,@Doc_NumberString
+		,@Doc_Number
+		,@Doc_Month
+		,@Doc_Year
+		,@Doc_Series
+		,GETDATE()
+		,@Doc_CompletionDate
+	)
+	exec sWMS.GetDocuments
+END
+GO
+
 
 CREATE OR ALTER PROCEDURE [sWMS].[AddWarehouse]
 	@Wh_Type int = 99
@@ -147,52 +236,6 @@ BEGIN
 END
 
 ----OLD
-
----- =============================================
----- Author:		Kamil Sikora
----- Create date: 19.05.2024
----- Description:	Dodawanie pustego dokumentu
----- =============================================
---CREATE OR ALTER PROCEDURE sWMS.CreateNewDocument
---	@Doc_Type int
---	,@Doc_Number int = null
---	,@Doc_Month int = null
---	,@Doc_Year int = null
---	,@Doc_Series varchar(100) = null
---	,@Doc_CompletionDate datetime = null
---AS
---BEGIN
---	-- SET NOCOUNT ON added to prevent extra result sets from
---	-- interfering with SELECT statements.
---	SET NOCOUNT ON;
-
---	declare @Doc_NumberString varchar(100) = sWMS.GenerateDocumentNumber(@Doc_Number, @Doc_Month, @Doc_Year, @Doc_Series)
-
---    insert into sWMS.Documents 
---	(
---		Doc_Type
---		,Doc_NumberString
---		,Doc_Number
---		,Doc_Month
---		,Doc_Year
---		,Doc_Series
---		,Doc_CreationDate
---		,Doc_CompletionDate
---	) values 
---	(
---		@Doc_Type
---		,@Doc_NumberString
---		,@Doc_Number
---		,@Doc_Month
---		,@Doc_Year
---		,@Doc_Series
---		,GETDATE()
---		,@Doc_CompletionDate
---	)
-
---	select SCOPE_IDENTITY() Doc_Id, @Doc_Type Doc_Type
---END
---GO
 
 ---- =============================================
 ---- Author:		Kamil Sikora

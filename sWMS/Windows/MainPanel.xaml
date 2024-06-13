@@ -125,17 +125,17 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn x:Name="ContractorCode" Binding="{Binding ContractorCode}" Header="Kod"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="ContractorName" Binding="{Binding ContractorName}" Header="Pełna nazwa"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="ContractorCountry" Binding="{Binding ContractorCountry}" Header="Kraj"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="ContractorCity" Binding="{Binding ContractorCity}" Header="Miasto"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="ContractorStreet" Binding="{Binding ContractorStreet}" Header="Ulica"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="ContractorPostal" Binding="{Binding ContractorPostal}" Header="Kod pocztowy"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorCode" Binding="{Binding Con_Code}" Header="Kod"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorName" Binding="{Binding Con_Name}" Header="Pełna nazwa"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorCountry" Binding="{Binding Con_Country}" Header="Kraj"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorCity" Binding="{Binding Con_City}" Header="Miasto"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorStreet" Binding="{Binding Con_Street}" Header="Ulica"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ContractorPostal" Binding="{Binding Con_Postal}" Header="Kod pocztowy"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
             <TabItem Header="Kartoteki towarowe">
-                <DataGrid  x:Name="ArticlesDataGrid" ItemsSource="{Binding Articles}" AutoGenerateColumns="False" CanUserAddRows="True">
+                <DataGrid x:Name="ArticlesDataGrid" AutoGenerateColumns="False" CanUserAddRows="True">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Usuń towar" Click="removeArticle_Click" />
@@ -149,8 +149,8 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn x:Name="ArticleCode" Binding="{Binding ArticleCode}" Header="Kod"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="ArticleName" Binding="{Binding ArticleName}" Header="Nazwa"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ArticleCode" Binding="{Binding Art_Code}" Header="Kod"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ArticleName" Binding="{Binding Art_Name}" Header="Nazwa"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="ArticleDefaultPrimaryUnit" Binding="{Binding ArticleDefaultPrimaryUnit}" Header="Jednostka podstawowa"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="ArticleDefaultSecondaryUnit" Binding="{Binding ArticleDefaultSecondaryUnit}" Header="Jednostka drugorzędna"></DataGridTextColumn>
                     </DataGrid.Columns>
@@ -171,9 +171,10 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn x:Name="UnitName" Binding="{Binding UnitName}" Header="Nazwa jednostki" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="UnitDividend" Binding="{Binding UnitDividend}" Header="Mianownik"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="UnitDivisor" Binding="{Binding UnitDivisor}" Header="Licznik"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="UnitCode" Binding="{Binding Unit_Code}" Header="Skrót jednostki"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="UnitName" Binding="{Binding Unit_Name}" Header="Nazwa jednostki"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="UnitDividend" Binding="{Binding Unit_Dividend}" Header="Mianownik"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="UnitDivisor" Binding="{Binding Unit_Divisor}" Header="Licznik"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
@@ -193,18 +194,19 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn x:Name="AttrClassName" Binding="{Binding AtC_Name}" Header="Nazwa atrybutu" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="AttrClassDataType" Binding="{Binding AttrClassDataType}" Header="Typ danych"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="AttrClassType" Binding="{Binding AttrClassType}" Header="Miejsce występowania"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttrClassType" Binding="{Binding AtC_Type}" Header="Miejsce występowania"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttrClassDataType" Binding="{Binding AtC_DataType}" Header="Typ danych"></DataGridTextColumn>
                         <DataGridTextColumn x:Name="DefaultAttrClassValue" Binding="{Binding AtC_DefaultValue}" Header="Wartość domyślna"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="AttrClassCopying" Binding="{Binding AttrClassCopying}" Header="Kopiowanie (tak / nie)"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttrClassCopying" Binding="{Binding AtC_IsCopied}" Header="Kopiowanie (tak / nie)"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="AttrClassRounding" Binding="{Binding AtC_Rounding}" Header="Zaokrąglanie wartości"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
             <TabItem Header="Ustawienia programu">
                 <DataGrid  x:Name="ConfigDataGrid" ItemsSource="{Binding Config}" AutoGenerateColumns="False" CanUserAddRows="True">
                     <DataGrid.Columns>
-                        <DataGridTextColumn x:Name="ConfigName" Binding="{Binding ConfigName}" Header="Nazwa ustawienia" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn x:Name="ConfigValue" Binding="{Binding ConfigValue}" Header="Wartość"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ConfigName" Binding="{Binding Conf_Name}" Header="Nazwa ustawienia" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn x:Name="ConfigValue" Binding="{Binding Conf_Value}" Header="Wartość"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

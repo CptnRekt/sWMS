@@ -53,7 +53,8 @@ CREATE TABLE sWMS.Documents
 	Doc_CompletionDate datetime,
 	Doc_Source_Wh_Id int,
 	Doc_Destination_Wh_Id int,
-	Doc_RealizationStatus varchar(150) --albo w procentach podam realizationProgress, albo statusy: zrealizowano, anulowano lub wydano do klienta
+	Doc_RealizationStatus varchar(150), --albo w procentach podam realizationProgress, albo statusy: zrealizowano, anulowano lub wydano do klienta
+	Doc_Con_Id int
 )
 
 CREATE TABLE sWMS.Items
@@ -137,7 +138,9 @@ CREATE TABLE sWMS.AttrClasses
 	AtC_Type int not null,
 	AtC_Name varchar(100) not null,
 	AtC_DefaultValue varchar(255),
-	AtC_DataType varchar(100) not null
+	AtC_DataType varchar(100) not null,
+	AtC_IsCopied bit,
+	AtC_Rounding int
 )
 
 CREATE TABLE sWMS.Units
