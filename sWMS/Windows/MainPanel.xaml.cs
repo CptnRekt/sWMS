@@ -395,7 +395,6 @@ namespace sWMS.Windows
                     searchDataTable(ConfigDataGrid, config, textBox.Text);
                     break;
             }
-            //searchDataTable(textBox.Text);
         }
 
         private void searchDataTable(DataGrid dataGrid, DataTable dataTable, string text)
