@@ -24,15 +24,13 @@
                 <ColumnDefinition Width="130"></ColumnDefinition>
                 <ColumnDefinition Width="130"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="200"></ColumnDefinition>
-                <ColumnDefinition Width="130"></ColumnDefinition>
+                <ColumnDefinition Width="250"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" x:Name="removeSelectedRowsButton" Padding="5,2" Content="Usuń zaznaczone" HorizontalAlignment="Left" VerticalAlignment="Center" Click="removeSelectedRows_Click" Height="30" Width="120"/>
             <Button Grid.Column="1" x:Name="saveChangesButton" Padding="5,2" Content="Zapisz zmiany" HorizontalAlignment="Left" VerticalAlignment="Center" Click="saveChanges_Click" Height="30" Width="120"/>
-            <TextBox x:Name="findAttributeTextBox" Grid.Column="3" TextWrapping="Wrap" Text="" Width="200" Background="#FFC8C8C8" HorizontalAlignment="Right" TextAlignment="Left" BorderThickness="1,1,1,1" VerticalAlignment="Center" MaxLength="100" MaxLines="1" Padding="5,2"/>
-            <Button x:Name="findAttributeButton" Grid.Column="4" Content="Wyszukaj po nazwie" HorizontalAlignment="Right" VerticalAlignment="Center" Click="findAttributeButton_Click" Padding="5,2"/>
+            <TextBox x:Name="findStuffTextBox" Grid.Column="3" TextWrapping="Wrap" Text="" Width="250" Background="#FFC8C8C8" HorizontalAlignment="Right" TextAlignment="Left" BorderThickness="1,1,1,1" VerticalAlignment="Center" MaxLength="100" MaxLines="1" Padding="5,2" TextChanged="findStuffFromTextBox"/>
         </Grid>
-        <TabControl Grid.Row="3" Grid.Column="1">
+        <TabControl Grid.Row="3" Grid.Column="1" x:Name="tabs">
             <TabItem Header="Przesunięcia magazynowe">
                 <Grid>
                     <Grid.RowDefinitions>

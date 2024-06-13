@@ -7,9 +7,11 @@ using sWMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows;
@@ -21,6 +23,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using static sWMS.Models.Enums;
 
 namespace sWMS.Windows
@@ -82,16 +85,6 @@ namespace sWMS.Windows
             config = DataAccess.CallStoredProcedure("sWMS.GetConfig");
         }
 
-        //private DataRow searchDataTable(DataTable dataTable, int _Id, WMSObjectTypes _Type)
-        //{
-        //    foreach (DataRow dataRow in dataTable.Rows)
-        //    {
-        //        if (dataRow[0] == _Id.ToString() && dataRow[1] == _Type.ToString())
-        //            return dataRow;
-        //    }
-        //    return null;
-        //}
-
         private void removeSelectedRows_Click(object sender, RoutedEventArgs e)
         {
             foreach (DataRow dataRow in selectedRows)
@@ -149,12 +142,12 @@ namespace sWMS.Windows
                 try
                 {
                     DataColumnCollection columns = changes.Columns;
-                    foreach (DataRow row in changes.Rows)
+                    foreach (DataRow dataRow in changes.Rows)
                     {
                         List<DBParameter> dbParameters = new List<DBParameter>();
                         for (int columnIndex = 0; columnIndex < columns.Count; columnIndex++)
                         {
-                            object cellValue = row[columnIndex];
+                            object cellValue = dataRow[columnIndex];
                             DataColumn column = columns[columnIndex];
                             dbParameters.Add(new DBParameter(column.ColumnName, cellValue));
                         }
@@ -182,6 +175,7 @@ namespace sWMS.Windows
         {
             skipParameter(dbParameters, "Wh_AcceptancesNumber");
             skipParameter(dbParameters, "Wh_IssuesNumber");
+            skipParameter(dbParameters, "Doc_NumberString");
             return dbParameters;
         }
 
@@ -372,5 +366,50 @@ namespace sWMS.Windows
                 selectedRows.Remove(dataRow);
         }
 
+        private void findStuffFromTextBox(object sender, RoutedEventArgs e)
+        {
+            TabItem tab = (TabItem)tabs.SelectedItem;
+            string? tabHeader = tab.Header.ToString();
+            TextBox textBox = (TextBox)sender;
+            switch (tabHeader)
+            {
+                case "Przesunięcia magazynowe":
+                    searchDataTable(DocumentsDataGrid, documents, textBox.Text);
+                    break;
+                case "Magazyny":
+                    searchDataTable(WarehousesDataGrid, warehouses, textBox.Text);
+                    break;
+                case "Kontrahenci":
+                    searchDataTable(ContractorsDataGrid, contractors, textBox.Text);
+                    break;
+                case "Kartoteki towarowe":
+                    searchDataTable(ArticlesDataGrid, articles, textBox.Text);
+                    break;
+                case "Szablony jednostek":
+                    searchDataTable(UnitsDataGrid, units, textBox.Text);
+                    break;
+                case "Szablony atrybutów":
+                    searchDataTable(AttrClassesDataGrid, attrClasses, textBox.Text);
+                    break;
+                case "Ustawienia programu":
+                    searchDataTable(ConfigDataGrid, config, textBox.Text);
+                    break;
+            }
+            //searchDataTable(textBox.Text);
+        }
+
+        private void searchDataTable(DataGrid dataGrid, DataTable dataTable, string text)
+        {
+            //DataTable dataTableNew = dataTable.Clone();
+            //dataTableNew.Clear();
+            //foreach (DataRow dataRow in dataTable.Rows)
+            //{
+            //    for (int columnIndex = 0; columnIndex < dataTable.Columns.Count; columnIndex++)
+            //        if (dataRow[columnIndex].ToString().Contains(text))
+            //            dataTableNew.ImportRow(dataRow);
+            //}
+            //if (dataTableNew.Rows.Count > 0)
+            //    dataGrid.ItemsSource = dataTableNew.DefaultView;
+        }
     }
 }
