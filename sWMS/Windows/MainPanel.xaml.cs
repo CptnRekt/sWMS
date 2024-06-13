@@ -38,7 +38,7 @@ namespace sWMS.Windows
         DataTable attrClasses;
         DataTable config;
         List<DataTable> dataTables;
-        List<SelectedRow> selectedRows = new List<SelectedRow>();
+        List<DataRow> selectedRows = new List<DataRow>();
 
         public MainPanel()
         {
@@ -92,103 +92,80 @@ namespace sWMS.Windows
         //    return null;
         //}
 
-        private void saveSelectedRows(WMSObjectTypes type, DataRow dataRow)
-        {
-            SelectedRow selectedRow = new SelectedRow()
-            {
-                Type = type,
-                AffectedRow = dataRow
-            };
-            selectedRows.Add(selectedRow);
-        }
-
-        private void unsaveSelectedRows(DataRow dataRow)
-        {
-            foreach(SelectedRow selectedRow in selectedRows)
-            {
-                if (selectedRow.AffectedRow == dataRow)
-                {
-                    selectedRows.Remove(selectedRow);
-                    break;
-                }
-            }
-        }
-
         private void removeSelectedRows_Click(object sender, RoutedEventArgs e)
         {
-            try
+            foreach (DataRow dataRow in selectedRows)
             {
-                foreach (SelectedRow selectedRow in selectedRows)
+                DataTable dataTable = dataRow.Table;
+                int id = Convert.ToInt32(dataRow.ItemArray[0]);
+                List<DBParameter> dbParameters = new List<DBParameter>();
+                try
                 {
-                    DataRow dataRow = selectedRow.AffectedRow;
-                    int id = Convert.ToInt32(dataRow.ItemArray[0]);
-                    List<DBParameter> dbParameters = new List<DBParameter>();
-                    switch (selectedRow.Type)
-                    {
-                        case WMSObjectTypes.Document:
-                            documents.Rows.Remove(dataRow);
-                            dbParameters.Add(new DBParameter("Doc_ObjectId", id));
-                            if (id != null)
+                    dataTable.Rows.Remove(dataRow);
+                    if (id != null)
+                        switch (dataTable.TableName)
+                        {
+                            case "documents":
+                                dbParameters.Add(new DBParameter("Doc_ObjectId", id));
                                 DataAccess.CallStoredProcedure("sWMS.RemoveDocument", dbParameters, false);
-                            break;
-                        case WMSObjectTypes.Warehouse:
-                            warehouses.Rows.Remove(dataRow);
-                            dbParameters.Add(new DBParameter("Wh_Id", id));
-                            if (id != null)
+                                break;
+                            case "warehouses":
+                                dbParameters.Add(new DBParameter("Wh_Id", id));
                                 DataAccess.CallStoredProcedure("sWMS.RemoveWarehouse", dbParameters, false);
-                            break;
-                        case WMSObjectTypes.Contractor:
-                            contractors.Rows.Remove(dataRow);
-                            dbParameters.Add(new DBParameter("Con_Id", id));
-                            if (id != null)
+                                break;
+                            case "contractors":
+                                dbParameters.Add(new DBParameter("Con_Id", id));
                                 DataAccess.CallStoredProcedure("sWMS.RemoveContractor", dbParameters, false);
-                            break;
-                        case WMSObjectTypes.Article:
-                            articles.Rows.Remove(dataRow);
-                            dbParameters.Add(new DBParameter("Art_Id", id));
-                            if (id != null)
+                                break;
+                            case "articles":
+                                dbParameters.Add(new DBParameter("Art_Id", id));
                                 DataAccess.CallStoredProcedure("sWMS.RemoveArticle", dbParameters, false);
-                            break;
-                        case WMSObjectTypes.Unit:
-                            units.Rows.Remove(dataRow);
-                            dbParameters.Add(new DBParameter("Unit_Id", id));
-                            if (id != null)
+                                break;
+                            case "units":
+                                dbParameters.Add(new DBParameter("Unit_Id", id));
                                 DataAccess.CallStoredProcedure("sWMS.RemoveUnit", dbParameters, false);
-                            break;
-                        case WMSObjectTypes.AttrClass:
-                            attrClasses.Rows.Remove(dataRow);
-                            dbParameters.Add(new DBParameter("AtC_Id", id));
-                            if (id != null)
+                                break;
+                            case "attrClasses":
+                                dbParameters.Add(new DBParameter("AtC_Id", id));
                                 DataAccess.CallStoredProcedure("sWMS.RemoveAttrClass", dbParameters, false);
-                            break;
-                    }
+                                break;
+                        }
+                    dataTable.AcceptChanges();
                 }
-                selectedRows.Clear();
+                catch (Exception ex) 
+                {
+                    dataTable.RejectChanges();
+                    MessageBox.Show(ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-
-            }
-           
+            selectedRows.Clear();
         }
 
-        private void getChanges(DataTable dt)
+        private void getChanges(DataTable dataTable)
         {
-            DataTable changes = dt.GetChanges();
+            DataTable changes = dataTable.GetChanges();
             if (changes != null && changes.Rows.Count > 0) 
             {
-                DataColumnCollection columns = changes.Columns;
-                foreach (DataRow row in changes.Rows)
+                try
                 {
-                    List<DBParameter> dbParameters = new List<DBParameter>();
-                    for (int columnIndex = 0; columnIndex < columns.Count; columnIndex++)
+                    DataColumnCollection columns = changes.Columns;
+                    foreach (DataRow row in changes.Rows)
                     {
-                        object cellValue = row[columnIndex];
-                        DataColumn column = columns[columnIndex];
-                        dbParameters.Add(new DBParameter(column.ColumnName, cellValue));
+                        List<DBParameter> dbParameters = new List<DBParameter>();
+                        for (int columnIndex = 0; columnIndex < columns.Count; columnIndex++)
+                        {
+                            object cellValue = row[columnIndex];
+                            DataColumn column = columns[columnIndex];
+                            dbParameters.Add(new DBParameter(column.ColumnName, cellValue));
+                        }
+                        dbParameters = skipParameters(dbParameters);
+                        saveToDB(dataTable, dbParameters);
                     }
-                    dbParameters = skipParameters(dbParameters);
-                    saveToDB(dt, dbParameters);
+                }
+                catch (Exception ex)
+                {
+                    dataTable.RejectChanges();
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
@@ -208,68 +185,68 @@ namespace sWMS.Windows
             return dbParameters;
         }
 
-        private void saveToDB(DataTable dt, List<DBParameter> dbParameters) 
+        private void saveToDB(DataTable dataTable, List<DBParameter> dbParameters) 
         {
             string? id = dbParameters[0].Value.ToString();
             if (String.IsNullOrEmpty(id))
             {
                 dbParameters.RemoveAt(0);
-                switch (dt.TableName)
+                switch (dataTable.TableName)
                 {
                     case "documents":
-                        dt = DataAccess.CallStoredProcedure("sWMS.AddDocument", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.AddDocument", dbParameters);
                         break;
                     case "warehouses":
-                        dt = (DataAccess.CallStoredProcedure("sWMS.AddWarehouse", dbParameters));
+                        dataTable = (DataAccess.CallStoredProcedure("sWMS.AddWarehouse", dbParameters));
                         break;
                     case "contractors":
-                        dt = DataAccess.CallStoredProcedure("sWMS.AddContractor", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.AddContractor", dbParameters);
                         break;
                     case "articles":
-                        dt = DataAccess.CallStoredProcedure("sWMS.AddArticle", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.AddArticle", dbParameters);
                         break;
                     case "units":
-                        dt = DataAccess.CallStoredProcedure("sWMS.AddUnit", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.AddUnit", dbParameters);
                         break;
                     case "attrClasses":
-                        dt = DataAccess.CallStoredProcedure("sWMS.AddAttrClass", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.AddAttrClass", dbParameters);
                         break;
                 }
             }
             else
             {
-                switch (dt.TableName)
+                switch (dataTable.TableName)
                 {
                     case "documents":
-                        dt = DataAccess.CallStoredProcedure("sWMS.EditDocument", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.EditDocument", dbParameters);
                         break;
                     case "warehouses":
-                        dt = DataAccess.CallStoredProcedure("sWMS.EditWarehouse", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.EditWarehouse", dbParameters);
                         break;
                     case "contractors":
-                        dt = DataAccess.CallStoredProcedure("sWMS.EditContractor", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.EditContractor", dbParameters);
                         break;
                     case "articles":
-                        dt = DataAccess.CallStoredProcedure("sWMS.EditArticle", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.EditArticle", dbParameters);
                         break;
                     case "units":
-                        dt = DataAccess.CallStoredProcedure("sWMS.EditUnit", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.EditUnit", dbParameters);
                         break;
                     case "attrClasses":
-                        dt = DataAccess.CallStoredProcedure("sWMS.EditAttrClass", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.EditAttrClass", dbParameters);
                         break;
                     case "Config":
-                        dt = DataAccess.CallStoredProcedure("sWMS.EditConfig", dbParameters);
+                        dataTable = DataAccess.CallStoredProcedure("sWMS.EditConfig", dbParameters);
                         break;
                 }
             }
-            dt.AcceptChanges();
+            dataTable.AcceptChanges();
         }
 
         private void saveChanges_Click(object sender, RoutedEventArgs e)
         {
-            foreach (DataTable dt in dataTables)
-                getChanges(dt);
+            foreach (DataTable dataTable in dataTables)
+                getChanges(dataTable);
         }
 
         private void findAttributeButton_Click(object sender, RoutedEventArgs e)
@@ -390,32 +367,9 @@ namespace sWMS.Windows
             DataRow dataRow = dataRowView.Row;
             int id = Convert.ToInt32(dataRow.ItemArray[0]);
             if (checkBox.IsChecked.Value == true)
-            {
-                switch (checkBox.Name)
-                {
-                    case "DocumentsCheckbox":
-                        saveSelectedRows(WMSObjectTypes.Document, dataRow);
-                        break;
-                    case "WarehousesCheckbox":
-                        saveSelectedRows(WMSObjectTypes.Warehouse, dataRow);
-                        break;
-                    case "ContractorsCheckbox":
-                        saveSelectedRows(WMSObjectTypes.Contractor, dataRow);
-                        break;
-                    case "ArticlesCheckbox":
-                        saveSelectedRows(WMSObjectTypes.Article, dataRow);
-                        break;
-                    case "UnitsCheckbox":
-                        saveSelectedRows(WMSObjectTypes.Document, dataRow);
-                        break;
-                    case "AttrClasses":
-                        saveSelectedRows(WMSObjectTypes.Document, dataRow);
-                        break;
-                }
-
-            }
+                selectedRows.Add(dataRow);
             else
-                unsaveSelectedRows(dataRow);
+                selectedRows.Remove(dataRow);
         }
 
     }

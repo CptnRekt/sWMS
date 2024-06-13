@@ -81,7 +81,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE [sWMS].[AddWarehouse]
+CREATE OR ALTER PROCEDURE [sWMS].[AddWarehouse]
 	@Wh_Type int = 99
 	,@Wh_Code varchar(100)
 	,@Wh_Name varchar(100)
@@ -109,6 +109,32 @@ BEGIN
 		,@Wh_Street
 		,@Wh_Postal
 	)
+	exec sWMS.GetWarehouses
+END
+GO
+
+CREATE OR ALTER PROCEDURE sWMS.EditWarehouse
+	@Wh_Id int
+	,@Wh_Type int = 99
+	,@Wh_Code varchar(100)
+	,@Wh_Name varchar(100)
+	,@Wh_Country varchar(100) = null
+	,@Wh_City varchar(100) = null
+	,@Wh_Street varchar(100) = null
+	,@Wh_Postal varchar(100) = null
+AS
+BEGIN
+	SET NOCOUNT ON;
+	update sWMS.Warehouses set 
+	Wh_Type = @Wh_Type
+	,Wh_Code = @Wh_Code
+	,Wh_Name = @Wh_Name
+	,Wh_Country = @Wh_Country
+	,Wh_City = @Wh_City
+	,Wh_Street = @Wh_Street
+	,Wh_Postal = @Wh_Postal
+	where Wh_Id = @Wh_Id
+	exec sWMS.GetWarehouses
 END
 GO
 
