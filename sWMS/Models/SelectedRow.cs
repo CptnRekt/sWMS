@@ -11,9 +11,7 @@ namespace sWMS.Models
 {
     public class SelectedRow
     {
-        public int Index { get; set; }
-        public int? SQL_Id { get; set; }
-        public WMSObjectTypesEnum SQL_Type { get; set; }
-        //public DataTable? AffectedData { get; set; }
+        public WMSObjectTypes Type { get; set; }
+        public DataRow AffectedRow { get; set; }
     }
 }

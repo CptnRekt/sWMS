@@ -8,7 +8,7 @@ namespace sWMS.Models
 {
     public static class Enums
     {
-        public enum WMSObjectTypesEnum
+        public enum WMSObjectTypes
         {
             Document = 252,
             Contractor = 98,
